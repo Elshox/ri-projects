@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "RI PROJECTS — Turnkey commercial fit-out in Tashkent",
+    "description": "Premium turnkey procurement for commercial properties: hotels, restaurants, business centers, clinics, residential. FF&E, OS&E, logistics, certification."
+  },
+  "nav": {
+    "services": "Services",
+    "sectors": "Sectors",
+    "projects": "Projects",
+    "about": "About",
+    "insights": "Insights",
+    "contacts": "Contacts"
+  },
+  "home": {
+    "eyebrow": "RI PROJECTS",
+    "hero": {
+      "title": "Premium turnkey procurement for commercial properties",
+      "subtitle": "From hotels and restaurants to clinics and residential — we own the full FF&E and OS&E cycle: design, sourcing, installation, logistics and certification.",
+      "cta_primary": "Discuss your project",
+      "cta_secondary": "View case studies"
+    },
+    "services": {
+      "title": "Full-cycle services",
+      "subtitle": "We cover procurement from first floor plan to opening day."
+    },
+    "sectors": {
+      "title": "Eight sectors we serve",
+      "subtitle": "Each one with its own regulations, specifications and logistics."
+    },
+    "stats": {
+      "projects": "Projects delivered",
+      "sqm": "Sqm fitted out",
+      "partners": "Manufacturing partners",
+      "countries": "Source countries"
+    },
+    "showcase": {
+      "title": "Featured case studies",
+      "view_all": "All projects"
+    },
+    "process": {
+      "title": "How we work",
+      "subtitle": "Four transparent stages — from brief to handover."
+    },
+    "insights": {
+      "title": "Insights & materials",
+      "view_all": "All articles"
+    },
+    "cta": {
+      "title": "Let's discuss your project",
+      "subtitle": "Leave a request — we'll send relevant cases and price the procurement scope.",
+      "form_name": "Your name",
+      "form_company": "Company",
+      "form_phone": "Phone",
+      "form_email": "Email",
+      "form_message": "Tell us about your project",
+      "form_submit": "Send request",
+      "form_consent": "I agree to the processing of personal data",
+      "form_success": "Request submitted. We'll be in touch within one business day.",
+      "form_error": "Something went wrong. Please try again or email hello@riprojects.org."
+    }
+  },
+  "footer": {
+    "tagline": "Turnkey procurement for commercial properties.",
+    "address": "Tashkent, Uzbekistan",
+    "phone": "Phone",
+    "email": "Email",
+    "rights": "All rights reserved",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use"
+  }
+}
