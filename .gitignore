@@ -1,7 +1,37 @@
+# OS
 .DS_Store
+Thumbs.db
+
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
+
+# Next.js
 .next/
-.env*.local
-.vercel
+out/
 *.tsbuildinfo
 next-env.d.ts
+
+# Production
+build/
+
+# Env
+.env*.local
+.env
+
+# Vercel
+.vercel
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Editor
+.idea/
+.vscode/
+
+# Claude Code skills (managed via /plugin install)
+.claude/
