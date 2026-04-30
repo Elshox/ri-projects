@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { Linkedin, Send, Instagram, Mail, MapPin, Phone, Clock } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { Logo } from './logo';
+import { NewsletterForm } from './newsletter-form';
 import { FOOTER_COLUMNS, SOCIAL_LINKS } from '@/lib/nav-config';
 import { cn } from '@/lib/utils';
 
@@ -39,31 +40,7 @@ export function Footer() {
               {t('footer.tagline')}
             </p>
 
-            <form
-              className="mt-8 max-w-sm"
-              onSubmit={(e) => e.preventDefault()}
-              aria-label={t('footer.newsletter.title')}
-            >
-              <p className="text-sm font-medium uppercase tracking-wide text-white">
-                {t('footer.newsletter.title')}
-              </p>
-              <p className="mt-1 text-xs text-white/60">{t('footer.newsletter.subtitle')}</p>
-              <div className="mt-3 flex h-11 items-stretch gap-0 overflow-hidden rounded-sm border border-white/15 bg-white/5">
-                <input
-                  type="email"
-                  required
-                  placeholder={t('footer.newsletter.placeholder')}
-                  className="min-w-0 flex-1 bg-transparent px-3 text-sm text-white placeholder:text-white/40 focus:outline-none"
-                  aria-label={t('footer.newsletter.placeholder')}
-                />
-                <button
-                  type="submit"
-                  className="bg-accent inline-flex items-center px-4 text-sm font-semibold text-white transition hover:opacity-90"
-                >
-                  {t('footer.newsletter.submit')}
-                </button>
-              </div>
-            </form>
+            <NewsletterForm />
           </div>
 
           {/* ── Колонки 2–4 (списки ссылок) — 6 / 12 десктоп ──────── */}
