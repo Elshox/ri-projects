@@ -3,6 +3,13 @@
     "title": "RI PROJECTS — Turnkey commercial fit-out in Tashkent",
     "description": "Premium turnkey procurement for commercial properties: hotels, restaurants, business centers, clinics, residential. FF&E, OS&E, logistics, certification."
   },
+  "header": {
+    "skip_to_content": "Skip to content",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
+    "cta": "Discuss your project",
+    "language": "Language"
+  },
   "nav": {
     "services": "Services",
     "sectors": "Sectors",
@@ -60,12 +67,76 @@
     }
   },
   "footer": {
-    "tagline": "Turnkey procurement for commercial properties.",
-    "address": "Tashkent, Uzbekistan",
-    "phone": "Phone",
-    "email": "Email",
-    "rights": "All rights reserved",
-    "privacy": "Privacy policy",
-    "terms": "Terms of use"
+    "tagline": "Turnkey procurement for commercial properties — for hotels, restaurants, clinics and residential.",
+    "newsletter": {
+      "title": "Subscribe to insights",
+      "subtitle": "Once a month — a case study, an industry trend and a new article.",
+      "placeholder": "your@email.com",
+      "submit": "Subscribe"
+    },
+    "columns": {
+      "services": {
+        "title": "Services",
+        "links": {
+          "turnkey": "Turnkey procurement",
+          "ffe": "FF&E supply",
+          "ose": "OS&E supply",
+          "logistics": "Logistics & customs",
+          "certification": "Certification"
+        }
+      },
+      "sectors": {
+        "title": "Sectors",
+        "links": {
+          "hotels": "Hotels",
+          "restaurants": "Restaurants",
+          "residential": "Residential",
+          "business_centers": "Business centers",
+          "medical": "Healthcare",
+          "education": "Education",
+          "retail": "Retail",
+          "banks": "Banking"
+        }
+      },
+      "company": {
+        "title": "Company",
+        "links": {
+          "about": "About",
+          "production": "Production",
+          "partners": "Partners",
+          "projects": "Projects",
+          "insights": "Insights"
+        }
+      },
+      "contacts": {
+        "title": "Contacts",
+        "address_label": "Office",
+        "address": "Tashkent, 1 Amir Temur St.",
+        "phone_label": "Phone",
+        "phone": "+998 71 200 00 00",
+        "email_label": "Email",
+        "email": "hello@riprojects.org",
+        "hours_label": "Hours",
+        "hours": "Mon–Fri, 9:00–19:00"
+      }
+    },
+    "social": {
+      "title": "Follow us",
+      "linkedin": "LinkedIn",
+      "telegram": "Telegram",
+      "instagram": "Instagram"
+    },
+    "bottom": {
+      "rights": "© {year} RI PROJECTS. All rights reserved.",
+      "privacy": "Privacy policy",
+      "terms": "Terms of use",
+      "cookies": "Cookies"
+    }
+  },
+  "locale": {
+    "ru": "RU",
+    "en": "EN",
+    "switch_to_ru": "Переключить на русский",
+    "switch_to_en": "Switch to English"
   }
 }
