@@ -21,10 +21,13 @@
   "home": {
     "eyebrow": "RI PROJECTS",
     "hero": {
+      "eyebrow": "RI PROJECTS",
       "title": "Premium turnkey procurement for commercial properties",
       "subtitle": "From hotels and restaurants to clinics and residential — we own the full FF&E and OS&E cycle: design, sourcing, installation, logistics and certification.",
       "cta_primary": "Discuss your project",
-      "cta_secondary": "View case studies"
+      "cta_secondary": "View case studies",
+      "badge": "We reply on Telegram or WhatsApp in 5 minutes",
+      "scroll_hint": "Scroll down"
     },
     "services": {
       "title": "Full-cycle services",
