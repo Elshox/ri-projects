@@ -28,7 +28,7 @@ export function Logo({ className, variant = 'dark', ariaLabel = 'RI PROJECTS' }:
         aria-hidden
       >
         <path
-          d="M 4 1 L 24 1 A 3 3 0 0 1 27 4 M 27 10 L 27 24 A 3 3 0 0 1 24 27 L 4 27 A 3 3 0 0 1 1 24 L 1 4 A 3 3 0 0 1 4 1"
+          d="M 4 1 L 24 1 A 3 3 0 0 1 27 4 M 27 13 L 27 24 A 3 3 0 0 1 24 27 L 4 27 A 3 3 0 0 1 1 24 L 1 4 A 3 3 0 0 1 4 1"
           stroke={fill}
           strokeWidth="1.5"
           fill="none"
@@ -40,7 +40,7 @@ export function Logo({ className, variant = 'dark', ariaLabel = 'RI PROJECTS' }:
           strokeLinecap="square"
           fill="none"
         />
-        <circle cx="27" cy="7" r="2" fill={fill} />
+        <circle cx="27" cy="9" r="2.5" fill={fill} />
       </svg>
       <span
         style={{ color: fill }}
