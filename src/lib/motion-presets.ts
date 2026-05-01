@@ -53,12 +53,16 @@ export const fadeUp = {
 
 /**
  * Простой fade без смещения — для оверлеев, фоновых слоёв.
+ * Экспортируется как `fade` и `fadeIn` (алиас).
  */
 export const fade = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
   transition: { duration: duration.base, ease: easing.smooth },
 } as const;
+
+/** Алиас для fade — соответствует именованию в ТЗ. */
+export const fadeIn = fade;
 
 /**
  * Scale-in с лёгким fade — для модалок, тостов, мелких UI-элементов.

@@ -12,7 +12,8 @@
     /* Primary palette */
     --color-primary: #1a1a1a; /* основной текст, заголовки */
     --color-accent: #0077c8; /* CTA, ссылки */
-    --color-warm: #b4683c; /* тёплый акцент, иконки */
+    --color-warm: #8b3e24;       /* тёплый акцент, иконки — WCAG AA ≥4.5:1 на белом и bg-soft */
+    --color-warm-light: #d4834a; /* тёплый акцент на тёмном фоне — WCAG AA ≥4.5:1 на #1a1a1a */
 
     /* Backgrounds */
     --color-bg: #ffffff;
@@ -69,9 +70,22 @@
     @apply text-body-m lg:text-body-d;
   }
 
-  /* Focus styles — accessibility */
+  /* Focus styles — WCAG AA visible ring on every interactive element */
   :focus-visible {
-    @apply outline-accent outline-2 outline-offset-2;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  /* Remove outline on mouse click but keep it for keyboard */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Ensure links inside dark sections get a light ring */
+  .dark-section :focus-visible,
+  [class*="bg-bg-dark"] :focus-visible {
+    outline-color: #FFFFFF;
   }
 
   /* Selection */

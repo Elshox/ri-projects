@@ -35,3 +35,7 @@ yarn-error.log*
 
 # Claude Code skills (managed via /plugin install)
 .claude/
+
+# Temp files
+_tmp_*
+*.removed

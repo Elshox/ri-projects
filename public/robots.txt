@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /api/
+Disallow: /_next/
+
+# Host
+Host: https://riprojects.org
+
+# Sitemaps
+Sitemap: https://riprojects.org/sitemap.xml

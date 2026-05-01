@@ -8,7 +8,8 @@
     "open_menu": "Open menu",
     "close_menu": "Close menu",
     "cta": "Discuss your project",
-    "language": "Language"
+    "language": "Language",
+    "primary_nav": "Primary navigation"
   },
   "nav": {
     "services": "Services",
@@ -30,43 +31,138 @@
       "scroll_hint": "Scroll down"
     },
     "services": {
+      "eyebrow": "Our services",
       "title": "Full-cycle services",
-      "subtitle": "We cover procurement from first floor plan to opening day."
+      "subtitle": "We cover procurement from first floor plan to opening day.",
+      "more": "Learn more",
+      "cards": {
+        "turnkey": {
+          "title": "Turnkey procurement",
+          "desc": "We own the full cycle — from specifications and tenders to installation and handover with documentation."
+        },
+        "ffe": {
+          "title": "FF&E supply",
+          "desc": "Furniture, lighting and specialist equipment sourced from Europe, Turkey, China and UAE."
+        },
+        "ose": {
+          "title": "OS&E supply",
+          "desc": "Operating supplies, textiles, porcelain and glassware — everything needed to open the property."
+        },
+        "logistics": {
+          "title": "Logistics & customs",
+          "desc": "Cargo consolidation, customs clearance and last-mile delivery anywhere across the CIS."
+        },
+        "certification": {
+          "title": "Certification",
+          "desc": "Compliance, fire safety and sanitary certificates obtained for the entire delivery."
+        }
+      }
     },
     "sectors": {
-      "title": "Eight sectors we serve",
-      "subtitle": "Each one with its own regulations, specifications and logistics."
+      "eyebrow": "Sectors",
+      "title": "We know your business standards",
+      "subtitle": "Each sector has its own regulations, specifications and logistics — we've worked through all of them.",
+      "more": "Learn more",
+      "cards": {
+        "hotels": {
+          "title": "Hotels & resorts"
+        },
+        "restaurants": {
+          "title": "Restaurants & bars"
+        },
+        "residential": {
+          "title": "Residential complexes"
+        },
+        "business-centers": {
+          "title": "Business centres"
+        },
+        "medical": {
+          "title": "Healthcare"
+        },
+        "education": {
+          "title": "Education"
+        },
+        "retail": {
+          "title": "Retail"
+        },
+        "banks": {
+          "title": "Banking & finance"
+        }
+      },
+      "cta": "View all sectors"
     },
     "stats": {
+      "aria_label": "RI PROJECTS in numbers",
       "projects": "Projects delivered",
-      "sqm": "Sqm fitted out",
+      "sectors": "Sectors of expertise",
       "partners": "Manufacturing partners",
-      "countries": "Source countries"
+      "experience": "Years of team experience"
     },
     "showcase": {
-      "title": "Featured case studies",
+      "eyebrow": "Case studies",
+      "title": "Projects that speak for themselves",
+      "subtitle": "A selection of completed fit-outs across the CIS — hotels, restaurants, clinics and business centres.",
+      "view_case": "View project",
+      "cursor_label": "View",
       "view_all": "All projects"
     },
+    "partners": {
+      "eyebrow": "Partners & clients",
+      "manufacturers_label": "Manufacturing partners we source from",
+      "clients_label": "Clients we have worked with"
+    },
     "process": {
-      "title": "How we work",
-      "subtitle": "Four transparent stages — from brief to handover."
+      "eyebrow": "How we work",
+      "title": "Four transparent stages",
+      "subtitle": "From brief to handover — no black boxes, no surprises.",
+      "steps": {
+        "analysis": {
+          "title": "Brief & analysis",
+          "desc": "We study your project: area, concept, budget and timeline. We sign an NDA and collect drawings and specifications.",
+          "time": "1–3 days"
+        },
+        "selection": {
+          "title": "Sourcing",
+          "desc": "We compile specifications, select suppliers and samples. Every line item is confirmed with the client's team before ordering.",
+          "time": "5–14 days"
+        },
+        "proposal": {
+          "title": "Commercial proposal",
+          "desc": "We prepare a detailed proposal with phase breakdown, fixed prices and confirmed delivery timelines.",
+          "time": "2–5 days"
+        },
+        "delivery": {
+          "title": "Supply & handover",
+          "desc": "We purchase, consolidate, clear customs and deliver to site. Installation, snagging and handover with full documentation.",
+          "time": "30–90 days"
+        }
+      }
     },
     "insights": {
       "title": "Insights & materials",
-      "view_all": "All articles"
+      "view_all": "All articles",
+      "eyebrow": "Expertise",
+      "subtitle": "Case studies, guides and trends from the world of FF&E, OS&E and logistics."
     },
     "cta": {
+      "eyebrow": "Contact us",
       "title": "Let's discuss your project",
-      "subtitle": "Leave a request — we'll send relevant cases and price the procurement scope.",
+      "subtitle": "Leave a request — we'll send relevant cases and price the procurement scope within one business day.",
       "form_name": "Your name",
       "form_company": "Company",
       "form_phone": "Phone",
       "form_email": "Email",
       "form_message": "Tell us about your project",
       "form_submit": "Send request",
+      "form_loading": "Sending…",
       "form_consent": "I agree to the processing of personal data",
       "form_success": "Request submitted. We'll be in touch within one business day.",
-      "form_error": "Something went wrong. Please try again or email hello@riprojects.org."
+      "form_success_title": "Thank you!",
+      "form_error": "Something went wrong. Please try again or write to hello@riprojects.org.",
+      "contact_telegram": "Write on Telegram",
+      "contact_whatsapp": "Write on WhatsApp",
+      "contact_call": "Call us",
+      "or_divider": "or reach us directly"
     }
   },
   "footer": {
@@ -141,5 +237,164 @@
     "en": "EN",
     "switch_to_ru": "Переключить на русский",
     "switch_to_en": "Switch to English"
+  },
+  "common": {
+    "home": "Home",
+    "view_project": "View project",
+    "view_all_projects": "All projects",
+    "read_more": "Read article",
+    "back_to_list": "Back",
+    "related_projects": "Related projects",
+    "related_articles": "Related articles",
+    "no_results": "No results found",
+    "loading": "Loading…"
+  },
+  "services": {
+    "page_title": "Our services",
+    "page_subtitle": "Five specialisations — one unified procurement system. We take on as much as you need.",
+    "breadcrumb": "Services",
+    "what_included_title": "What's included",
+    "featured_case_title": "Relevant case study",
+    "faq_title": "Frequently asked questions",
+    "cta_title": "Ready to discuss your project?",
+    "cta_subtitle": "Tell us about the task — we'll prepare a proposal within one business day.",
+    "slugs": {
+      "turnkey": "Turnkey procurement",
+      "ffe": "FF&E supply",
+      "ose": "OS&E supply",
+      "logistics": "Logistics & customs",
+      "certification": "Certification"
+    },
+    "subtitles": {
+      "turnkey": "Full cycle from brief to handover — no gaps, no surprises.",
+      "ffe": "Furniture, lighting and equipment from 8+ countries. Samples before ordering.",
+      "ose": "All operating supplies needed on day one of the property's operation.",
+      "logistics": "Consolidation, customs and last-mile delivery — across the CIS.",
+      "certification": "Compliance, fire safety and sanitary certificates for the entire delivery."
+    }
+  },
+  "sectors": {
+    "page_title": "Sectors",
+    "page_subtitle": "Every business has its own specifics, regulations and procurement logic. We know them all.",
+    "breadcrumb": "Sectors",
+    "features_title": "Sector specifics",
+    "supply_title": "What we supply",
+    "standards_title": "Standards & regulations",
+    "cases_title": "Projects in this sector",
+    "cta_title": "Operating in this sector?",
+    "cta_subtitle": "Tell us about your property — we'll send relevant case studies.",
+    "slugs": {
+      "hotels": "Hotels & resorts",
+      "restaurants": "Restaurants & bars",
+      "residential": "Residential complexes",
+      "business-centers": "Business centres",
+      "medical": "Healthcare",
+      "education": "Education",
+      "retail": "Retail",
+      "banks": "Banking & finance"
+    },
+    "subtitles": {
+      "hotels": "International operator standards, tight deadlines, complete FF&E and OS&E.",
+      "restaurants": "Concept-driven tableware, restaurant furniture, kitchen equipment — turnkey.",
+      "residential": "Hundreds of identical units without sacrificing quality. Floor-by-floor logistics.",
+      "business-centers": "Ergonomics, technology and premium design for Class A offices.",
+      "medical": "Certified equipment with full documentation for licensing.",
+      "education": "Learning environments tailored to age group, pedagogical concept and safety standards.",
+      "retail": "Display equipment, lighting design and roll-out across store networks.",
+      "banks": "Premium fit-out, security and a unified standard across branch networks."
+    }
+  },
+  "projects": {
+    "page_title": "Projects",
+    "page_subtitle": "Completed properties in Uzbekistan, Kazakhstan and across the CIS.",
+    "breadcrumb": "Projects",
+    "filter_sector": "Sector",
+    "filter_year": "Year",
+    "filter_city": "City",
+    "filter_all": "All",
+    "filter_reset": "Reset",
+    "view_project": "View project",
+    "no_results": "No projects match the selected filters",
+    "context_label": "Context",
+    "challenge_label": "Challenge",
+    "solution_label": "Solution",
+    "results_label": "Results",
+    "gallery_label": "Gallery",
+    "brands_label": "Brands used",
+    "similar_label": "Similar projects",
+    "services_label": "Services",
+    "area_label": "Area",
+    "year_label": "Year",
+    "city_label": "City"
+  },
+  "about": {
+    "page_title": "About us",
+    "page_subtitle": "We are a commercial fit-out procurement company. Since 2015.",
+    "breadcrumb": "About",
+    "mission_eyebrow": "Mission",
+    "mission_title": "We take complexity off your plate",
+    "mission_text": "RI PROJECTS was founded so that developers, hoteliers and investors can open properties on time — without the stress of managing hundreds of suppliers, customs and logistics. We handle everything between 'we've decided to open' and 'we're open'.",
+    "values_eyebrow": "Values",
+    "values_title": "How we work",
+    "values": {
+      "transparency": {
+        "title": "Transparency",
+        "desc": "Detailed budget, fixed prices, weekly reports."
+      },
+      "quality": {
+        "title": "Quality",
+        "desc": "Factory inspection, samples before ordering, snagging at acceptance."
+      },
+      "speed": {
+        "title": "Speed",
+        "desc": "Parallel workstreams, own warehouse, precise logistics."
+      },
+      "partnership": {
+        "title": "Partnership",
+        "desc": "We work as part of the client's team, not just a contractor."
+      }
+    },
+    "team_eyebrow": "Team",
+    "team_title": "The people behind the projects",
+    "timeline_eyebrow": "History",
+    "timeline_title": "10 years in numbers",
+    "production": {
+      "page_title": "Production",
+      "page_subtitle": "In-house capacity for custom items and rapid replenishment.",
+      "breadcrumb": "Production"
+    },
+    "partners": {
+      "page_title": "Partners",
+      "page_subtitle": "200+ factories across 15 countries. Direct contracts — no middlemen.",
+      "breadcrumb": "Partners"
+    }
+  },
+  "insights": {
+    "page_title": "Insights",
+    "page_subtitle": "Case studies, guides and trends from the world of FF&E, OS&E and logistics.",
+    "breadcrumb": "Insights",
+    "read_more": "Read",
+    "back": "← All articles",
+    "author_label": "Author",
+    "reading_time": "min read",
+    "published_label": "Published",
+    "share_label": "Share",
+    "titles": {
+      "hotel-ffe-guide": "FF&E guide for hoteliers: from specifications to installation",
+      "ose-checklist-restaurant": "OS&E checklist for restaurants: what you need on opening day",
+      "logistics-cis-guide": "CIS logistics & customs: a complete guide for project deliveries",
+      "hospitality-trends-2026": "Hospitality design trends 2026",
+      "hilton-tashkent-case": "Case study: Hilton Tashkent — 4,200 items in 14 months",
+      "certification-eaes": "EAEU furniture certification: what you need to know"
+    }
+  },
+  "contacts": {
+    "page_title": "Contacts",
+    "page_subtitle": "We reply on Telegram or WhatsApp in 5 minutes.",
+    "breadcrumb": "Contacts",
+    "map_label": "Our office on the map",
+    "office_title": "Tashkent office",
+    "office_address": "1 Amir Temur St., Tashkent, Uzbekistan",
+    "directions_label": "Get directions"
   }
 }

@@ -100,7 +100,7 @@ export function Header() {
 
           {/* Desktop nav — по центру */}
           <nav
-            aria-label={t('nav.services')}
+            aria-label={t('header.primary_nav')}
             className="hidden flex-1 items-center justify-center gap-1 lg:flex"
           >
             {PRIMARY_NAV.map((item) => {
@@ -201,7 +201,7 @@ export function Header() {
             </div>
 
             <motion.nav
-              aria-label={t('nav.services')}
+              aria-label={t('header.primary_nav')}
               initial="initial"
               animate="animate"
               variants={{

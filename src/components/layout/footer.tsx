@@ -52,9 +52,9 @@ export function Footer() {
 
           {/* ── Колонка 5 (контакты) — 3 / 12 ──────────────────────── */}
           <div className="lg:col-span-3">
-            <h4 className="text-sm font-medium uppercase tracking-wide text-white">
+            <p className="text-sm font-medium uppercase tracking-wide text-white">
               {t('footer.columns.contacts.title')}
-            </h4>
+            </p>
             <ul className="mt-5 space-y-4 text-sm">
               <ContactItem
                 icon={MapPin}
@@ -147,9 +147,9 @@ function FooterLinkColumn({ column }: { column: (typeof FOOTER_COLUMNS)[number] 
   const t = useTranslations();
   return (
     <div>
-      <h4 className="text-sm font-medium uppercase tracking-wide text-white">
+      <p className="text-sm font-medium uppercase tracking-wide text-white">
         {t(`footer.columns.${column.id}.title`)}
-      </h4>
+      </p>
       <ul className="mt-5 space-y-3 text-sm">
         {column.links.map((link) => (
           <li key={link.key}>

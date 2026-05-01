@@ -1,9 +1,14 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
+
+const STATUS_MSG = {
+  success: { ru: 'Вы подписаны!', en: 'Subscribed!' },
+  error: { ru: 'Ошибка — попробуйте ещё раз', en: 'Error — please try again' },
+} as const;
 
 /**
  * Newsletter-форма в footer'е. Client-компонент, потому что:
@@ -15,6 +20,7 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
  */
 export function NewsletterForm() {
   const t = useTranslations('footer.newsletter');
+  const locale = useLocale() as 'ru' | 'en';
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<Status>('idle');
 
@@ -68,10 +74,10 @@ export function NewsletterForm() {
       <p
         role="status"
         aria-live="polite"
-        className="mt-2 min-h-[16px] text-xs text-white/60"
+        className={`mt-2 min-h-[16px] text-xs ${status === 'error' ? 'text-red-400' : 'text-white/60'}`}
       >
-        {status === 'success' && '✓'}
-        {status === 'error' && '!'}
+        {status === 'success' && STATUS_MSG.success[locale]}
+        {status === 'error' && STATUS_MSG.error[locale]}
       </p>
     </form>
   );
