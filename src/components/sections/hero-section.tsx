@@ -163,19 +163,13 @@ export function HeroSection({
   const reduce = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Видео только на md+ и без reduced-motion
-  const [showVideo, setShowVideo] = useState(false);
   // Плавный fade-in видео после загрузки
   const [videoLoaded, setVideoLoaded] = useState(false);
 
-  useEffect(() => {
-    if (reduce) return;
-    const mq = window.matchMedia('(min-width: 768px)');
-    setShowVideo(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setShowVideo(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, [reduce]);
+  // Видео крутим на всех экранах (mobile + desktop), object-cover сам
+  // обрежет под пропорции секции — пропорции самого видео не меняем.
+  // Единственный gate — prefers-reduced-motion: тогда остаётся только постер.
+  const showVideo = !reduce;
 
   return (
     <section
@@ -193,7 +187,7 @@ export function HeroSection({
         onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
       />
 
-      {/* ── Слой 2: видео — md+ без reduced-motion ───────────── */}
+      {/* ── Слой 2: видео — на всех экранах, кроме reduced-motion ── */}
       {showVideo && (
         <motion.video
           ref={videoRef}
