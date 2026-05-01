@@ -27,7 +27,12 @@ export function Logo({ className, variant = 'dark', ariaLabel = 'RI PROJECTS' }:
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden
       >
-        <rect x="1" y="1" width="26" height="26" rx="3" stroke={fill} strokeWidth="1.5" />
+        <path
+          d="M 4 1 L 24 1 A 3 3 0 0 1 27 4 M 27 10 L 27 24 A 3 3 0 0 1 24 27 L 4 27 A 3 3 0 0 1 1 24 L 1 4 A 3 3 0 0 1 4 1"
+          stroke={fill}
+          strokeWidth="1.5"
+          fill="none"
+        />
         <path
           d="M8 8h7a4 4 0 0 1 0 8h-3l5 4M8 8v12M8 16h4"
           stroke={fill}
