@@ -4,6 +4,9 @@ import { HeroSection } from '@/components/sections/hero-section';
 import { ServicesSection } from '@/components/sections/services-section';
 
 /* Below-fold sections — code-split to reduce initial JS payload */
+const PainPointsSection = dynamic(() =>
+  import('@/components/sections/pain-points-section').then((m) => m.PainPointsSection),
+);
 const SectorsGrid = dynamic(() =>
   import('@/components/sections/sectors-grid').then((m) => m.SectorsGrid),
 );
@@ -37,6 +40,7 @@ export default async function HomePage({ params }: HomePageProps) {
   return (
     <>
       <HeroSection />
+      <PainPointsSection />
       <ServicesSection />
       <SectorsGrid />
       <StatsSection />

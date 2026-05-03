@@ -112,17 +112,33 @@ export function StatsSection() {
 
   return (
     <section
-      aria-label={t('aria_label')}
-      className="bg-bg-soft section-padding"
+      aria-labelledby="stats-heading"
+      className="bg-background section-padding"
     >
       <div className="container mx-auto">
 
-        {/* Decorative top rule with warm dot */}
-        <div className="mb-14 flex items-center gap-4" aria-hidden>
-          <span className="h-px flex-1 bg-border" />
-          <span className="h-2 w-2 rounded-full bg-warm/50" />
-          <span className="h-px flex-1 bg-border" />
-        </div>
+        {/* Header — переоформлены как USP-блок (фидбек колеги 2:
+            «не понятно чем отличаемся в деньгах/сроках»). Эти 4 цифры
+            и есть наша дифференциация. */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView || reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.65, ease: easing.smooth }}
+          className="mx-auto mb-14 max-w-2xl text-center"
+        >
+          <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
+            {t('eyebrow')}
+          </p>
+          <h2
+            id="stats-heading"
+            className="mt-3 font-sans text-h2-m font-semibold text-primary lg:text-h2-d"
+          >
+            {t('title')}
+          </h2>
+          <p className="mt-4 text-[16px] leading-relaxed text-muted lg:text-[17px]">
+            {t('subtitle')}
+          </p>
+        </motion.div>
 
         {/* 2×2 mobile → 4-col desktop */}
         <motion.div

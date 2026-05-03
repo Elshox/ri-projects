@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "RI PROJECTS — Turnkey commercial fit-out in Tashkent",
-    "description": "Premium turnkey procurement for commercial properties: hotels, restaurants, business centers, clinics, residential. FF&E, OS&E, logistics, certification."
+    "description": "Full turnkey procurement for commercial and residential properties: hotels, restaurants, business centers, clinics, residential. FF&E, OS&E, logistics, customs, certification."
   },
   "header": {
     "skip_to_content": "Skip to content",
@@ -23,8 +23,8 @@
     "eyebrow": "RI PROJECTS",
     "hero": {
       "eyebrow": "RI PROJECTS",
-      "title": "Premium turnkey procurement for commercial properties",
-      "subtitle": "From hotels and restaurants to clinics and residential — we own the full FF&E and OS&E cycle: design, sourcing, installation, logistics and certification.",
+      "title": "Full turnkey procurement for commercial and residential properties",
+      "subtitle": "From hotels and restaurants to clinics and residential — we own the full FF&E and OS&E cycle: sourcing, supply, logistics, customs and certification.",
       "cta_primary": "Discuss your project",
       "cta_secondary": "View case studies",
       "badge": "We reply on Telegram or WhatsApp in 5 minutes",
@@ -33,20 +33,22 @@
     "services": {
       "eyebrow": "Our services",
       "title": "Full-cycle services",
-      "subtitle": "We cover procurement from first floor plan to opening day.",
+      "subtitle": "Our full cycle covers material sourcing, manufacturer selection, contracting, logistics, customs procedures and certification.",
       "more": "Learn more",
       "cards": {
         "turnkey": {
           "title": "Turnkey procurement",
-          "desc": "We own the full cycle — from specifications and tenders to installation and handover with documentation."
+          "desc": "Full cycle — from specifications and tenders to on-site acceptance with full documentation."
         },
         "ffe": {
           "title": "FF&E supply",
-          "desc": "Furniture, lighting and specialist equipment sourced from Europe, Turkey, China and UAE."
+          "desc": "Furniture, lighting and specialist equipment sourced from Europe, Turkey, China and UAE.",
+          "alias": "Furniture, lighting, textiles, finishes"
         },
         "ose": {
           "title": "OS&E supply",
-          "desc": "Operating supplies, textiles, porcelain and glassware — everything needed to open the property."
+          "desc": "Operating supplies, textiles, porcelain and glassware — everything needed to open the property.",
+          "alias": "Sanitaryware, tableware, equipment, textiles"
         },
         "logistics": {
           "title": "Logistics & customs",
@@ -96,7 +98,10 @@
       "projects": "Projects delivered",
       "sectors": "Sectors of expertise",
       "partners": "Manufacturing partners",
-      "experience": "Years of team experience"
+      "experience": "Years of team experience",
+      "eyebrow": "Why us",
+      "title": "Systemic capability, not a one-off contract",
+      "subtitle": "These numbers are the rhythm of our operations. They define your timelines and pricing."
     },
     "showcase": {
       "eyebrow": "Case studies",
@@ -133,7 +138,7 @@
         },
         "delivery": {
           "title": "Supply & handover",
-          "desc": "We purchase, consolidate, clear customs and deliver to site. Installation, snagging and handover with full documentation.",
+          "desc": "We purchase, consolidate, clear customs and deliver to site. Furniture and OS&E installation, snagging and handover with full documentation.",
           "time": "30–90 days"
         }
       }
@@ -163,6 +168,33 @@
       "contact_whatsapp": "Write on WhatsApp",
       "contact_call": "Call us",
       "or_divider": "or reach us directly"
+    },
+    "pains": {
+      "eyebrow": "What we solve",
+      "title": "The pain points of project procurement",
+      "subtitle": "We close the bottlenecks where projects usually lose time and budget.",
+      "points": {
+        "delivery_slip": {
+          "title": "Schedule slips from multiple suppliers",
+          "desc": "One partner delays furniture and the whole opening stalls. We keep the timeline of every factory and surface risks early."
+        },
+        "budget_overrun": {
+          "title": "Budget creeps past the plan",
+          "desc": "Specs shift, freight gets pricier, customs cost 2× — hello, overrun. We lock the price in the proposal before purchase."
+        },
+        "customs_chaos": {
+          "title": "Customs and paperwork chaos",
+          "desc": "Wrong HS codes, missing certificates, cargo stuck at port. We declare, certify and run the paperwork end to end."
+        },
+        "quality_mismatch": {
+          "title": "Quality doesn't match the sample",
+          "desc": "Sample says one thing, the shipment says another. We inspect the batch at the factory and send photo/video reports before dispatch."
+        },
+        "negotiation_drain": {
+          "title": "Negotiating with a dozen suppliers eats a month",
+          "desc": "Every quote is a separate thread. We are a single point of contract: one proposal, one agreement, one handover."
+        }
+      }
     }
   },
   "footer": {
@@ -297,11 +329,11 @@
       "hotels": "International operator standards, tight deadlines, complete FF&E and OS&E.",
       "restaurants": "Concept-driven tableware, restaurant furniture, kitchen equipment — turnkey.",
       "residential": "Hundreds of identical units without sacrificing quality. Floor-by-floor logistics.",
-      "business-centers": "Ergonomics, technology and premium design for Class A offices.",
+      "business-centers": "Ergonomics, technology and refined design for Class A offices.",
       "medical": "Certified equipment with full documentation for licensing.",
       "education": "Learning environments tailored to age group, pedagogical concept and safety standards.",
       "retail": "Display equipment, lighting design and roll-out across store networks.",
-      "banks": "Premium fit-out, security and a unified standard across branch networks."
+      "banks": "Refined fit-out, security and a unified standard across branch networks."
     }
   },
   "projects": {

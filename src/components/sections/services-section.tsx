@@ -9,6 +9,10 @@ import {
   Truck,
   ShieldCheck,
   ArrowRight,
+  Lamp,
+  Sofa,
+  ShowerHead,
+  UtensilsCrossed,
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -18,13 +22,24 @@ import { cn } from '@/lib/utils';
 
 /* ─────────────────────────────────────────────────────────────
  *  Данные карточек (иконки + slug согласно CLAUDE.md §7)
+ *  ffe / ose помечены `hasAlias: true` — для них рендерим plain-
+ *  расшифровку и декоративные иконки в фон карточки (по фидбеку
+ *  колеги 2 — FF&E/OS&E «спрятаны за аббревиатурами»).
  * ───────────────────────────────────────────────────────────── */
 type ServiceSlug = 'turnkey' | 'ffe' | 'ose' | 'logistics' | 'certification';
 
-const SERVICES: { slug: ServiceSlug; Icon: LucideIcon }[] = [
+type ServiceMeta = {
+  slug: ServiceSlug;
+  Icon: LucideIcon;
+  hasAlias?: boolean;
+  /** 2 декоративные иконки, рендерятся очень бледно в правом верхнем углу. */
+  bgIcons?: readonly [LucideIcon, LucideIcon];
+};
+
+const SERVICES: readonly ServiceMeta[] = [
   { slug: 'turnkey', Icon: Boxes },
-  { slug: 'ffe', Icon: Armchair },
-  { slug: 'ose', Icon: Package },
+  { slug: 'ffe', Icon: Armchair, hasAlias: true, bgIcons: [Sofa, Lamp] },
+  { slug: 'ose', Icon: Package, hasAlias: true, bgIcons: [ShowerHead, UtensilsCrossed] },
   { slug: 'logistics', Icon: Truck },
   { slug: 'certification', Icon: ShieldCheck },
 ];
@@ -60,13 +75,11 @@ const cardVariants: Variants = {
 /* ─────────────────────────────────────────────────────────────
  *  ServiceCard
  * ───────────────────────────────────────────────────────────── */
-type ServiceCardProps = {
-  slug: ServiceSlug;
-  Icon: LucideIcon;
+type ServiceCardProps = ServiceMeta & {
   className?: string;
 };
 
-function ServiceCard({ slug, Icon, className }: ServiceCardProps) {
+function ServiceCard({ slug, Icon, hasAlias, bgIcons, className }: ServiceCardProps) {
   const t = useTranslations('home.services');
   const reduce = useReducedMotion();
 
@@ -75,15 +88,28 @@ function ServiceCard({ slug, Icon, className }: ServiceCardProps) {
       variants={cardVariants}
       whileHover={reduce ? undefined : { y: -4, transition: { duration: 0.22, ease: easing.snappy } }}
       className={cn(
-        'group relative flex flex-col rounded-md border border-border bg-card p-7',
+        'group relative flex flex-col overflow-hidden rounded-md border border-border bg-card p-7',
         'shadow-card transition-shadow duration-300 hover:shadow-card-hover',
         className,
       )}
     >
+      {/* Декоративные иконки в фоне для FF&E/OS&E — намёк на содержимое
+          аббревиатуры. Очень бледные, не отвлекают от текста. */}
+      {bgIcons && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-2 -top-2 flex gap-1 text-warm/[0.07] transition-opacity duration-300 group-hover:text-warm/15"
+        >
+          {bgIcons.map((BgIcon, i) => (
+            <BgIcon key={i} className={cn(i === 0 ? 'h-24 w-24' : 'h-16 w-16 mt-6')} strokeWidth={1.2} />
+          ))}
+        </div>
+      )}
+
       {/* Иконка */}
       <span
         className={cn(
-          'mb-6 inline-flex h-12 w-12 items-center justify-center rounded-sm',
+          'relative mb-6 inline-flex h-12 w-12 items-center justify-center rounded-sm',
           'bg-[#F5F1EC] text-warm transition-colors duration-300',
           'group-hover:bg-warm group-hover:text-white',
         )}
@@ -93,12 +119,20 @@ function ServiceCard({ slug, Icon, className }: ServiceCardProps) {
       </span>
 
       {/* H3 */}
-      <h3 className="text-h3-m font-sans font-medium text-primary lg:text-h3-d">
+      <h3 className="relative text-h3-m font-sans font-medium text-primary lg:text-h3-d">
         {t(`cards.${slug}.title`)}
       </h3>
 
+      {/* Plain-расшифровка для FF&E/OS&E — чтобы клиенты вне отрасли
+          сразу видели что мы поставляем (фидбек колеги 2). */}
+      {hasAlias && (
+        <p className="relative mt-1.5 text-[12px] font-medium uppercase tracking-[0.12em] text-warm">
+          {t(`cards.${slug}.alias`)}
+        </p>
+      )}
+
       {/* Описание */}
-      <p className="mt-3 flex-1 text-[15px] leading-relaxed text-muted">
+      <p className="relative mt-3 flex-1 text-[15px] leading-relaxed text-muted">
         {t(`cards.${slug}.desc`)}
       </p>
 
@@ -193,11 +227,10 @@ export function ServicesSection() {
           variants={gridVariants}
           className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:gap-7"
         >
-          {SERVICES.map(({ slug, Icon }, i) => (
+          {SERVICES.map((service, i) => (
             <ServiceCard
-              key={slug}
-              slug={slug}
-              Icon={Icon}
+              key={service.slug}
+              {...service}
               className={cn(
                 // Desktop: каждая карточка = 2 из 6 колонок
                 'lg:col-span-2',
