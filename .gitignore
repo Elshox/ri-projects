@@ -43,6 +43,9 @@ _tmp_*
 # Source assets (originals; processed copies live in public/images/)
 img/
 
+# SMM materials (local working folder)
+smm/
+
 # Archives
 *.zip
 *.tar.gz

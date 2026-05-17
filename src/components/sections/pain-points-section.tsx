@@ -8,6 +8,9 @@ import {
   FileWarning,
   AlertTriangle,
   Users,
+  Hourglass,
+  ImageOff,
+  Receipt,
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -15,10 +18,12 @@ import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
 
 /* ─────────────────────────────────────────────────────────────
- *  Pain points — пять болей проектной комплектации, которые мы
- *  закрываем. Размещается между Hero и Services: «agitate the
- *  problem before showing the solution» — классический
- *  premium-B2B paтерн.
+ *  Pain points — восемь болей проектной комплектации, которые мы
+ *  закрываем. Первые 5 — operational (сроки, бюджет, таможня,
+ *  качество, переговоры). Последние 3 (8) добавлены из SMM-постов:
+ *  срок службы FF&E, подбор «по картинке», скрытый +30% бюджет.
+ *  Размещается между Hero и Services: «agitate the problem before
+ *  showing the solution» — классический premium-B2B паттерн.
  * ───────────────────────────────────────────────────────────── */
 
 type PainKey =
@@ -26,14 +31,20 @@ type PainKey =
   | 'budget_overrun'
   | 'customs_chaos'
   | 'quality_mismatch'
-  | 'negotiation_drain';
+  | 'negotiation_drain'
+  | 'short_lifespan'
+  | 'blind_picking'
+  | 'hidden_overruns';
 
 const PAINS: { key: PainKey; Icon: LucideIcon }[] = [
-  { key: 'delivery_slip', Icon: Clock },
-  { key: 'budget_overrun', Icon: TrendingDown },
-  { key: 'customs_chaos', Icon: FileWarning },
-  { key: 'quality_mismatch', Icon: AlertTriangle },
-  { key: 'negotiation_drain', Icon: Users },
+  { key: 'delivery_slip',    Icon: Clock          },
+  { key: 'budget_overrun',   Icon: TrendingDown   },
+  { key: 'customs_chaos',    Icon: FileWarning    },
+  { key: 'quality_mismatch', Icon: AlertTriangle  },
+  { key: 'negotiation_drain', Icon: Users         },
+  { key: 'short_lifespan',   Icon: Hourglass      },
+  { key: 'blind_picking',    Icon: ImageOff       },
+  { key: 'hidden_overruns',  Icon: Receipt        },
 ];
 
 const headerVariants: Variants = {
@@ -133,30 +144,17 @@ export function PainPointsSection() {
           </p>
         </motion.div>
 
-        {/* Grid 1 → 2 → 3 columns; пятая карточка занимает одну ячейку,
-            на lg ряд получается 3+2 (центральная + крайние пустоты) */}
+        {/* Grid 1 → 2 → 4 columns. Восемь карточек идеально ложатся
+            в 4×2 на desktop, 2×4 на tablet и 1×8 на mobile. */}
         <motion.div
           ref={gridRef}
           initial="hidden"
           animate={gridInView || reduce ? 'visible' : 'hidden'}
           variants={gridVariants}
-          className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 lg:gap-5"
+          className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5"
         >
-          {PAINS.map((pain, i) => (
-            <div
-              key={pain.key}
-              className={cn(
-                // Desktop: 6-column grid, каждая карточка = 2 колонки → 3+2
-                'lg:col-span-2',
-                // Карточка 4 (index 3): сдвиг на 2-ю колонку центрирует нижний ряд
-                i === 3 && 'lg:col-start-2',
-                // Карточка 5 (index 4) на sm = полная ширина, но max 50% по центру
-                i === 4 &&
-                  'sm:col-span-2 sm:mx-auto sm:w-full sm:max-w-[calc(50%-8px)] lg:col-span-2 lg:mx-0 lg:max-w-none',
-              )}
-            >
-              <PainCard pain={pain} />
-            </div>
+          {PAINS.map((pain) => (
+            <PainCard key={pain.key} pain={pain} />
           ))}
         </motion.div>
       </div>

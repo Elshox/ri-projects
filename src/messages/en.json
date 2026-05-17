@@ -193,6 +193,18 @@
         "negotiation_drain": {
           "title": "Negotiating with a dozen suppliers eats a month",
           "desc": "Every quote is a separate thread. We are a single point of contract: one proposal, one agreement, one handover."
+        },
+        "short_lifespan": {
+          "title": "Furniture looks tired within a year",
+          "desc": "90% of properties replace FF&E after 1–2 years: it loosens, fades, fails. We spec materials for daily load and traffic — built to serve 5+ years."
+        },
+        "blind_picking": {
+          "title": "Picking by picture, not by use",
+          "desc": "Beautiful doesn't mean right. Surfaces chip under cleaning, fabrics fail against chemicals, counters crack. We analyse the real load before selection."
+        },
+        "hidden_overruns": {
+          "title": "+30% to budget for fixing mistakes",
+          "desc": "When work is done “cheap and fast”, projects almost always land 30% over plan: rework, downtime, replacements. A system removes that buffer."
         }
       }
     }
