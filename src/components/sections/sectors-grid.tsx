@@ -2,7 +2,14 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
-import { motion, useInView, useReducedMotion, type Variants } from 'motion/react';
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
@@ -60,38 +67,73 @@ const cardVariants: Variants = {
   },
 };
 
-/* ── SectorCard ── */
+/* ── SectorCard ──────────────────────────────────────────────
+ *  Параллакс-зум: пока карточка проходит через viewport, фото
+ *  внутри плавно зумится (scale 1.05 → 1.18) и слегка едет вверх.
+ *  Эффект работает поверх hover-зума — на hover добавляется ещё
+ *  +scale через CSS-transition. На mobile (<sm) параллакс выключен
+ *  ради perf (offset-расчёты дёшевы, но Lighthouse чувствителен к
+ *  layout shifts на медленных GPU).
+ * ── */
 function SectorCard({ slug }: { slug: SectorSlug }) {
   const t = useTranslations('home.sectors');
   const reduce = useReducedMotion();
+  const cardRef = useRef<HTMLElement>(null);
   const title: string = t(`cards.${slug}.title`);
   const more: string = t('more');
 
+  /* scroll-progress: 0 когда карточка только-только входит снизу;
+     1 когда она уже вышла сверху. На этом окне мапим scale и y. */
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ['start end', 'end start'],
+  });
+
+  /* Начинаем чуть зумлёным (1.05), чтобы фото уже заполняло
+     края на верхнем краю карточки — без видимых полос. */
+  const parallaxScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.18]);
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
+
   return (
     <motion.article
+      ref={cardRef}
       variants={cardVariants}
       className={cn(
         'group relative aspect-video overflow-hidden rounded-md',
         'shadow-card transition-shadow duration-300 hover:shadow-card-hover',
       )}
     >
-      {/* Photo */}
-      <Image
-        src={`/images/sectors/${slug}.jpg`}
-        alt={title}
-        fill
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+      {/* Parallax wrapper — двигает фото медленнее карточки */}
+      <motion.div
+        aria-hidden
         className={cn(
-          'object-cover',
-          !reduce && 'transition-transform duration-500 group-hover:scale-105',
+          'absolute inset-0',
+          !reduce && 'transition-transform duration-500 group-hover:scale-[1.04]',
         )}
-        style={!reduce ? { transitionTimingFunction: 'cubic-bezier(0.16,1,0.3,1)' } : undefined}
-        placeholder="blur"
-        blurDataURL={BLUR_DATA}
-        onError={(e) => {
-          (e.currentTarget as HTMLImageElement).style.visibility = 'hidden';
-        }}
-      />
+        style={
+          reduce
+            ? undefined
+            : {
+                scale: parallaxScale,
+                y: parallaxY,
+                willChange: 'transform',
+                transformOrigin: 'center center',
+              }
+        }
+      >
+        <Image
+          src={`/images/sectors/${slug}.jpg`}
+          alt={title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-cover"
+          placeholder="blur"
+          blurDataURL={BLUR_DATA}
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).style.visibility = 'hidden';
+          }}
+        />
+      </motion.div>
 
       {/* Dark gradient — bottom-heavy for text legibility */}
       <div
