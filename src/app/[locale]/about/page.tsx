@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing';
 import { PageHero } from '@/components/ui/page-hero';
 import { ContactSection } from '@/components/sections/contact-section';
 import { PartnersMarquee } from '@/components/sections/partners-marquee';
+import { FounderStorySection } from '@/components/sections/founder-story-section';
 import { Target, Eye, Zap, Handshake } from 'lucide-react';
 
 type Props = { params: Promise<{ locale: string }> };
@@ -92,6 +93,9 @@ export default async function AboutPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Founder story — личный сторителлинг из SMM */}
+      <FounderStorySection />
 
       {/* Values */}
       <section className="bg-bg-soft py-24">

@@ -400,6 +400,34 @@
     },
     "team_eyebrow": "Team",
     "team_title": "The people behind the projects",
+    "founder_story": {
+      "eyebrow": "First-hand",
+      "title": "How we arrived at a systems approach",
+      "lead": "Not everything we do today came from theory. Part of it came from a concrete mistake on a restaurant project — and the late-evening call from the client that made it obvious.",
+      "steps": {
+        "point_a": {
+          "label": "Point A",
+          "title": "Beautiful project, confident client",
+          "body": "A few years ago we worked on a restaurant. Beautiful interior, healthy budget, confident client. Back then it felt like the only thing that mattered was looking expensive."
+        },
+        "mistake": {
+          "label": "The mistake",
+          "title": "Selecting by picture",
+          "body": "Part of the materials we picked by picture. No deep analysis of load, care, traffic, daily use. And honestly — I didn't push my own opinion hard enough."
+        },
+        "turn": {
+          "label": "The turn",
+          "title": "The call that changed the approach",
+          "body": "A few months in, the part nobody puts in pretty case studies started showing up. Walls rubbing through. Chipping. Some finishes couldn't take the cleaning. Inside, I knew: I had seen those risks early. I just hadn't yet learned to defend the expertise firmly enough."
+        },
+        "point_b": {
+          "label": "Point B",
+          "title": "Analyse first — looks come second",
+          "body": "Since then we work differently. Before any material selection we break down the format of the property, zone-by-zone load, budget, schedule, operations, service and care. The visual part comes after."
+        }
+      },
+      "closing": "Most people see the consequences. We see the cause."
+    },
     "timeline_eyebrow": "History",
     "timeline_title": "10 years in numbers",
     "production": {
