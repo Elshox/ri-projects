@@ -35,12 +35,11 @@ export default async function SectorsPage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: 'sectors' });
-  const tNav = await getTranslations({ locale, namespace: 'nav' });
 
   return (
     <>
       <PageHero
-        eyebrow={tNav('sectors')}
+        eyebrow={t('page_eyebrow')}
         title={t('page_title')}
         subtitle={t('page_subtitle')}
         breadcrumbs={[{ label: t('breadcrumb') }]}

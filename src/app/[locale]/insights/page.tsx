@@ -30,12 +30,11 @@ export default async function InsightsPage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: 'insights' });
-  const tNav = await getTranslations({ locale, namespace: 'nav' });
 
   return (
     <>
       <PageHero
-        eyebrow={tNav('insights')}
+        eyebrow={t('page_eyebrow')}
         title={t('page_title')}
         subtitle={t('page_subtitle')}
         breadcrumbs={[{ label: t('breadcrumb') }]}

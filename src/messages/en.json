@@ -329,6 +329,7 @@
     }
   },
   "services": {
+    "page_eyebrow": "What we do",
     "page_title": "Our services",
     "page_subtitle": "Five specialisations — one unified procurement system. We take on as much as you need.",
     "breadcrumb": "Services",
@@ -353,6 +354,7 @@
     }
   },
   "sectors": {
+    "page_eyebrow": "Where we work",
     "page_title": "Sectors",
     "page_subtitle": "Every business has its own specifics, regulations and procurement logic. We know them all.",
     "breadcrumb": "Sectors",
@@ -384,6 +386,7 @@
     }
   },
   "projects": {
+    "page_eyebrow": "Our work",
     "page_title": "Projects",
     "page_subtitle": "Completed properties in Uzbekistan, Kazakhstan and across the CIS.",
     "breadcrumb": "Projects",
@@ -407,6 +410,7 @@
     "city_label": "City"
   },
   "about": {
+    "page_eyebrow": "Who we are and why",
     "page_title": "About us",
     "page_subtitle": "We are a commercial fit-out procurement company. Since 2015.",
     "breadcrumb": "About",
@@ -477,6 +481,7 @@
     }
   },
   "insights": {
+    "page_eyebrow": "Expertise in writing",
     "page_title": "Insights",
     "page_subtitle": "Case studies, guides and trends from the world of FF&E, OS&E and logistics.",
     "breadcrumb": "Insights",
@@ -496,6 +501,7 @@
     }
   },
   "contacts": {
+    "page_eyebrow": "Let's talk",
     "page_title": "Contacts",
     "page_subtitle": "We reply on Telegram or WhatsApp in 5 minutes.",
     "breadcrumb": "Contacts",

@@ -48,14 +48,13 @@ export default async function AboutPage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: 'about' });
-  const tNav = await getTranslations({ locale, namespace: 'nav' });
 
   const valueKeys = ['transparency', 'quality', 'speed', 'partnership'] as const;
 
   return (
     <>
       <PageHero
-        eyebrow={tNav('about')}
+        eyebrow={t('page_eyebrow')}
         title={t('page_title')}
         subtitle={t('page_subtitle')}
         breadcrumbs={[{ label: t('breadcrumb') }]}

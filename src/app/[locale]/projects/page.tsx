@@ -31,14 +31,13 @@ export default async function ProjectsPage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: 'projects' });
-  const tNav = await getTranslations({ locale, namespace: 'nav' });
 
   const filterAll = t('filter_all');
 
   return (
     <>
       <PageHero
-        eyebrow={tNav('projects')}
+        eyebrow={t('page_eyebrow')}
         title={t('page_title')}
         subtitle={t('page_subtitle')}
         breadcrumbs={[{ label: t('breadcrumb') }]}

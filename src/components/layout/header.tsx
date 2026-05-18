@@ -27,6 +27,16 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  /**
+   * Только главная имеет dark/video hero, на котором логичен
+   * transparent-header с белым текстом. На всех остальных страницах
+   * hero беж (PageHero) — белый лого был невидим. usePathname из
+   * next-intl возвращает путь без locale-префикса, поэтому "/" =
+   * главная для любой локали. Вне главной — фиксируем dark-режим.
+   */
+  const isHome = pathname === '/';
+  const lockDark = !isHome;
+
   // Подписка на scroll один раз на mount
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
@@ -60,8 +70,12 @@ export function Header() {
   }, [menuOpen]);
 
   const isItemActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
-  const variant: 'dark' | 'light' = scrolled ? 'dark' : 'light';
-  const headerTextClass = scrolled ? 'text-primary' : 'text-white';
+
+  /* На главной — динамика (transparent → solid), на остальных
+     страницах постоянно solid с тёмным текстом. */
+  const solid = scrolled || lockDark;
+  const variant: 'dark' | 'light' = solid ? 'dark' : 'light';
+  const headerTextClass = solid ? 'text-primary' : 'text-white';
 
   return (
     <>
@@ -75,10 +89,10 @@ export function Header() {
       <motion.header
         initial={false}
         animate={{
-          backgroundColor: scrolled ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0)',
-          borderColor: scrolled ? 'rgba(229,231,235,1)' : 'rgba(229,231,235,0)',
-          backdropFilter: scrolled ? 'blur(12px)' : 'blur(0px)',
-          WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'blur(0px)',
+          backgroundColor: solid ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0)',
+          borderColor: solid ? 'rgba(229,231,235,1)' : 'rgba(229,231,235,0)',
+          backdropFilter: solid ? 'blur(12px)' : 'blur(0px)',
+          WebkitBackdropFilter: solid ? 'blur(12px)' : 'blur(0px)',
         }}
         transition={{ duration: 0.35, ease: easing.smooth }}
         style={{ willChange: 'background-color, backdrop-filter' }}
@@ -113,7 +127,7 @@ export function Header() {
                   className={cn(
                     'relative rounded-sm px-3 py-2 text-[14px] font-medium transition-colors duration-200',
                     'hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2',
-                    scrolled ? 'focus-visible:outline-accent' : 'focus-visible:outline-white',
+                    solid ? 'focus-visible:outline-accent' : 'focus-visible:outline-white',
                   )}
                 >
                   {t(`nav.${item.key}`)}
@@ -127,7 +141,7 @@ export function Header() {
                       }
                       className={cn(
                         'absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full',
-                        scrolled ? 'bg-accent' : 'bg-white',
+                        solid ? 'bg-accent' : 'bg-white',
                       )}
                     />
                   )}
@@ -145,7 +159,7 @@ export function Header() {
               className={cn(
                 'hidden lg:inline-flex',
                 'items-center rounded-sm px-5 py-2.5 text-[14px] font-semibold transition',
-                scrolled
+                solid
                   ? 'bg-accent text-white hover:opacity-90'
                   : 'border border-white/60 bg-white/0 text-white hover:bg-white hover:text-primary',
               )}
@@ -162,7 +176,7 @@ export function Header() {
               className={cn(
                 '-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-sm transition lg:hidden',
                 'focus-visible:outline-2 focus-visible:outline-offset-2',
-                scrolled
+                solid
                   ? 'text-primary hover:bg-bg-soft focus-visible:outline-accent'
                   : 'text-white hover:bg-white/10 focus-visible:outline-white',
               )}

@@ -31,7 +31,6 @@ export default async function ContactsPage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: 'contacts' });
-  const tNav = await getTranslations({ locale, namespace: 'nav' });
   const tFooter = await getTranslations({ locale, namespace: 'footer' });
 
   const address = tFooter('columns.contacts.address');
@@ -56,7 +55,7 @@ export default async function ContactsPage({ params }: Props) {
   return (
     <>
       <PageHero
-        eyebrow={tNav('contacts')}
+        eyebrow={t('page_eyebrow')}
         title={t('page_title')}
         subtitle={t('page_subtitle')}
         breadcrumbs={[{ label: t('breadcrumb') }]}
