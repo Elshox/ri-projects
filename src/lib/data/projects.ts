@@ -46,6 +46,8 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2023,
     area: 18500,
+    heroImage:
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=2400&q=80&auto=format',
     galleryImages: [
       '/images/projects/hilton-tashkent-01.jpg',
       '/images/projects/hilton-tashkent-02.jpg',
@@ -76,6 +78,8 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2023,
     area: 12000,
+    heroImage:
+      'https://images.unsplash.com/photo-1455587734955-081b22074882?w=2400&q=80&auto=format',
     galleryImages: [
       '/images/projects/radisson-samarkand-01.jpg',
       '/images/projects/radisson-samarkand-02.jpg',
@@ -104,6 +108,8 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2022,
     area: 22000,
+    heroImage:
+      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=2400&q=80&auto=format',
     galleryImages: [
       '/images/projects/hyatt-regency-01.jpg',
       '/images/projects/hyatt-regency-02.jpg',
@@ -132,6 +138,8 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Казахстан',
     year: 2022,
     area: 15000,
+    heroImage:
+      'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=2400&q=80&auto=format',
     galleryImages: [
       '/images/projects/marriott-almaty-01.jpg',
       '/images/projects/marriott-almaty-02.jpg',
@@ -157,6 +165,8 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2024,
     area: 8500,
+    heroImage:
+      'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=2400&q=80&auto=format',
     galleryImages: [
       '/images/projects/bc-tashkent-01.jpg',
       '/images/projects/bc-tashkent-02.jpg',
@@ -181,6 +191,8 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2024,
     area: 45000,
+    heroImage:
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=2400&q=80&auto=format',
     galleryImages: [
       '/images/projects/residential-01.jpg',
       '/images/projects/residential-02.jpg',
@@ -205,6 +217,8 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2023,
     area: 3200,
+    heroImage:
+      'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=2400&q=80&auto=format',
     galleryImages: ['/images/projects/clinic-01.jpg'],
     client: 'MedPlus Clinic',
     services: ['turnkey', 'ffe', 'certification'],
@@ -226,6 +240,8 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2024,
     area: 6800,
+    heroImage:
+      'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=2400&q=80&auto=format',
     galleryImages: ['/images/projects/school-01.jpg', '/images/projects/school-02.jpg'],
     client: 'Tashkent International School',
     services: ['turnkey', 'ffe'],

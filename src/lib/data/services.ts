@@ -26,6 +26,8 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'turnkey',
     icon: 'Boxes',
+    heroImage:
+      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=2400&q=80&auto=format',
     color: '#0077C8',
     includes: [
       { icon: 'FileSearch', title: 'Аудит и бриф', desc: 'Изучаем объект, площадь, концепцию и бюджет. Подписываем NDA.' },
@@ -46,6 +48,8 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'ffe',
     icon: 'Armchair',
+    heroImage:
+      'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=2400&q=80&auto=format',
     color: '#B4683C',
     includes: [
       { icon: 'Armchair', title: 'Мебель', desc: 'Диваны, кресла, кровати, столы, стулья — любые категории из Европы, Турции, Китая.' },
@@ -65,6 +69,8 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'ose',
     icon: 'Package',
+    heroImage:
+      'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=2400&q=80&auto=format',
     color: '#0077C8',
     includes: [
       { icon: 'UtensilsCrossed', title: 'Кухонный инвентарь', desc: 'Фарфор, стекло, столовые приборы, поварские инструменты.' },
@@ -84,6 +90,8 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'logistics',
     icon: 'Truck',
+    heroImage:
+      'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?w=2400&q=80&auto=format',
     color: '#B4683C',
     includes: [
       { icon: 'Container', title: 'Консолидация', desc: 'Объединяем грузы от разных поставщиков на нашем складе для экономии на фрахте.' },
@@ -103,6 +111,8 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'certification',
     icon: 'ShieldCheck',
+    heroImage:
+      'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=2400&q=80&auto=format',
     color: '#0077C8',
     includes: [
       { icon: 'FileCheck', title: 'Сертификат соответствия', desc: 'Оформляем сертификаты ГОСТ Р, ТР ЕАЭС для мебели, текстиля, оборудования.' },
