@@ -6,6 +6,10 @@ import {
   motion,
   useInView,
   useReducedMotion,
+  useScroll,
+  useTransform,
+  useSpring,
+  type MotionValue,
   type Variants,
 } from 'motion/react';
 import {
@@ -22,15 +26,26 @@ import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
 
 /* ─────────────────────────────────────────────────────────────
- *  ProcessTimeline — 4 этапа работы в одной горизонтальной ленте.
+ *  ProcessTimeline — 4 этапа работы.
  *
- *  Mobile + desktop: snap-scroll горизонтальная карусель.
- *  Пользователь свайпает / прокручивает колесом по X.
- *  Каждая карточка = шаг с релевантным фото сверху.
+ *  • Mobile / Tablet (<lg): обычный горизонтальный snap-scroll
+ *    карусель (свайп пальцем).
+ *  • Desktop (lg+):  pinned horizontal scroll — секция приклеивается
+ *                    к viewport, и 4 карточки автоматически едут
+ *                    вбок по мере вертикального скролла страницы.
+ *                    Премиум-эффект Apple/Stripe.
  *
- *  Раньше тут был desktop-only pinned-horizontal scroll, но он
- *  блокировал нижние секции страницы (пользователь жаловался),
- *  поэтому теперь — обычный snap-scroll, без приклеивания.
+ *  Реализация horizontal (desktop):
+ *  ─ внешняя <section> h-[400vh] на lg → 4 viewport-высоты runway
+ *  ─ внутри sticky-контейнер top-0 h-screen держит viewport
+ *  ─ useScroll({ target: section, offset: ['start start','end end'] })
+ *    даёт scrollYProgress 0→1
+ *  ─ useTransform мапит 0→1 на x: 0% → -75% (= 3 шага по 25%)
+ *  ─ useSpring сглаживает x — кинематографично, без рывков
+ *
+ *  Внутри pinned-area pin БЕЗОПАСЕН: после Process идут Insights,
+ *  Contact и Footer — обычным потоком, без sticky. Никакие
+ *  «теряющиеся» секции.
  * ───────────────────────────────────────────────────────────── */
 
 type StepId = 'analysis' | 'selection' | 'proposal' | 'delivery';
@@ -53,9 +68,10 @@ const STEPS: readonly StepMeta[] = [
   {
     id: 'selection',
     Icon: Sparkles,
-    /* Образцы материалов на столе */
+    /* Бизнес-рукопожатие = заключение партнёрства с поставщиком.
+       Чёткий смысл: «выбираем и договариваемся с фабриками». */
     photo:
-      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600&q=80&auto=format',
+      'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1600&q=80&auto=format',
   },
   {
     id: 'proposal',
@@ -93,55 +109,56 @@ const cardVariants: Variants = {
 
 /* ─────────────────────────────────────────────────────────────
  *  StepCard — карточка одного этапа: фото сверху + контент снизу.
- *  Фиксированная ширина — обеспечивает чёткий snap.
+ *  Используется и в mobile-rail, и в desktop-pinned-rail.
  * ───────────────────────────────────────────────────────────── */
 type StepCardProps = {
   step: StepMeta;
   index: number;
   t: ReturnType<typeof useTranslations<'home.process'>>;
+  variant: 'mobile' | 'desktop';
 };
 
-function StepCard({ step, index, t }: StepCardProps) {
+function StepCard({ step, index, t, variant }: StepCardProps) {
   const { Icon, photo, id } = step;
   const num = String(index + 1).padStart(2, '0');
   const reduce = useReducedMotion();
 
+  const isDesktop = variant === 'desktop';
+
   return (
     <motion.article
-      variants={cardVariants}
+      variants={variant === 'mobile' ? cardVariants : undefined}
       className={cn(
         'group relative flex shrink-0 flex-col overflow-hidden rounded-md border border-border bg-card',
         'shadow-card transition-shadow duration-300 hover:shadow-card-hover',
-        /* Ширина: ~80% viewport на мобиле / фиксированная на desktop */
-        'w-[300px] sm:w-[360px] lg:w-[420px] xl:w-[460px]',
+        isDesktop
+          ? 'w-full max-w-[520px]'
+          : 'w-[300px] sm:w-[360px]',
       )}
-      style={{ scrollSnapAlign: 'start' }}
+      style={isDesktop ? undefined : { scrollSnapAlign: 'start' }}
     >
       {/* Photo — релевантный визуал шага */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className={cn('relative overflow-hidden', isDesktop ? 'aspect-[16/10]' : 'aspect-[4/3]')}>
         <Image
           src={photo}
           alt=""
           fill
-          sizes="(max-width: 640px) 80vw, (max-width: 1024px) 360px, 460px"
+          sizes={isDesktop ? '520px' : '(max-width: 640px) 80vw, 360px'}
           className={cn(
             'object-cover',
             !reduce && 'transition-transform duration-700 group-hover:scale-105',
           )}
         />
-        {/* Bottom-darken gradient под номер */}
         <div
           aria-hidden
           className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
         />
-        {/* Большой номер шага в углу фото */}
         <span
           aria-hidden
           className="absolute bottom-3 left-5 font-serif text-[68px] font-medium leading-none text-white drop-shadow-lg sm:text-[80px]"
         >
           {num}
         </span>
-        {/* Иконка в правом верхнем углу */}
         <span
           aria-hidden
           className={cn(
@@ -155,22 +172,15 @@ function StepCard({ step, index, t }: StepCardProps) {
 
       {/* Content */}
       <div className="flex flex-1 flex-col gap-3 p-6 lg:p-7">
-        {/* Eyebrow — шаг N из M */}
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-warm">
           {t('step_of', { current: index + 1, total: STEP_COUNT })}
         </p>
-
-        {/* Title */}
-        <h3 className="font-serif text-[24px] font-medium leading-snug text-primary lg:text-[26px]">
+        <h3 className="font-serif text-[24px] font-medium leading-snug text-primary lg:text-[28px]">
           {t(`steps.${id}.title`)}
         </h3>
-
-        {/* Description */}
         <p className="text-[14px] leading-relaxed text-muted lg:text-[15px]">
           {t(`steps.${id}.desc`)}
         </p>
-
-        {/* Duration badge */}
         <div className="mt-auto pt-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1">
             <Clock className="h-3 w-3 text-warm" aria-hidden />
@@ -185,83 +195,200 @@ function StepCard({ step, index, t }: StepCardProps) {
 }
 
 /* ─────────────────────────────────────────────────────────────
+ *  Desktop pinned horizontal timeline
+ * ───────────────────────────────────────────────────────────── */
+type DesktopRailProps = {
+  t: ReturnType<typeof useTranslations<'home.process'>>;
+  scrollProgress: MotionValue<number>;
+};
+
+function DesktopRail({ t, scrollProgress }: DesktopRailProps) {
+  const reduce = useReducedMotion();
+
+  /* x: 0% → -75% покрывает все 4 слайда (1-й виден на старте,
+     4-й — в конце). Spring сглаживает рывки. */
+  const xRaw = useTransform(scrollProgress, [0, 1], ['0%', '-75%']);
+  const x = useSpring(xRaw, { stiffness: 90, damping: 22, mass: 0.4 });
+
+  /* Прогресс-бар: ширина = scrollProgress × 100% */
+  const progressWidth = useTransform(scrollProgress, [0, 1], ['0%', '100%']);
+
+  return (
+    <div className="flex h-full flex-col">
+      {/* Header */}
+      <div className="container mx-auto flex flex-col items-center px-6 pt-20">
+        <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
+          {t('eyebrow')}
+        </p>
+        <h2
+          id="process-heading"
+          className="mt-3 text-center font-sans text-h2-d font-semibold text-primary"
+        >
+          {t('title')}
+        </h2>
+        <p className="mt-4 max-w-2xl text-center text-[17px] leading-relaxed text-muted">
+          {t('subtitle')}
+        </p>
+
+        {/* Progress bar (continuous) */}
+        <div className="mt-8 h-px w-full max-w-md overflow-hidden bg-border">
+          <motion.div
+            aria-hidden
+            style={reduce ? { width: '100%' } : { width: progressWidth }}
+            className="h-full origin-left bg-warm"
+          />
+        </div>
+      </div>
+
+      {/* Horizontal sliding cards */}
+      <div className="relative flex flex-1 items-center overflow-hidden py-12">
+        <motion.div
+          style={reduce ? undefined : { x }}
+          /* 4 cards × 25% each, padding-left/right даёт отступы по краям */
+          className="flex w-[400%] items-stretch gap-0 px-[12vw]"
+        >
+          {STEPS.map((step, i) => (
+            <div
+              key={step.id}
+              className="flex w-[25%] flex-shrink-0 items-center justify-center px-4 xl:px-6"
+            >
+              <StepCard step={step} index={i} t={t} variant="desktop" />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+ *  Mobile horizontal snap-scroll carousel
+ * ───────────────────────────────────────────────────────────── */
+function MobileCarousel({ t }: { t: ReturnType<typeof useTranslations<'home.process'>> }) {
+  const reduce = useReducedMotion();
+  const railRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(railRef, { once: true, amount: 0.1 });
+
+  return (
+    <motion.div
+      ref={railRef}
+      initial="hidden"
+      animate={inView || reduce ? 'visible' : 'hidden'}
+      variants={railVariants}
+      className={cn(
+        'mt-12 overflow-x-auto overflow-y-hidden',
+        '[&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]',
+      )}
+      style={{ scrollSnapType: 'x mandatory' }}
+    >
+      <div className="flex gap-5 px-6 pb-4 sm:px-8">
+        {STEPS.map((step, i) => (
+          <StepCard key={step.id} step={step} index={i} t={t} variant="mobile" />
+        ))}
+        <div aria-hidden className="w-6 shrink-0 sm:w-12" />
+      </div>
+    </motion.div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
  *  ProcessTimeline (entry)
  * ───────────────────────────────────────────────────────────── */
 export function ProcessTimeline() {
   const t = useTranslations('home.process');
   const reduce = useReducedMotion();
 
+  const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
-
   const headerInView = useInView(headerRef, { once: true, amount: 0.5 });
-  const railInView = useInView(railRef, { once: true, amount: 0.1 });
+
+  /* useScroll по всей секции:
+     scrollYProgress = 0 когда верх section касается верха viewport
+     scrollYProgress = 1 когда низ section касается низа viewport
+     Внутри этого окна sticky-контейнер виден и x ползёт от 0 до -75%. */
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  });
 
   return (
     <section
+      ref={sectionRef}
       id="process"
       aria-labelledby="process-heading"
-      className="relative bg-bg-soft section-padding"
+      className={cn(
+        'bg-bg-soft relative',
+        /* Mobile/tablet (<lg): обычная высота, padding в контейнере */
+        /* Desktop (lg+): длинная section даёт runway для horizontal scroll.
+           400vh ≈ 100vh sticky + 3 viewport-высоты runway = по ~1 viewport
+           на каждую из 3-х переходов между 4-мя шагами.
+           Reduced-motion → секция короче, sticky не нужен. */
+        reduce ? 'lg:h-auto' : 'lg:h-[400vh]',
+      )}
     >
-      {/* Header */}
-      <div className="container mx-auto">
+      {/* ── Mobile / Tablet (<lg) — обычный snap-scroll ── */}
+      <div className="container mx-auto px-6 py-20 lg:hidden">
         <motion.div
           ref={headerRef}
           initial="hidden"
           animate={headerInView || reduce ? 'visible' : 'hidden'}
           variants={headerVariants}
-          className="mx-auto max-w-2xl text-center"
+          className="mx-auto mb-2 max-w-2xl text-center"
         >
           <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
             {t('eyebrow')}
           </p>
-          <h2
-            id="process-heading"
-            className="mt-3 font-sans text-h2-m font-semibold text-primary lg:text-h2-d"
-          >
+          <h2 className="mt-3 font-sans text-h2-m font-semibold text-primary">
             {t('title')}
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted lg:text-[17px]">
+          <p className="mt-4 text-[16px] leading-relaxed text-muted">
             {t('subtitle')}
           </p>
+          <div
+            aria-hidden
+            className="mt-6 flex items-center justify-center gap-2 text-[12px] uppercase tracking-[0.22em] text-muted/70"
+          >
+            <span>{t('scroll_hint')}</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </div>
         </motion.div>
-
-        {/* Hint: горизонтальный скролл (только если хватает места показать
-            больше чем 1 карточку — на маленьких экранах знак убираем) */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={headerInView || reduce ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.5, delay: 0.3, ease: easing.smooth }}
-          className="mt-6 flex items-center justify-center gap-2 text-[12px] uppercase tracking-[0.22em] text-muted/70"
-          aria-hidden
-        >
-          <span>{t('scroll_hint')}</span>
-          <ArrowRight className="h-3.5 w-3.5" />
-        </motion.div>
+        <MobileCarousel t={t} />
       </div>
 
-      {/* Horizontal rail */}
-      <motion.div
-        ref={railRef}
-        initial="hidden"
-        animate={railInView || reduce ? 'visible' : 'hidden'}
-        variants={railVariants}
+      {/* ── Desktop (lg+) pinned horizontal ── */}
+      <div
         className={cn(
-          'mt-12 overflow-x-auto overflow-y-hidden',
-          /* Скрываем скроллбар кросс-браузер */
-          '[&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]',
+          'hidden lg:block',
+          reduce ? '' : 'lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden',
         )}
-        style={{ scrollSnapType: 'x mandatory' }}
       >
-        <div className="flex gap-5 px-6 pb-4 sm:px-8 lg:gap-7 lg:px-12 xl:px-20">
-          {STEPS.map((step, i) => (
-            <StepCard key={step.id} step={step} index={i} t={t} />
-          ))}
-          {/* Финальный спейсер — даёт последней карточке возможность
-              отскроллиться к началу (snap='start' иначе не сработает). */}
-          <div aria-hidden className="w-6 shrink-0 sm:w-12 lg:w-24" />
-        </div>
-      </motion.div>
+        {reduce ? (
+          /* Reduced-motion → статичный 4-up grid */
+          <div className="container mx-auto px-6 py-24">
+            <div className="mx-auto mb-14 max-w-2xl text-center">
+              <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
+                {t('eyebrow')}
+              </p>
+              <h2
+                id="process-heading"
+                className="mt-3 font-sans text-h2-d font-semibold text-primary"
+              >
+                {t('title')}
+              </h2>
+              <p className="mt-4 text-[17px] leading-relaxed text-muted">
+                {t('subtitle')}
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-6 xl:grid-cols-4">
+              {STEPS.map((step, i) => (
+                <StepCard key={step.id} step={step} index={i} t={t} variant="desktop" />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <DesktopRail t={t} scrollProgress={scrollYProgress} />
+        )}
+      </div>
     </section>
   );
 }
