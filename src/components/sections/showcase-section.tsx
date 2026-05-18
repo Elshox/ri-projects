@@ -386,12 +386,15 @@ export function ShowcaseSection() {
         sizes="100vw"
         className="-z-20 object-cover opacity-30"
       />
+      {/* Overlay: солидный bg-dark на самом верху и низу (≈100px каждый),
+         плавно переходящий в обычную тёмную плёнку в середине. Скрывает
+         «шов» с соседними секциями, у которых тоже dark bg + другое фото. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'linear-gradient(180deg, rgba(10,6,2,0.82) 0%, rgba(10,6,2,0.92) 100%)',
+            'linear-gradient(180deg, rgba(10,6,2,1) 0%, rgba(10,6,2,0.9) 8%, rgba(10,6,2,0.82) 50%, rgba(10,6,2,0.9) 92%, rgba(10,6,2,1) 100%)',
         }}
       />
       {/* Custom cursor — rendered at document root level via fixed position */}

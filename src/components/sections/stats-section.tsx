@@ -130,12 +130,14 @@ export function StatsSection() {
         sizes="100vw"
         className="-z-20 object-cover opacity-35"
       />
+      {/* Жёсткие края (солид-цвет) сверху и снизу — для плавного шва
+         с соседними dark-секциями (PainPoints выше, Showcase ниже). */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'linear-gradient(180deg, rgba(10,6,2,0.78) 0%, rgba(10,6,2,0.88) 100%)',
+            'linear-gradient(180deg, rgba(10,6,2,1) 0%, rgba(10,6,2,0.88) 10%, rgba(10,6,2,0.78) 50%, rgba(10,6,2,0.88) 90%, rgba(10,6,2,1) 100%)',
         }}
       />
 

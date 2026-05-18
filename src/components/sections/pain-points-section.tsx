@@ -141,14 +141,14 @@ export function PainPointsSection() {
         priority={false}
         className="-z-20 object-cover opacity-40"
       />
-      {/* Тёмный overlay для читаемости текста — оставляет фото
-          ощутимо, но H1 и карточки контрастны. */}
+      {/* Тёмный overlay для читаемости текста + сплошной край сверху/снизу
+         для плавного шва с соседними dark-секциями. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'linear-gradient(180deg, rgba(10,6,2,0.78) 0%, rgba(10,6,2,0.88) 60%, rgba(10,6,2,0.94) 100%)',
+            'linear-gradient(180deg, rgba(10,6,2,1) 0%, rgba(10,6,2,0.88) 10%, rgba(10,6,2,0.78) 50%, rgba(10,6,2,0.92) 92%, rgba(10,6,2,1) 100%)',
         }}
       />
 
