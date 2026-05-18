@@ -105,14 +105,19 @@ function StepCard({ step, index, t, variant }: StepCardProps) {
     );
   }
 
-  /* Desktop variant — larger, vertical layout inside fixed-width slide */
+  /* Desktop variant — larger, vertical layout inside fixed-width slide.
+     overflow-hidden на внешнем wrapper'е критичен: без него гигантский
+     декоративный номер (180px) вылезает за карточку и накладывается на
+     соседние ячейки в reduced-motion grid fallback. */
   return (
-    <div className="flex h-full flex-col justify-center px-12 xl:px-16">
+    <div className="relative flex h-full flex-col justify-center overflow-hidden px-8 xl:px-16">
       <div className="relative max-w-md">
-        {/* Decorative big number behind */}
+        {/* Decorative big number behind. Опущен ниже, чуть мельче чем
+            был — чтобы descender'ы не задевали title и не вылезали из
+            ячейки в grid-fallback (1/4 ширины контейнера). */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -left-4 -top-12 select-none font-serif text-[180px] font-medium leading-none text-primary/[0.05] xl:text-[220px]"
+          className="pointer-events-none absolute -top-6 left-0 select-none font-serif text-[140px] font-medium leading-none text-primary/[0.05] xl:text-[180px]"
         >
           {num}
         </span>
