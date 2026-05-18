@@ -46,6 +46,10 @@ img/
 # SMM materials (local working folder)
 smm/
 
+# Screenshots & legacy snapshots (local-only)
+screens/
+old-version/
+
 # Archives
 *.zip
 *.tar.gz

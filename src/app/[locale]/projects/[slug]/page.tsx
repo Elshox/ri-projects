@@ -51,8 +51,9 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative h-[70vh] min-h-[480px] overflow-hidden">
+      {/* Hero — only render Image if heroImage is set; otherwise dark gradient bg */}
+      <section className="relative h-[70vh] min-h-[480px] overflow-hidden bg-bg-dark">
+        {project.heroImage && (
         <Image
           src={project.heroImage}
           alt={project.client}
@@ -63,6 +64,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           placeholder="blur"
           blurDataURL={BLUR}
         />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-bg-dark/30 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 container mx-auto max-w-7xl px-6 pb-12">
           <BreadcrumbNav

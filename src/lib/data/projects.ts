@@ -25,7 +25,8 @@ export type ProjectData = {
   country: string;
   year: number;
   area: number; // m²
-  heroImage: string;
+  /** Optional. PageHero falls back to beige bg if absent. */
+  heroImage?: string;
   galleryImages: string[];
   client: string;
   clientLogo?: string;
@@ -45,7 +46,6 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2023,
     area: 18500,
-    heroImage: '/images/projects/hilton-tashkent.jpg',
     galleryImages: [
       '/images/projects/hilton-tashkent-01.jpg',
       '/images/projects/hilton-tashkent-02.jpg',
@@ -76,7 +76,6 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2023,
     area: 12000,
-    heroImage: '/images/projects/radisson-samarkand.jpg',
     galleryImages: [
       '/images/projects/radisson-samarkand-01.jpg',
       '/images/projects/radisson-samarkand-02.jpg',
@@ -105,7 +104,6 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2022,
     area: 22000,
-    heroImage: '/images/projects/hyatt-regency.jpg',
     galleryImages: [
       '/images/projects/hyatt-regency-01.jpg',
       '/images/projects/hyatt-regency-02.jpg',
@@ -134,7 +132,6 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Казахстан',
     year: 2022,
     area: 15000,
-    heroImage: '/images/projects/marriott-almaty.jpg',
     galleryImages: [
       '/images/projects/marriott-almaty-01.jpg',
       '/images/projects/marriott-almaty-02.jpg',
@@ -160,7 +157,6 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2024,
     area: 8500,
-    heroImage: '/images/projects/business-center-tashkent.jpg',
     galleryImages: [
       '/images/projects/bc-tashkent-01.jpg',
       '/images/projects/bc-tashkent-02.jpg',
@@ -185,7 +181,6 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2024,
     area: 45000,
-    heroImage: '/images/projects/residential-tashkent-city.jpg',
     galleryImages: [
       '/images/projects/residential-01.jpg',
       '/images/projects/residential-02.jpg',
@@ -210,7 +205,6 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2023,
     area: 3200,
-    heroImage: '/images/projects/clinic-tashkent.jpg',
     galleryImages: ['/images/projects/clinic-01.jpg'],
     client: 'MedPlus Clinic',
     services: ['turnkey', 'ffe', 'certification'],
@@ -232,7 +226,6 @@ export const PROJECTS: readonly ProjectData[] = [
     country: 'Узбекистан',
     year: 2024,
     area: 6800,
-    heroImage: '/images/projects/school-tashkent.jpg',
     galleryImages: ['/images/projects/school-01.jpg', '/images/projects/school-02.jpg'],
     client: 'Tashkent International School',
     services: ['turnkey', 'ffe'],

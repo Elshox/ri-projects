@@ -60,17 +60,19 @@ export default async function SectorsPage({ params }: Props) {
                     href={`/${locale}/sectors/${sector.slug}`}
                     className="group relative overflow-hidden rounded-lg"
                   >
-                    <div className="relative aspect-[3/4]">
-                      <Image
-                        src={sector.heroImage}
-                        alt={name}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        style={{ transitionTimingFunction: 'cubic-bezier(0.16,1,0.3,1)' }}
-                        placeholder="blur"
-                        blurDataURL={BLUR}
-                      />
+                    <div className="relative aspect-[3/4] bg-bg-dark">
+                      {sector.heroImage && (
+                        <Image
+                          src={sector.heroImage}
+                          alt={name}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          style={{ transitionTimingFunction: 'cubic-bezier(0.16,1,0.3,1)' }}
+                          placeholder="blur"
+                          blurDataURL={BLUR}
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/85 via-bg-dark/30 to-transparent" />
                       <div className="absolute inset-x-0 bottom-0 p-5">
                         <h2 className="mb-1 font-sans text-base font-semibold text-white">

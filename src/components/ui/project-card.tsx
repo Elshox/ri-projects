@@ -21,18 +21,20 @@ export function ProjectCard({ project, locale, viewLabel, priority = false }: Pr
         className="absolute inset-0 z-10"
         aria-label={`${viewLabel}: ${project.slug}`}
       />
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={project.heroImage}
-          alt={project.client}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          style={{ transitionTimingFunction: 'cubic-bezier(0.16,1,0.3,1)' }}
-          placeholder="blur"
-          blurDataURL={BLUR}
-          priority={priority}
-        />
+      <div className="relative aspect-[4/3] overflow-hidden bg-bg-soft">
+        {project.heroImage && (
+          <Image
+            src={project.heroImage}
+            alt={project.client}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            style={{ transitionTimingFunction: 'cubic-bezier(0.16,1,0.3,1)' }}
+            placeholder="blur"
+            blurDataURL={BLUR}
+            priority={priority}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/60 to-transparent" />
         <div className="absolute bottom-3 left-3 flex items-center gap-2 text-xs text-white/80">
           <span>{project.city}</span>

@@ -21,7 +21,8 @@ export type SectorSupplyItem = {
 
 export type SectorData = {
   slug: SectorSlug;
-  heroImage: string;
+  /** Optional. PageHero falls back to beige bg if absent. */
+  heroImage?: string;
   priority: number;
   features: SectorFeature[];
   supply: SectorSupplyItem[];
@@ -134,7 +135,6 @@ export const SECTORS: readonly SectorData[] = [
   },
   {
     slug: 'retail',
-    heroImage: '/images/sectors/retail.jpg',
     priority: 7,
     features: [
       { icon: 'ShoppingCart', title: 'Торговое оборудование', desc: 'Стеллажи, витрины, прилавки — под любой формат ритейла.' },

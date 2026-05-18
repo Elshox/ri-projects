@@ -14,7 +14,8 @@ export type FAQItem = {
 export type ServiceData = {
   slug: ServiceSlug;
   icon: string;
-  heroImage: string;
+  /** Optional. PageHero shows beige bg if absent. */
+  heroImage?: string;
   color: string;
   includes: IncludedItem[];
   faq: FAQItem[];
@@ -25,7 +26,6 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'turnkey',
     icon: 'Boxes',
-    heroImage: '/images/services/turnkey.jpg',
     color: '#0077C8',
     includes: [
       { icon: 'FileSearch', title: 'Аудит и бриф', desc: 'Изучаем объект, площадь, концепцию и бюджет. Подписываем NDA.' },
@@ -46,7 +46,6 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'ffe',
     icon: 'Armchair',
-    heroImage: '/images/services/ffe.jpg',
     color: '#B4683C',
     includes: [
       { icon: 'Armchair', title: 'Мебель', desc: 'Диваны, кресла, кровати, столы, стулья — любые категории из Европы, Турции, Китая.' },
@@ -66,7 +65,6 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'ose',
     icon: 'Package',
-    heroImage: '/images/services/ose.jpg',
     color: '#0077C8',
     includes: [
       { icon: 'UtensilsCrossed', title: 'Кухонный инвентарь', desc: 'Фарфор, стекло, столовые приборы, поварские инструменты.' },
@@ -86,7 +84,6 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'logistics',
     icon: 'Truck',
-    heroImage: '/images/services/logistics.jpg',
     color: '#B4683C',
     includes: [
       { icon: 'Container', title: 'Консолидация', desc: 'Объединяем грузы от разных поставщиков на нашем складе для экономии на фрахте.' },
@@ -106,7 +103,6 @@ export const SERVICES: readonly ServiceData[] = [
   {
     slug: 'certification',
     icon: 'ShieldCheck',
-    heroImage: '/images/services/certification.jpg',
     color: '#0077C8',
     includes: [
       { icon: 'FileCheck', title: 'Сертификат соответствия', desc: 'Оформляем сертификаты ГОСТ Р, ТР ЕАЭС для мебели, текстиля, оборудования.' },

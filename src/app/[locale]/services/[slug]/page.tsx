@@ -101,16 +101,18 @@ export default async function ServiceDetailPage({ params }: Props) {
               {t('featured_case_title')}
             </h2>
             <div className="grid overflow-hidden rounded-xl shadow-card md:grid-cols-2">
-              <div className="relative aspect-[4/3] md:aspect-auto">
-                <Image
-                  src={relatedProject.heroImage}
-                  alt={relatedProject.client}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  placeholder="blur"
-                  blurDataURL={BLUR}
-                />
+              <div className="relative aspect-[4/3] bg-bg-dark md:aspect-auto">
+                {relatedProject.heroImage && (
+                  <Image
+                    src={relatedProject.heroImage}
+                    alt={relatedProject.client}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    placeholder="blur"
+                    blurDataURL={BLUR}
+                  />
+                )}
               </div>
               <div className="flex flex-col justify-center bg-white p-8 lg:p-12">
                 <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-widest text-accent">
