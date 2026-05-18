@@ -1,5 +1,8 @@
 [build]
-  command = "npm run build"
+  # Диагностика: печатаем pwd + содержимое корня и src/ перед build.
+  # Если src/app виден — проблема в Next.js / плагине, если нет —
+  # в чекауте/base-directory.
+  command = "echo '=== PWD ===' && pwd && echo '=== ROOT ===' && ls -la && echo '=== SRC ===' && ls -la src/ && echo '=== SRC/APP ===' && ls -la src/app/ && echo '=== BUILD ===' && npm run build"
   publish = ".next"
 
 [build.environment]
