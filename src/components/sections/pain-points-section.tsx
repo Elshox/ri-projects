@@ -129,11 +129,7 @@ export function PainPointsSection() {
     <section
       id="pains"
       aria-labelledby="pains-heading"
-      className={cn(
-        'relative isolate overflow-hidden bg-bg-dark section-padding',
-        /* Sticky-stack: поднимается над Hero (z-10) при скролле. */
-        'lg:sticky lg:top-0 lg:z-[15] lg:min-h-screen',
-      )}
+      className="relative isolate overflow-hidden bg-bg-dark section-padding"
     >
       {/* Релевантный bg: пыльный недостроенный объект — визуально
           подкрепляет нарратив «вот что бывает без системы». */}

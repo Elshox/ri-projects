@@ -172,76 +172,82 @@ export function HeroSection({
   const showVideo = !reduce;
 
   return (
-    <section
-      aria-label={t('eyebrow')}
-      /* Sticky на lg+ — секция фиксируется в viewport, пока вышестоящий
-         поток скролла не дошёл до её естественного низа. PainPoints
-         (z-[11]) и далее каждая следующая секция «поднимается» поверх
-         с растущим z-индексом. На мобильных — обычный поток. */
-      className={cn(
-        'relative isolate flex min-h-[90vh] items-end overflow-hidden bg-bg-dark text-white',
-        'lg:sticky lg:top-0 lg:z-[10] lg:h-screen lg:min-h-screen',
-      )}
-    >
-      {/* Слой 1: постер (LCP-приоритет, поверх dark bg) */}
-      <Image
-        src={posterSrc}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="-z-30 object-cover"
-        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-      />
+    <>
+      {/* Pinned background — video/poster/gradient/grain в fixed-слое.
+         Остаётся в viewport, пока HomePage смонтирована. Следующие секции
+         (PainPoints и далее) opaque, поднимаются естественно поверх. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-bg-dark"
+      >
+        {/* Слой 1: постер (LCP-приоритет) */}
+        <Image
+          src={posterSrc}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+        />
 
-      {/* Слой 2: видео — на всех экранах, кроме reduced-motion */}
-      {showVideo && (
-        <motion.video
-          ref={videoRef}
-          key="hero-video"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: videoLoaded ? 1 : 0 }}
-          transition={{ duration: 1.2, ease: easing.smooth }}
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={posterSrc}
+        {/* Слой 2: видео — на всех экранах, кроме reduced-motion */}
+        {showVideo && (
+          <motion.video
+            ref={videoRef}
+            key="hero-video"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: videoLoaded ? 1 : 0 }}
+            transition={{ duration: 1.2, ease: easing.smooth }}
+            className="absolute inset-0 h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={posterSrc}
+            aria-hidden
+            onCanPlayThrough={() => setVideoLoaded(true)}
+            style={{ willChange: 'opacity' }}
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </motion.video>
+        )}
+
+        {/* Слой 3: градиент 35% (spec) */}
+        <div
           aria-hidden
-          onCanPlayThrough={() => setVideoLoaded(true)}
-          style={{ willChange: 'opacity' }}
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </motion.video>
-      )}
+          className="absolute inset-0"
+          style={{
+            background: [
+              'linear-gradient(180deg,',
+              '  rgba(0,0,0,0.30) 0%,',
+              '  rgba(10,6,2,0.42) 40%,',
+              '  rgba(10,6,2,0.70) 80%,',
+              '  rgba(10,6,2,0.82) 100%',
+              ')',
+            ].join(''),
+          }}
+        />
 
-      {/* Слой 3: градиент 35% (spec) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background: [
-            'linear-gradient(180deg,',
-            '  rgba(0,0,0,0.30) 0%,',
-            '  rgba(10,6,2,0.42) 40%,',
-            '  rgba(10,6,2,0.70) 80%,',
-            '  rgba(10,6,2,0.82) 100%',
-            ')',
-          ].join(''),
-        }}
-      />
+        {/* Слой 4: grain-шум */}
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: '256px 256px',
+          }}
+        />
+      </div>
 
-      {/* Слой 4: тонкий grain-шум для premium-текстуры */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.035]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          backgroundSize: '256px 256px',
-        }}
-      />
+      {/* Hero content — нормальный поток, занимает 1 viewport-height.
+         Скроллится естественно: текст уходит вверх, фиксированный
+         бэкграунд (выше) остаётся, следующая секция поднимается поверх. */}
+      <section
+        aria-label={t('eyebrow')}
+        className="relative flex min-h-[90vh] items-end overflow-hidden text-white lg:min-h-screen"
+      >
 
       {/* ── Контент ──────────────────────────────────────────── */}
       <div className="container mx-auto pb-20 pt-28 sm:pb-24 sm:pt-32">
@@ -353,6 +359,7 @@ export function HeroSection({
 
       {/* ── Down-arrow ──────────────────────────────────────── */}
       <ScrollArrow label={t('scroll_hint')} />
-    </section>
+      </section>
+    </>
   );
 }

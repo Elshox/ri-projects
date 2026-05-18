@@ -193,11 +193,7 @@ export function SectorsGrid() {
     <section
       id="sectors"
       aria-labelledby="sectors-heading"
-      className={cn(
-        'relative isolate overflow-hidden bg-bg-soft section-padding',
-        /* Sticky-stack: поднимается над Services (z-20). */
-        'lg:sticky lg:top-0 lg:z-[25] lg:min-h-screen',
-      )}
+      className="relative isolate overflow-hidden bg-bg-soft section-padding"
     >
       <div className="container mx-auto">
 

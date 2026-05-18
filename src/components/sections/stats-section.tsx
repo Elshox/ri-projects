@@ -120,11 +120,7 @@ export function StatsSection() {
   return (
     <section
       aria-labelledby="stats-heading"
-      className={cn(
-        'relative isolate overflow-hidden bg-bg-dark section-padding',
-        /* Sticky-stack: поднимается над Sectors (z-25). */
-        'lg:sticky lg:top-0 lg:z-[30] lg:min-h-screen',
-      )}
+      className="relative isolate overflow-hidden bg-bg-dark section-padding"
     >
       {/* Фон секции — модернистская офисная архитектура */}
       <Image
