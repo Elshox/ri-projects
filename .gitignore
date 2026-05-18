@@ -58,3 +58,6 @@ old-version/
 public/sitemap.xml
 public/sitemap-*.xml
 public/robots.txt
+
+# Локальные deploy-архивы (build-output zip)
+dist/

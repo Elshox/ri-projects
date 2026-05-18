@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Next.js 14 не поддерживает Node 22; пользуем 20 LTS.
+  NODE_VERSION = "20"
+  # Глушим лишние логи npm в CI.
+  NPM_FLAGS = "--no-audit --no-fund"
+  # Включаем next-intl SSR-кэш в продакшене.
+  NODE_ENV = "production"
+
+# Официальный Next.js-плагин Netlify: SSR, ISR, middleware,
+# image optimization. Без него .next/ публикуется как статика
+# и динамические роуты (например /api/lead) не работают.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
