@@ -1,10 +1,17 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import { motion, useInView, useReducedMotion, type Variants } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+
+/* Релевантный фон секции — упорядоченные ряды на складе/в шоуруме.
+   Подкрепляет нарратив «у нас 200+ проверенных партнёров».
+   Очень subtle (8% opacity), чтобы логотипы оставались главными. */
+const BG_PHOTO =
+  'https://images.unsplash.com/photo-1553413077-190dd305871c?w=2400&q=80&auto=format';
 
 /* ── Partner data ─────────────────────────────────────────────
  *  Manufacturers: PNG логотипы реальных поставщиков из img/suppliers,
@@ -176,8 +183,24 @@ export function PartnersMarquee() {
 
       <section
         aria-labelledby="partners-eyebrow"
-        className="bg-background section-padding overflow-hidden"
+        className="relative isolate bg-background section-padding overflow-hidden"
       >
+        <Image
+          src={BG_PHOTO}
+          alt=""
+          fill
+          sizes="100vw"
+          className="-z-20 object-cover opacity-[0.08]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.94) 100%)',
+          }}
+        />
+
         <div className="container mx-auto" ref={ref}>
           {/* Eyebrow */}
           <motion.p

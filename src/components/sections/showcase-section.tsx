@@ -16,6 +16,12 @@ import { Link } from '@/i18n/routing';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
 
+/* Релевантный фон секции — приглушённая галерейная сцена.
+   Тёмная база заставляет фото проектов в карточках работать
+   максимально ярко (white-on-dark contrast). */
+const BG_PHOTO =
+  'https://images.unsplash.com/photo-1525909002-1b05e0c869d8?w=2400&q=80&auto=format';
+
 /* ── Types ── */
 type Project = {
   slug: string;
@@ -341,9 +347,25 @@ export function ShowcaseSection() {
     <section
       id="showcase"
       aria-labelledby="showcase-heading"
-      className="bg-background section-padding"
+      className="relative isolate overflow-hidden bg-bg-dark section-padding"
       onMouseMove={handleMouseMove}
     >
+      {/* Тёмный фон-галерея — заставляет проектные карточки светиться. */}
+      <Image
+        src={BG_PHOTO}
+        alt=""
+        fill
+        sizes="100vw"
+        className="-z-20 object-cover opacity-30"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(10,6,2,0.82) 0%, rgba(10,6,2,0.92) 100%)',
+        }}
+      />
       {/* Custom cursor — rendered at document root level via fixed position */}
       <CustomCursor
         label={t('cursor_label')}
@@ -362,16 +384,16 @@ export function ShowcaseSection() {
           transition={{ duration: 0.65, ease: easing.smooth }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
+          <p className="text-warm-light text-[11px] font-semibold uppercase tracking-[0.28em]">
             {t('eyebrow')}
           </p>
           <h2
             id="showcase-heading"
-            className="mt-3 font-sans text-h2-m font-semibold text-primary lg:text-h2-d"
+            className="mt-3 font-sans text-h2-m font-semibold text-white lg:text-h2-d"
           >
             {t('title')}
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted lg:text-[17px]">
+          <p className="mt-4 text-[16px] leading-relaxed text-white/70 lg:text-[17px]">
             {t('subtitle')}
           </p>
         </motion.div>
@@ -462,9 +484,9 @@ export function ShowcaseSection() {
             href="/projects"
             className={cn(
               'group inline-flex items-center gap-2',
-              'text-[15px] font-semibold text-primary',
-              'transition-colors duration-200 hover:text-accent',
-              'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent',
+              'text-[15px] font-semibold text-white',
+              'transition-colors duration-200 hover:text-warm-light',
+              'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white',
             )}
           >
             {t('view_all')}
