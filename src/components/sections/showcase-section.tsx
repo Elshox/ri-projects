@@ -435,7 +435,11 @@ export function ShowcaseSection() {
           initial="hidden"
           animate={gridInView || reduce ? 'visible' : 'hidden'}
           variants={gridVariants}
-          className="mt-12 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:grid-rows-2 lg:auto-rows-[290px] lg:gap-5"
+          /* grid-rows-[290px_290px] вместо grid-rows-2 — даёт каждой
+             строке явную высоту 290px. С `grid-rows-2` строки были
+             1fr × 0 = 0px (контейнер пустой по высоте, картинки fill),
+             editorial-карточки коллапсировали в тонкую полоску над belt. */
+          className="mt-12 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:grid-rows-[290px_290px] lg:gap-5"
         >
           {/* Main card — 2/3 + full height */}
           {main && (
