@@ -121,6 +121,7 @@
       "title": "Four transparent stages",
       "subtitle": "From brief to handover — no black boxes, no surprises.",
       "step_of": "Step {current} of {total}",
+      "scroll_hint": "Swipe to explore",
       "steps": {
         "analysis": {
           "title": "Brief & analysis",
