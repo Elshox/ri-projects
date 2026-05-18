@@ -169,6 +169,14 @@
       "contact_call": "Call us",
       "or_divider": "or reach us directly"
     },
+    "story": {
+      "eyebrow": "First-hand",
+      "headline": "A great project isn't “luck”.",
+      "subline": "It's a system. And this system came out of a specific mistake on a restaurant project years ago — and the late-evening call from the client that made the cost of it obvious.",
+      "highlight": "Most people see the consequences. We see the cause.",
+      "cta": "Read the full story",
+      "image_alt": "Premium restaurant interior"
+    },
     "pains": {
       "eyebrow": "What we solve",
       "title": "The pain points of project procurement",

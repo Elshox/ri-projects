@@ -13,6 +13,9 @@ const SectorsGrid = dynamic(() =>
 const StatsSection = dynamic(() =>
   import('@/components/sections/stats-section').then((m) => m.StatsSection),
 );
+const StoryTeaserSection = dynamic(() =>
+  import('@/components/sections/story-teaser-section').then((m) => m.StoryTeaserSection),
+);
 const ShowcaseSection = dynamic(() =>
   import('@/components/sections/showcase-section').then((m) => m.ShowcaseSection),
 );
@@ -44,6 +47,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <ServicesSection />
       <SectorsGrid />
       <StatsSection />
+      <StoryTeaserSection />
       <ShowcaseSection />
       <PartnersMarquee />
       <ProcessTimeline />
