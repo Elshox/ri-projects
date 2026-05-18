@@ -65,7 +65,7 @@ export function Footer() {
                 icon={Phone}
                 label={t('footer.columns.contacts.phone_label')}
                 value={t('footer.columns.contacts.phone')}
-                href={`tel:${t('footer.columns.contacts.phone').replace(/\s+/g, '')}`}
+                href={`tel:${t('footer.columns.contacts.phone').replace(/[^\d+]/g, '')}`}
               />
               <ContactItem
                 icon={Mail}

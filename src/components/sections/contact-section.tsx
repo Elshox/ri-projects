@@ -1,39 +1,23 @@
 'use client';
 
-import { useId, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { IMaskInput } from 'react-imask';
-import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import {
-  Loader2,
-  ArrowRight,
-  MapPin,
-  PhoneCall,
-  Mail,
-  Clock,
-  CheckCircle2,
-} from 'lucide-react';
+import { motion, useReducedMotion } from 'motion/react';
+import { ArrowRight, PhoneCall } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+import { BitrixForm } from '@/components/integrations/bitrix-form';
 
-/* ── Validation schema (client-side; consent required here) ── */
-const schema = z.object({
-  name:    z.string().min(2, '≥ 2 символа'),
-  company: z.string().optional(),
-  phone:   z.string().min(7, 'Введите корректный телефон'),
-  email:   z.string().email('Введите корректный email'),
-  message: z.string().optional(),
-  consent: z.literal(true, { errorMap: () => ({ message: 'Необходимо согласие' }) }),
-});
+/* ─────────────────────────────────────────────────────────────
+ *  ContactSection — финальный CTA-блок на главной и /about.
+ *
+ *  Слева: Bitrix24-форма (CRM пишет лиды напрямую в воронку).
+ *  Справа: 3 быстрых способа связи (Telegram, WhatsApp, телефон).
+ *
+ *  Полный блок с адресом/телефоном/email/часами раньше дублировался
+ *  с футером — удалён по запросу: каноничный источник = footer.
+ * ───────────────────────────────────────────────────────────── */
 
-type FormData = z.infer<typeof schema>;
-
-type Status = 'idle' | 'submitting' | 'success' | 'error';
-
-/* ── Inline SVG brand icons ── */
+/* ── Inline SVG brand icons (нет в lucide) ── */
 function TelegramIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
@@ -50,329 +34,13 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-/* ── Shared input class factory ── */
-const inputCls = (error: boolean) =>
-  cn(
-    'w-full rounded-sm border px-4 py-3',
-    'bg-white/[0.06] text-[15px] text-white',
-    'placeholder:text-white/25',
-    'outline-none transition-colors duration-200',
-    error
-      ? 'border-red-400/50 focus:border-red-400/80'
-      : 'border-white/15 hover:border-white/28 focus:border-accent/60',
-  );
-
-/* ── Field wrapper ── */
-type FieldProps = {
-  label: string;
-  error?: string;
-  required?: boolean;
-  children: React.ReactNode;
-};
-
-function Field({ label, error, required, children }: FieldProps) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-[13px] font-medium text-white/55">
-        {label}
-        {required && <span className="ml-0.5 text-accent/70"> *</span>}
-      </label>
-      {children}
-      <AnimatePresence>
-        {error && (
-          <motion.p
-            key="error"
-            role="alert"
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.2 }}
-            className="text-[12px] text-red-400"
-          >
-            {error}
-          </motion.p>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-/* ── Custom checkbox ── */
-type ConsentProps = {
-  label: string;
-  error?: string;
-  checked: boolean;
-  onChange: (v: boolean) => void;
-  onBlur: () => void;
-};
-
-function ConsentField({ label, error, checked, onChange, onBlur }: ConsentProps) {
-  const id = useId();
-  return (
-    <div>
-      <div className="flex items-start gap-3">
-        <div className="relative mt-0.5 flex-shrink-0">
-          <input
-            type="checkbox"
-            id={id}
-            checked={checked}
-            onChange={(e) => onChange(e.target.checked)}
-            onBlur={onBlur}
-            className={cn(
-              'peer h-4 w-4 cursor-pointer appearance-none rounded-sm',
-              'border bg-white/[0.06]',
-              'checked:border-accent checked:bg-accent',
-              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
-              'transition-colors duration-150',
-              error ? 'border-red-400/50' : 'border-white/25',
-            )}
-          />
-          {/* Checkmark SVG */}
-          <svg
-            viewBox="0 0 10 8"
-            fill="none"
-            aria-hidden
-            className="pointer-events-none absolute inset-0 m-auto h-2.5 w-2.5 text-white opacity-0 transition-opacity peer-checked:opacity-100"
-          >
-            <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
-        <label htmlFor={id} className="cursor-pointer text-[13px] leading-relaxed text-white/50">
-          {label}
-        </label>
-      </div>
-      <AnimatePresence>
-        {error && (
-          <motion.p
-            role="alert"
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="mt-1.5 text-[12px] text-red-400"
-          >
-            {error}
-          </motion.p>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-/* ── ContactForm ── */
-function ContactForm() {
-  const t = useTranslations('home.cta');
-  const reduce = useReducedMotion();
-  const [status, setStatus] = useState<Status>('idle');
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-    reset,
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
-  });
-
-  const onSubmit = async (data: FormData) => {
-    setStatus('submitting');
-    try {
-      const res = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: data.name,
-          company: data.company ?? '',
-          phone: data.phone,
-          email: data.email,
-          message: data.message ?? '',
-          type: 'contact',
-        }),
-      });
-      const json = (await res.json()) as { ok: boolean };
-      if (json.ok) {
-        setStatus('success');
-        reset();
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
-    }
-  };
-
-  const onError = () => {
-    /* Scroll to first error — handled by browser focus management */
-  };
-
-  return (
-    <div className="relative min-h-[480px]">
-      <AnimatePresence mode="wait">
-        {status === 'success' ? (
-          /* ── Thank-you state ── */
-          <motion.div
-            key="success"
-            initial={reduce ? false : { opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.45, ease: easing.smooth }}
-            className="flex h-full flex-col items-center justify-center gap-5 py-20 text-center"
-          >
-            <CheckCircle2 className="h-12 w-12 text-accent" strokeWidth={1.5} />
-            <div>
-              <p className="font-serif text-[28px] font-medium text-white">
-                {t('form_success_title')}
-              </p>
-              <p className="mt-2 text-[15px] leading-relaxed text-white/60">
-                {t('form_success')}
-              </p>
-            </div>
-            <button
-              onClick={() => setStatus('idle')}
-              className="mt-2 text-[13px] font-medium text-white/40 underline underline-offset-4 hover:text-white/70 transition-colors"
-            >
-              {/* "Send another request" — implicit via clicking */}
-              ← Отправить ещё
-            </button>
-          </motion.div>
-        ) : (
-          /* ── Form state ── */
-          <motion.form
-            key="form"
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduce ? undefined : { opacity: 0, y: -10 }}
-            transition={{ duration: 0.3, ease: easing.snappy }}
-            onSubmit={handleSubmit(onSubmit, onError)}
-            noValidate
-            className="flex flex-col gap-4"
-          >
-            {/* Row: Name + Company */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field label={t('form_name')} error={errors.name?.message} required>
-                <input
-                  type="text"
-                  autoComplete="name"
-                  placeholder="Иван Иванов"
-                  {...register('name')}
-                  className={inputCls(!!errors.name)}
-                />
-              </Field>
-              <Field label={t('form_company')} error={errors.company?.message}>
-                <input
-                  type="text"
-                  autoComplete="organization"
-                  placeholder="ООО Ромашка"
-                  {...register('company')}
-                  className={inputCls(!!errors.company)}
-                />
-              </Field>
-            </div>
-
-            {/* Row: Phone + Email */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field label={t('form_phone')} error={errors.phone?.message} required>
-                <Controller
-                  name="phone"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <IMaskInput
-                      mask="+0000000000000"
-                      value={field.value}
-                      onAccept={(value: string) => field.onChange(value)}
-                      onBlur={field.onBlur}
-                      inputRef={field.ref as React.Ref<HTMLInputElement>}
-                      type="tel"
-                      autoComplete="tel"
-                      placeholder="+998 71 200 00 00"
-                      className={inputCls(!!errors.phone)}
-                    />
-                  )}
-                />
-              </Field>
-              <Field label={t('form_email')} error={errors.email?.message} required>
-                <input
-                  type="email"
-                  autoComplete="email"
-                  placeholder="name@company.com"
-                  {...register('email')}
-                  className={inputCls(!!errors.email)}
-                />
-              </Field>
-            </div>
-
-            {/* Message */}
-            <Field label={t('form_message')} error={errors.message?.message}>
-              <textarea
-                rows={4}
-                placeholder="Объём, тип объекта, бюджет…"
-                {...register('message')}
-                className={cn(inputCls(!!errors.message), 'resize-none')}
-              />
-            </Field>
-
-            {/* Consent */}
-            <Controller
-              name="consent"
-              control={control}
-              defaultValue={false as unknown as true}
-              render={({ field }) => (
-                <ConsentField
-                  label={t('form_consent')}
-                  error={errors.consent?.message}
-                  checked={!!field.value}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                />
-              )}
-            />
-
-            {/* Error banner */}
-            {status === 'error' && (
-              <p role="alert" className="rounded-sm border border-red-400/30 bg-red-400/10 px-4 py-3 text-[13px] text-red-300">
-                {t('form_error')}
-              </p>
-            )}
-
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={status === 'submitting'}
-              className={cn(
-                'mt-2 inline-flex items-center justify-center gap-2 rounded-sm',
-                'bg-accent px-8 py-3.5 text-[14px] font-semibold text-white',
-                'transition-opacity duration-200',
-                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
-                status === 'submitting' ? 'cursor-not-allowed opacity-70' : 'hover:opacity-90',
-              )}
-            >
-              {status === 'submitting' ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-                  {t('form_loading')}
-                </>
-              ) : (
-                <>
-                  {t('form_submit')}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </>
-              )}
-            </button>
-          </motion.form>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-/* ── ContactInfo (right column) ── */
-function ContactInfo() {
+/* ── Quick-contact links (правая колонка) ── */
+function QuickContacts() {
   const t = useTranslations('home.cta');
   const ft = useTranslations('footer.columns.contacts');
+
+  /* tel-ссылка из footer-значения, чищены все символы кроме цифр и + */
+  const telDigits = ft('phone').replace(/[^\d+]/g, '');
 
   const quickLinks = [
     {
@@ -382,73 +50,41 @@ function ContactInfo() {
     },
     {
       label: t('contact_whatsapp'),
-      href: 'https://wa.me/998712000000',
+      href: `https://wa.me/${telDigits.replace(/^\+/, '')}`,
       Icon: WhatsAppIcon,
     },
     {
       label: t('contact_call'),
-      href: `tel:${ft('phone').replace(/\s/g, '')}`,
-      Icon: ({ className }: { className?: string }) => <PhoneCall className={className} aria-hidden />,
+      href: `tel:${telDigits}`,
+      Icon: ({ className }: { className?: string }) => (
+        <PhoneCall className={className} aria-hidden />
+      ),
     },
   ];
 
-  const details = [
-    { Icon: MapPin,    labelKey: 'address_label', valueKey: 'address'  },
-    { Icon: PhoneCall, labelKey: 'phone_label',   valueKey: 'phone'    },
-    { Icon: Mail,      labelKey: 'email_label',   valueKey: 'email'    },
-    { Icon: Clock,     labelKey: 'hours_label',   valueKey: 'hours'    },
-  ] as const;
-
   return (
-    <div className="flex flex-col gap-8">
-      {/* Quick contact CTAs */}
-      <div className="flex flex-col gap-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/40">
-          {t('or_divider')}
-        </p>
-        {quickLinks.map(({ label, href, Icon }) => (
-          <a
-            key={href}
-            href={href}
-            target={href.startsWith('http') ? '_blank' : undefined}
-            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-            className={cn(
-              'flex items-center gap-3 rounded-sm border border-white/15 bg-white/[0.04]',
-              'px-5 py-3.5 text-white/75',
-              'transition-colors duration-200 hover:border-white/30 hover:text-white',
-              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
-            )}
-          >
-            <Icon className="h-[18px] w-[18px] flex-shrink-0" />
-            <span className="text-[14px] font-medium">{label}</span>
-            <ArrowRight className="ml-auto h-3.5 w-3.5 text-white/30" aria-hidden />
-          </a>
-        ))}
-      </div>
-
-      {/* Divider */}
-      <div className="flex items-center gap-3" aria-hidden>
-        <span className="h-px flex-1 bg-white/[0.08]" />
-        <span className="h-1.5 w-1.5 rounded-full bg-warm/50" />
-        <span className="h-px flex-1 bg-white/[0.08]" />
-      </div>
-
-      {/* Contact details */}
-      <div className="flex flex-col gap-5">
-        {details.map(({ Icon, labelKey, valueKey }) => (
-          <div key={valueKey} className="flex items-start gap-3">
-            <Icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-warm-light" aria-hidden />
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/35">
-                {ft(labelKey)}
-              </p>
-              <p className="mt-0.5 text-[14px] text-white/70">
-                {ft(valueKey)}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-col gap-3">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/40">
+        {t('or_divider')}
+      </p>
+      {quickLinks.map(({ label, href, Icon }) => (
+        <a
+          key={href}
+          href={href}
+          target={href.startsWith('http') ? '_blank' : undefined}
+          rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          className={cn(
+            'flex items-center gap-3 rounded-sm border border-white/15 bg-white/[0.04]',
+            'px-5 py-3.5 text-white/75',
+            'transition-colors duration-200 hover:border-white/30 hover:text-white',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+          )}
+        >
+          <Icon className="h-[18px] w-[18px] flex-shrink-0" />
+          <span className="text-[14px] font-medium">{label}</span>
+          <ArrowRight className="ml-auto h-3.5 w-3.5 text-white/30" aria-hidden />
+        </a>
+      ))}
     </div>
   );
 }
@@ -488,23 +124,26 @@ export function ContactSection() {
           </p>
         </motion.div>
 
-        {/* Two-column grid
-            Desktop: form (left) | contact info (right)
-            Mobile:  contact info (top) | form (bottom)
-        */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Form — order-2 on mobile, col 1 on desktop */}
+        {/* Two-column grid:
+            Desktop: Bitrix form (left, 2/3) | quick links (right, 1/3)
+            Mobile:  quick links (top) | Bitrix form (bottom) */}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-16">
+          {/* Bitrix form */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={reduce ? { duration: 0 } : { duration: 0.7, ease: easing.smooth, delay: 0.15 }}
-            className="order-2 lg:order-1"
+            className="order-2 lg:order-1 lg:col-span-2"
           >
-            <ContactForm />
+            <BitrixForm
+              loaderUrl="https://cdn-ru.bitrix24.kz/b34929334/crm/form/loader_18.js"
+              formPath="inline/18/fsiz0a"
+              className="min-h-[480px]"
+            />
           </motion.div>
 
-          {/* Contact info — order-1 on mobile, col 2 on desktop */}
+          {/* Quick contacts */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -512,7 +151,7 @@ export function ContactSection() {
             transition={reduce ? { duration: 0 } : { duration: 0.7, ease: easing.smooth, delay: 0.3 }}
             className="order-1 lg:order-2"
           >
-            <ContactInfo />
+            <QuickContacts />
           </motion.div>
         </div>
       </div>

@@ -9,10 +9,6 @@ import {
   Truck,
   ShieldCheck,
   ArrowRight,
-  Lamp,
-  Sofa,
-  ShowerHead,
-  UtensilsCrossed,
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -21,10 +17,12 @@ import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
 
 /* ─────────────────────────────────────────────────────────────
- *  Данные карточек (иконки + slug согласно CLAUDE.md §7)
- *  ffe / ose помечены `hasAlias: true` — для них рендерим plain-
- *  расшифровку и декоративные иконки в фон карточки (по фидбеку
- *  колеги 2 — FF&E/OS&E «спрятаны за аббревиатурами»).
+ *  Данные карточек (иконки + slug согласно CLAUDE.md §7).
+ *  ffe / ose помечены `hasAlias: true` — для них под H3 рендерится
+ *  расшифровка-чип (фидбек колеги 2: FF&E/OS&E «спрятаны за
+ *  аббревиатурами»). Декоративные bg-иконки удалены: они имели
+ *  разный визуальный вес (Sofa/Lamp жирные, ShowerHead/Utensils
+ *  тонкие) и отвлекали от текста.
  * ───────────────────────────────────────────────────────────── */
 type ServiceSlug = 'turnkey' | 'ffe' | 'ose' | 'logistics' | 'certification';
 
@@ -32,14 +30,12 @@ type ServiceMeta = {
   slug: ServiceSlug;
   Icon: LucideIcon;
   hasAlias?: boolean;
-  /** 2 декоративные иконки, рендерятся очень бледно в правом верхнем углу. */
-  bgIcons?: readonly [LucideIcon, LucideIcon];
 };
 
 const SERVICES: readonly ServiceMeta[] = [
   { slug: 'turnkey', Icon: Boxes },
-  { slug: 'ffe', Icon: Armchair, hasAlias: true, bgIcons: [Sofa, Lamp] },
-  { slug: 'ose', Icon: Package, hasAlias: true, bgIcons: [ShowerHead, UtensilsCrossed] },
+  { slug: 'ffe', Icon: Armchair, hasAlias: true },
+  { slug: 'ose', Icon: Package, hasAlias: true },
   { slug: 'logistics', Icon: Truck },
   { slug: 'certification', Icon: ShieldCheck },
 ];
@@ -79,7 +75,7 @@ type ServiceCardProps = ServiceMeta & {
   className?: string;
 };
 
-function ServiceCard({ slug, Icon, hasAlias, bgIcons, className }: ServiceCardProps) {
+function ServiceCard({ slug, Icon, hasAlias, className }: ServiceCardProps) {
   const t = useTranslations('home.services');
   const reduce = useReducedMotion();
 
@@ -93,19 +89,6 @@ function ServiceCard({ slug, Icon, hasAlias, bgIcons, className }: ServiceCardPr
         className,
       )}
     >
-      {/* Декоративные иконки в фоне для FF&E/OS&E — намёк на содержимое
-          аббревиатуры. Очень бледные, не отвлекают от текста. */}
-      {bgIcons && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-2 -top-2 flex gap-1 text-warm/[0.07] transition-opacity duration-300 group-hover:text-warm/15"
-        >
-          {bgIcons.map((BgIcon, i) => (
-            <BgIcon key={i} className={cn(i === 0 ? 'h-24 w-24' : 'h-16 w-16 mt-6')} strokeWidth={1.2} />
-          ))}
-        </div>
-      )}
-
       {/* Иконка */}
       <span
         className={cn(

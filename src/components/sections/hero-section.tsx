@@ -156,7 +156,7 @@ type HeroSectionProps = {
 };
 
 export function HeroSection({
-  videoSrc = 'https://www.minotti.com/downloads/1/30042/Minotti_2025_HP.mp4',
+  videoSrc = 'https://idcomplect.ru/upload/iblock/f8d/hyae1szfamfs8oitueo18mklaph5dk3i/radisson_v3_JS.mp4',
   posterSrc = '/images/hero-poster.jpg',
 }: HeroSectionProps) {
   const t = useTranslations('home.hero');

@@ -83,12 +83,16 @@ function PainCard({ pain }: PainCardProps) {
       <span
         aria-hidden
         className={cn(
-          'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm',
+          'inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-sm',
           'bg-warm/10 text-warm transition-colors duration-300',
           'group-hover:bg-warm group-hover:text-white',
         )}
       >
-        <Icon className="h-5 w-5" strokeWidth={1.6} />
+        {/* strokeWidth 2 — даёт всем lucide-иконкам ровный визуальный вес
+            (по умолчанию у Hourglass/ImageOff/Receipt линии тоньше, чем
+            у Clock/TrendingDown/Users, что в 8-карточной сетке смотрелось
+            как несогласованность). 22px размер тоже немного крупнее. */}
+        <Icon className="h-[22px] w-[22px]" strokeWidth={2} />
       </span>
 
       <div>

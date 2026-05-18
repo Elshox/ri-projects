@@ -263,11 +263,11 @@
       "contacts": {
         "title": "Контакты",
         "address_label": "Офис",
-        "address": "Ташкент, ул. Амира Темура, 1",
+        "address": "Узбекистан, Ташкент, ул. Махтумкули 99",
         "phone_label": "Телефон",
-        "phone": "+998 71 200 00 00",
+        "phone": "+998 (94) 638-99-19",
         "email_label": "Email",
-        "email": "hello@riprojects.org",
+        "email": "info@riprojects.org",
         "hours_label": "Часы работы",
         "hours": "Пн–Пт, 9:00–19:00"
       }

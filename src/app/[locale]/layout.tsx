@@ -9,6 +9,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { LenisProvider } from '@/components/layout/lenis-provider';
 import { JsonLd } from '@/components/layout/json-ld';
+import { BitrixChatWidget } from '@/components/integrations/bitrix-chat';
 import '../globals.css';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://riprojects.org';
@@ -135,6 +136,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
             {children}
           </main>
           <Footer />
+          <BitrixChatWidget />
         </NextIntlClientProvider>
       </body>
     </html>
