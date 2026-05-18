@@ -69,12 +69,16 @@ const rowVariants: Variants = {
 /* ── PartnerLogo ── */
 function PartnerLogo({ partner, ariaHidden }: { partner: Partner; ariaHidden?: boolean }) {
   return (
-    /* Grayscale default; full colour on individual logo hover */
+    /* Grayscale default; full colour on individual logo hover.
+       Размеры подобраны для читаемости с расстояния 50-80см: h-16
+       контейнер, картинка до h-12 = 48px высоты. Min-width 140px
+       не даёт узким лого «теряться». opacity 0.65 — балансирует
+       присутствие и не-конкурирует с основным контентом. */
     <div
       aria-hidden={ariaHidden}
       className={cn(
-        'flex h-10 w-auto min-w-[80px] items-center justify-center px-6',
-        'grayscale opacity-50',
+        'flex h-16 w-auto min-w-[140px] items-center justify-center px-8 sm:min-w-[160px] sm:px-10',
+        'grayscale opacity-65',
         'transition-[filter,opacity] duration-300',
         'hover:grayscale-0 hover:opacity-100',
       )}
@@ -83,10 +87,10 @@ function PartnerLogo({ partner, ariaHidden }: { partner: Partner; ariaHidden?: b
       <img
         src={`/images/partners/${partner.file ?? `${partner.slug}.svg`}`}
         alt={ariaHidden ? '' : partner.name}
-        width={120}
-        height={36}
+        width={180}
+        height={56}
         loading="lazy"
-        className="h-8 w-auto max-w-[140px] object-contain"
+        className="h-12 w-auto max-w-[200px] object-contain sm:max-w-[220px]"
       />
     </div>
   );

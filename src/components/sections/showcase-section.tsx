@@ -347,7 +347,12 @@ export function ShowcaseSection() {
     <section
       id="showcase"
       aria-labelledby="showcase-heading"
-      className="relative isolate overflow-hidden bg-bg-dark section-padding"
+      className={cn(
+        'relative isolate overflow-hidden bg-bg-dark section-padding',
+        /* Sticky-stack: последняя в пин-стеке. Поднимается над Stats (z-30).
+           Следом идёт PartnersMarquee — обычный поток, без stick. */
+        'lg:sticky lg:top-0 lg:z-[35] lg:min-h-screen',
+      )}
       onMouseMove={handleMouseMove}
     >
       {/* Тёмный фон-галерея — заставляет проектные карточки светиться. */}

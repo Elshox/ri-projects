@@ -173,7 +173,11 @@ export function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="relative isolate overflow-hidden bg-background section-padding"
+      className={cn(
+        'relative isolate overflow-hidden bg-background section-padding',
+        /* Sticky-stack: поднимается над Pains (z-15). */
+        'lg:sticky lg:top-0 lg:z-[20] lg:min-h-screen',
+      )}
     >
       {/* Тонкое декоративное фото мебельного шоурума —
           добавляет тёплую текстуру, не доминирует над контентом. */}
