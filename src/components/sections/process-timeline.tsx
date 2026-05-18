@@ -132,8 +132,13 @@ function StepCard({ step, index, t, variant }: StepCardProps) {
         'group relative flex shrink-0 flex-col overflow-hidden rounded-md border border-border bg-card',
         'shadow-card transition-shadow duration-300 hover:shadow-card-hover',
         isDesktop
-          ? 'w-full max-w-[520px]'
-          : 'w-[300px] sm:w-[360px]',
+          ? /* в pinned-horizontal на каждом шаге карточка занимает
+               центр экрана — даём ей дышать (max 640px) */
+            'w-full max-w-[640px]'
+          : /* mobile-карусель: рамерная лестница вплоть до xl —
+               чтобы при reduced-motion на десктопе карточки тоже
+               выглядели крупно, а не как мобильные плитки */
+            'w-[300px] sm:w-[360px] lg:w-[440px] xl:w-[480px]',
       )}
       style={isDesktop ? undefined : { scrollSnapAlign: 'start' }}
     >
@@ -318,16 +323,20 @@ export function ProcessTimeline() {
       aria-labelledby="process-heading"
       className={cn(
         'bg-bg-soft relative',
-        /* Mobile/tablet (<lg): обычная высота, padding в контейнере */
-        /* Desktop (lg+): длинная section даёт runway для horizontal scroll.
-           400vh ≈ 100vh sticky + 3 viewport-высоты runway = по ~1 viewport
-           на каждую из 3-х переходов между 4-мя шагами.
-           Reduced-motion → секция короче, sticky не нужен. */
-        reduce ? 'lg:h-auto' : 'lg:h-[400vh]',
+        /* Desktop (lg+) с разрешённой анимацией — длинная section
+           даёт runway для pinned-horizontal scroll.
+           Reduced-motion ИЛИ <lg — секция нормальной высоты, внутри
+           тот же горизонтальный snap-carousel что и на мобиле. */
+        !reduce && 'lg:h-[400vh]',
       )}
     >
-      {/* ── Mobile / Tablet (<lg) — обычный snap-scroll ── */}
-      <div className="container mx-auto px-6 py-20 lg:hidden">
+      {/* ── Mobile / Tablet / Reduced-motion → горизонтальный карусель ── */}
+      <div
+        className={cn(
+          'container mx-auto px-6 py-20',
+          reduce ? '' : 'lg:hidden',
+        )}
+      >
         <motion.div
           ref={headerRef}
           initial="hidden"
@@ -338,10 +347,13 @@ export function ProcessTimeline() {
           <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
             {t('eyebrow')}
           </p>
-          <h2 className="mt-3 font-sans text-h2-m font-semibold text-primary">
+          <h2
+            id={reduce ? 'process-heading' : undefined}
+            className="mt-3 font-sans text-h2-m font-semibold text-primary lg:text-h2-d"
+          >
             {t('title')}
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <p className="mt-4 text-[16px] leading-relaxed text-muted lg:text-[17px]">
             {t('subtitle')}
           </p>
           <div
@@ -355,40 +367,12 @@ export function ProcessTimeline() {
         <MobileCarousel t={t} />
       </div>
 
-      {/* ── Desktop (lg+) pinned horizontal ── */}
-      <div
-        className={cn(
-          'hidden lg:block',
-          reduce ? '' : 'lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden',
-        )}
-      >
-        {reduce ? (
-          /* Reduced-motion → статичный 4-up grid */
-          <div className="container mx-auto px-6 py-24">
-            <div className="mx-auto mb-14 max-w-2xl text-center">
-              <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
-                {t('eyebrow')}
-              </p>
-              <h2
-                id="process-heading"
-                className="mt-3 font-sans text-h2-d font-semibold text-primary"
-              >
-                {t('title')}
-              </h2>
-              <p className="mt-4 text-[17px] leading-relaxed text-muted">
-                {t('subtitle')}
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-6 xl:grid-cols-4">
-              {STEPS.map((step, i) => (
-                <StepCard key={step.id} step={step} index={i} t={t} variant="desktop" />
-              ))}
-            </div>
-          </div>
-        ) : (
+      {/* ── Desktop (lg+) с анимацией — pinned horizontal ── */}
+      {!reduce && (
+        <div className="hidden lg:block lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden">
           <DesktopRail t={t} scrollProgress={scrollYProgress} />
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }
