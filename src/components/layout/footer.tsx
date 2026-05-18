@@ -1,13 +1,12 @@
 import { useTranslations } from 'next-intl';
-import { Linkedin, Send, Instagram, Mail, MapPin, Phone, Clock } from 'lucide-react';
+import { Send, Instagram, Mail, MapPin, Phone, Clock } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { Logo } from './logo';
 import { NewsletterForm } from './newsletter-form';
 import { FOOTER_COLUMNS, SOCIAL_LINKS } from '@/lib/nav-config';
 import { cn } from '@/lib/utils';
 
-const SOCIAL_ICONS: Record<(typeof SOCIAL_LINKS)[number]['key'], typeof Linkedin> = {
-  linkedin: Linkedin,
+const SOCIAL_ICONS: Record<(typeof SOCIAL_LINKS)[number]['key'], typeof Send> = {
   telegram: Send,
   instagram: Instagram,
 };
@@ -170,7 +169,7 @@ function FooterLinkColumn({ column }: { column: (typeof FOOTER_COLUMNS)[number] 
 }
 
 type ContactItemProps = {
-  icon: typeof Linkedin;
+  icon: typeof Send;
   label: string;
   value: string;
   href?: string;

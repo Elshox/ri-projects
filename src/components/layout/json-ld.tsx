@@ -15,14 +15,13 @@ export function JsonLd() {
       },
       contactPoint: {
         '@type': 'ContactPoint',
-        telephone: '+998-71-200-00-00',
+        telephone: '+998946389919',
         contactType: 'customer service',
         availableLanguage: ['Russian', 'English'],
       },
       sameAs: [
-        'https://www.linkedin.com/company/riprojects',
         'https://t.me/riprojects',
-        'https://www.instagram.com/riprojects',
+        'https://www.instagram.com/ri_projects_org/',
       ],
     },
     {
@@ -32,21 +31,21 @@ export function JsonLd() {
       description:
         'Полная комплектация коммерческих и жилых объектов под ключ: отели, рестораны, бизнес-центры, клиники, ЖК. FF&E, OS&E, логистика, таможня, сертификация.',
       url: SITE_URL,
-      telephone: '+998712000000',
-      email: 'hello@riprojects.org',
+      telephone: '+998946389919',
+      email: 'info@riprojects.org',
       foundingDate: '2015',
       numberOfEmployees: { '@type': 'QuantitativeValue', value: 30 },
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'ул. Амира Темура, 1',
+        streetAddress: 'ул. Махтумкули, 99',
         addressLocality: 'Ташкент',
         addressCountry: 'UZ',
         postalCode: '100000',
       },
       geo: {
         '@type': 'GeoCoordinates',
-        latitude: 41.2995,
-        longitude: 69.2828,
+        latitude: 41.305230,
+        longitude: 69.328703,
       },
       openingHoursSpecification: {
         '@type': 'OpeningHoursSpecification',

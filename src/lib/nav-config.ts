@@ -73,7 +73,6 @@ export const FOOTER_COLUMNS = [FOOTER_SERVICES, FOOTER_SECTORS, FOOTER_COMPANY] 
 /* ── Соцсети ─────────────────────────────────────────────── */
 
 export const SOCIAL_LINKS = [
-  { key: 'linkedin' as const, href: 'https://www.linkedin.com/company/riprojects' },
   { key: 'telegram' as const, href: 'https://t.me/riprojects' },
-  { key: 'instagram' as const, href: 'https://www.instagram.com/riprojects' },
+  { key: 'instagram' as const, href: 'https://www.instagram.com/ri_projects_org/' },
 ] as const;
