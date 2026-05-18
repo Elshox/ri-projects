@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import Image from 'next/image';
 import {
   motion,
   useInView,
@@ -13,6 +14,11 @@ import {
 import { useTranslations } from 'next-intl';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+
+/* Релевантный фон — премиальный современный офис.
+   Стат-цифры работают «весомее» на dark + текстурном фоне. */
+const BG_PHOTO =
+  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=2000&q=80&auto=format';
 
 /* ── Data (numbers live here; labels come from i18n) ── */
 type StatId = 'projects' | 'sectors' | 'partners' | 'experience';
@@ -70,12 +76,13 @@ function Counter({ target, suffix, label, inView, isFirst }: CounterProps) {
       variants={itemVariants}
       className={cn(
         'flex flex-col items-center gap-3 px-4 text-center lg:px-10',
-        /* Vertical rule between siblings on desktop */
-        !isFirst && 'lg:border-l lg:border-border',
+        /* Vertical rule между сиблингами на desktop — тонкая белая
+           для dark-темы. */
+        !isFirst && 'lg:border-l lg:border-white/[0.12]',
       )}
     >
       {/* Number + suffix */}
-      <div className="font-serif text-[56px] font-medium leading-none tracking-[-0.02em] text-primary lg:text-[72px]">
+      <div className="font-serif text-[56px] font-medium leading-none tracking-[-0.02em] text-white lg:text-[72px]">
         {/* Screen reader gets the final value; visual content is aria-hidden */}
         <span className="sr-only">{target}{suffix} {label}</span>
         {reduce ? (
@@ -85,7 +92,7 @@ function Counter({ target, suffix, label, inView, isFirst }: CounterProps) {
           <span aria-hidden className="inline-flex items-baseline">
             <motion.span>{rounded}</motion.span>
             {suffix && (
-              <span className="ml-0.5 font-serif text-[40px] lg:text-[52px]">
+              <span className="ml-0.5 font-serif text-warm-light text-[40px] lg:text-[52px]">
                 {suffix}
               </span>
             )}
@@ -94,7 +101,7 @@ function Counter({ target, suffix, label, inView, isFirst }: CounterProps) {
       </div>
 
       {/* Label — aria-hidden because sr-only span above already contains the full text */}
-      <p aria-hidden className="max-w-[12ch] text-[11px] font-semibold uppercase tracking-[0.22em] text-muted lg:text-[12px]">
+      <p aria-hidden className="max-w-[12ch] text-[11px] font-semibold uppercase tracking-[0.22em] text-white/55 lg:text-[12px]">
         {label}
       </p>
     </motion.div>
@@ -113,8 +120,25 @@ export function StatsSection() {
   return (
     <section
       aria-labelledby="stats-heading"
-      className="bg-background section-padding"
+      className="relative isolate overflow-hidden bg-bg-dark section-padding"
     >
+      {/* Фон секции — модернистская офисная архитектура */}
+      <Image
+        src={BG_PHOTO}
+        alt=""
+        fill
+        sizes="100vw"
+        className="-z-20 object-cover opacity-35"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(10,6,2,0.78) 0%, rgba(10,6,2,0.88) 100%)',
+        }}
+      />
+
       <div className="container mx-auto">
 
         {/* Header — переоформлены как USP-блок (фидбек колеги 2:
@@ -126,16 +150,16 @@ export function StatsSection() {
           transition={{ duration: 0.65, ease: easing.smooth }}
           className="mx-auto mb-14 max-w-2xl text-center"
         >
-          <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
+          <p className="text-warm-light text-[11px] font-semibold uppercase tracking-[0.28em]">
             {t('eyebrow')}
           </p>
           <h2
             id="stats-heading"
-            className="mt-3 font-sans text-h2-m font-semibold text-primary lg:text-h2-d"
+            className="mt-3 font-sans text-h2-m font-semibold text-white lg:text-h2-d"
           >
             {t('title')}
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted lg:text-[17px]">
+          <p className="mt-4 text-[16px] leading-relaxed text-white/70 lg:text-[17px]">
             {t('subtitle')}
           </p>
         </motion.div>
@@ -160,11 +184,11 @@ export function StatsSection() {
           ))}
         </motion.div>
 
-        {/* Decorative bottom rule */}
+        {/* Decorative bottom rule — dark theme */}
         <div className="mt-14 flex items-center gap-4" aria-hidden>
-          <span className="h-px flex-1 bg-border" />
-          <span className="h-2 w-2 rounded-full bg-warm/50" />
-          <span className="h-px flex-1 bg-border" />
+          <span className="h-px flex-1 bg-white/[0.12]" />
+          <span className="h-2 w-2 rounded-full bg-warm/70" />
+          <span className="h-px flex-1 bg-white/[0.12]" />
         </div>
       </div>
     </section>

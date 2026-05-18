@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import { motion, useInView, useReducedMotion, type Variants } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
@@ -9,6 +10,10 @@ import { INSIGHTS } from '@/lib/data/insights';
 import { ArticleCard } from '@/components/ui/article-card';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+
+/* Релевантный фон — редакторский рабочий стол с журналами/книгами. */
+const BG_PHOTO =
+  'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=2000&q=80&auto=format';
 
 const containerVariants: Variants = {
   hidden: {},
@@ -37,8 +42,24 @@ export function InsightsPreview() {
     <section
       id="insights"
       aria-labelledby="insights-heading"
-      className="bg-bg-soft section-padding"
+      className="relative isolate overflow-hidden bg-bg-soft section-padding"
     >
+      <Image
+        src={BG_PHOTO}
+        alt=""
+        fill
+        sizes="100vw"
+        className="-z-20 object-cover opacity-[0.10]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(245,241,236,0.86) 0%, rgba(245,241,236,0.93) 100%)',
+        }}
+      />
+
       <div className="container mx-auto">
         {/* Header */}
         <motion.div

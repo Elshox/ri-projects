@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import { motion, useInView, useReducedMotion, type Variants } from 'motion/react';
 import {
   Boxes,
@@ -15,6 +16,11 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+
+/* Релевантный фон секции — мебельный шоурум.
+   Тёплый, премиальный, читаемый при светлой теме. */
+const BG_PHOTO =
+  'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=2000&q=80&auto=format';
 
 /* ─────────────────────────────────────────────────────────────
  *  Данные карточек (иконки + slug согласно CLAUDE.md §7).
@@ -167,8 +173,28 @@ export function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="bg-background section-padding"
+      className="relative isolate overflow-hidden bg-background section-padding"
     >
+      {/* Тонкое декоративное фото мебельного шоурума —
+          добавляет тёплую текстуру, не доминирует над контентом. */}
+      <Image
+        src={BG_PHOTO}
+        alt=""
+        fill
+        sizes="100vw"
+        className="-z-20 object-cover opacity-[0.10]"
+      />
+      {/* Светлый overlay чтобы зафиксировать читаемость карточек,
+          даже если фото окажется ярче ожидаемого. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.92) 100%)',
+        }}
+      />
+
       <div className="container mx-auto">
 
         {/* ── Шапка секции ──────────────────────────────────── */}
