@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import { motion, useInView, useReducedMotion, type Variants } from 'motion/react';
 import {
   Clock,
@@ -16,6 +17,12 @@ import {
 import { useTranslations } from 'next-intl';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+
+/* Релевантный фон секции (Unsplash) — фотография стройки/ремонта
+   объекта в процессе. Подкрепляет нарратив «вот что бывает, когда
+   нет системы». Заменить на свой ассет, когда будет готов. */
+const BG_PHOTO =
+  'https://images.unsplash.com/photo-1503387837-b154d5074bd2?w=2000&q=80&auto=format';
 
 /* ─────────────────────────────────────────────────────────────
  *  Pain points — восемь болей проектной комплектации, которые мы
@@ -76,30 +83,29 @@ function PainCard({ pain }: PainCardProps) {
     <motion.article
       variants={cardVariants}
       className={cn(
-        'group relative flex flex-col gap-4 rounded-md border border-border bg-card p-6',
-        'transition-colors duration-300 hover:border-warm/40',
+        /* Тёмная стеклянная карточка поверх dark bg + фото:
+           полупрозрачный белый фон, тонкий белый бордер, blur. */
+        'group relative flex flex-col gap-4 rounded-md border border-white/[0.12] bg-white/[0.04] p-6',
+        'backdrop-blur-md transition-colors duration-300 hover:border-warm/50 hover:bg-white/[0.07]',
       )}
+      style={{ WebkitBackdropFilter: 'blur(12px)' }}
     >
       <span
         aria-hidden
         className={cn(
           'inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-sm',
-          'bg-warm/10 text-warm transition-colors duration-300',
+          'bg-warm/15 text-warm-light transition-colors duration-300',
           'group-hover:bg-warm group-hover:text-white',
         )}
       >
-        {/* strokeWidth 2 — даёт всем lucide-иконкам ровный визуальный вес
-            (по умолчанию у Hourglass/ImageOff/Receipt линии тоньше, чем
-            у Clock/TrendingDown/Users, что в 8-карточной сетке смотрелось
-            как несогласованность). 22px размер тоже немного крупнее. */}
         <Icon className="h-[22px] w-[22px]" strokeWidth={2} />
       </span>
 
       <div>
-        <h3 className="text-[16px] font-medium leading-snug text-primary lg:text-[17px]">
+        <h3 className="text-[16px] font-medium leading-snug text-white lg:text-[17px]">
           {t(`${key}.title`)}
         </h3>
-        <p className="mt-2 text-[14px] leading-relaxed text-muted lg:text-[15px]">
+        <p className="mt-2 text-[14px] leading-relaxed text-white/70 lg:text-[15px]">
           {t(`${key}.desc`)}
         </p>
       </div>
@@ -123,8 +129,29 @@ export function PainPointsSection() {
     <section
       id="pains"
       aria-labelledby="pains-heading"
-      className="bg-bg-soft section-padding"
+      className="relative isolate overflow-hidden bg-bg-dark section-padding"
     >
+      {/* Релевантный bg: пыльный недостроенный объект — визуально
+          подкрепляет нарратив «вот что бывает без системы». */}
+      <Image
+        src={BG_PHOTO}
+        alt=""
+        fill
+        sizes="100vw"
+        priority={false}
+        className="-z-20 object-cover opacity-40"
+      />
+      {/* Тёмный overlay для читаемости текста — оставляет фото
+          ощутимо, но H1 и карточки контрастны. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(10,6,2,0.78) 0%, rgba(10,6,2,0.88) 60%, rgba(10,6,2,0.94) 100%)',
+        }}
+      />
+
       <div className="container mx-auto">
         {/* Header */}
         <motion.div
@@ -134,16 +161,16 @@ export function PainPointsSection() {
           variants={headerVariants}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
+          <p className="text-warm-light text-[11px] font-semibold uppercase tracking-[0.28em]">
             {t('eyebrow')}
           </p>
           <h2
             id="pains-heading"
-            className="mt-3 font-sans text-h2-m font-semibold text-primary lg:text-h2-d"
+            className="mt-3 font-sans text-h2-m font-semibold text-white lg:text-h2-d"
           >
             {t('title')}
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted lg:text-[17px]">
+          <p className="mt-4 text-[16px] leading-relaxed text-white/70 lg:text-[17px]">
             {t('subtitle')}
           </p>
         </motion.div>
