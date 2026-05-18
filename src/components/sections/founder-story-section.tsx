@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import {
   motion,
   useInView,
@@ -11,6 +12,12 @@ import { Quote, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+
+/* Релевантный фон — пустой ресторанный зал перед открытием.
+   Прямо отражает нарратив (история про подбор материалов для
+   ресторана HoReCa). 10% opacity — текстура, а не доминанта. */
+const BG_PHOTO =
+  'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=2400&q=80&auto=format';
 
 /* ─────────────────────────────────────────────────────────────
  *  FounderStorySection — личный сторителлинг из SMM-постов:
@@ -127,8 +134,24 @@ export function FounderStorySection() {
       aria-labelledby="founder-story-heading"
       className="relative isolate overflow-hidden bg-background py-24 lg:py-32"
     >
-      {/* Декоративная тёплая блика-засветка слева, размытая — добавляет
-          глубины без отвлекающего фото. */}
+      {/* Релевантный bg: пустой ресторан перед открытием. */}
+      <Image
+        src={BG_PHOTO}
+        alt=""
+        fill
+        sizes="100vw"
+        className="-z-20 object-cover opacity-[0.10]"
+      />
+      {/* Светлый overlay для читаемости карточек */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(255,255,255,0.86) 0%, rgba(255,255,255,0.93) 100%)',
+        }}
+      />
+      {/* Тёплая блика-засветка для дополнительной глубины */}
       <div
         aria-hidden
         className="pointer-events-none absolute -left-32 top-1/3 -z-10 h-[420px] w-[420px] rounded-full bg-warm/[0.08] blur-3xl"
