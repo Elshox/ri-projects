@@ -302,6 +302,32 @@
     "no_results": "No results found",
     "loading": "Loading…"
   },
+  "not_found": {
+    "eyebrow": "404",
+    "title": "Page not found",
+    "subtitle": "We can't find this page. It may have been moved or you may have followed an outdated link.",
+    "cta_home": "Back to home",
+    "cta_contacts": "Contact us"
+  },
+  "legal": {
+    "breadcrumb": "Legal",
+    "last_updated": "Updated",
+    "privacy": {
+      "page_title": "Privacy policy",
+      "page_subtitle": "How we collect, use and protect your personal information.",
+      "draft_notice": "This document is in preparation. The final wording will be approved by counsel before production launch."
+    },
+    "terms": {
+      "page_title": "Terms of use",
+      "page_subtitle": "Terms governing the use of riprojects.org and our digital services.",
+      "draft_notice": "This document is in preparation. The final wording will be approved by counsel before production launch."
+    },
+    "cookies": {
+      "page_title": "Cookie policy",
+      "page_subtitle": "Which cookies we use and how to manage them.",
+      "draft_notice": "This document is in preparation. The final wording will be approved by counsel before production launch."
+    }
+  },
   "services": {
     "page_title": "Our services",
     "page_subtitle": "Five specialisations — one unified procurement system. We take on as much as you need.",
