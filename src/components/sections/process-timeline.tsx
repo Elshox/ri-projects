@@ -5,6 +5,10 @@ import {
   motion,
   useInView,
   useReducedMotion,
+  useScroll,
+  useTransform,
+  useSpring,
+  type MotionValue,
   type Variants,
 } from 'motion/react';
 import {
@@ -19,6 +23,27 @@ import { useTranslations } from 'next-intl';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
 
+/* ─────────────────────────────────────────────────────────────
+ *  ProcessTimeline — 4 этапа работы.
+ *
+ *  • Mobile (<lg):   вертикальный таймлайн со stagger-reveal
+ *                    (как раньше).
+ *  • Desktop (lg+):  pinned horizontal scroll — секция приклеивается
+ *                    к viewport, и 4 карточки едут вбок по мере
+ *                    вертикального скролла. Премиум-эффект Apple/
+ *                    Stripe, классика для процессов.
+ *
+ *  Реализация horizontal:
+ *  ─ внешняя <section> имеет h-[420vh] на lg → даёт runway скролла
+ *  ─ внутри sticky-контейнер top-0 h-screen держит viewport
+ *  ─ useScroll({ target: section, offset: ['start start','end end'] })
+ *    даёт scrollYProgress 0→1
+ *  ─ useTransform мапит 0→1 на x: 0% → -75% (= 3 шага по 25% ширины)
+ *  ─ useSpring сглаживает x — без рывков, кинематографично
+ *
+ *  Прогресс-индикатор сверху (4 точки) подсвечивает текущий шаг.
+ * ───────────────────────────────────────────────────────────── */
+
 /* ── Step data ── */
 type StepId = 'analysis' | 'selection' | 'proposal' | 'delivery';
 
@@ -29,213 +54,352 @@ const STEPS: { id: StepId; Icon: LucideIcon }[] = [
   { id: 'delivery',  Icon: PackageCheck },
 ];
 
-/* ── Motion variants ──────────────────────────────────────────
- *  Flat items array [step, line, step, line, step, line, step]
- *  → staggerChildren animates them sequentially.
- * ── */
-const containerVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.22, delayChildren: 0.1 } },
-};
+const STEP_COUNT = STEPS.length;
 
-const stepVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easing.smooth } },
-};
-
-/* ── ConnectorLine ────────────────────────────────────────────
- *  Two inner motion.divs: one for mobile (scaleY), one for desktop (scaleX).
- *  Only the visible one is rendered (lg:hidden / hidden lg:block).
- *  Both inherit the parent's hidden/visible state via variant propagation.
- * ── */
-function ConnectorLine() {
-  /* Wrapper: empty variants so stagger timing still passes through */
-  const wrapVariants: Variants = { hidden: {}, visible: {} };
-
-  const mobileLineVariants: Variants = {
-    hidden: { scaleY: 0 },
-    visible: { scaleY: 1, transition: { duration: 0.35, ease: easing.smooth } },
-  };
-
-  const desktopLineVariants: Variants = {
-    hidden: { scaleX: 0 },
-    visible: { scaleX: 1, transition: { duration: 0.45, ease: easing.smooth } },
-  };
-
-  return (
-    <motion.div
-      variants={wrapVariants}
-      /* self-start so it doesn't stretch vertically on desktop flex-row */
-      className="flex-shrink-0 self-start"
-    >
-      {/* Mobile: vertical line — ml-7 (28px) centres it under the 56px circle */}
-      <motion.div
-        variants={mobileLineVariants}
-        className="ml-7 h-12 w-px origin-top bg-border lg:hidden"
-      />
-      {/* Desktop: horizontal line — mt-10 (40px) aligns with centre of 80px number */}
-      <motion.div
-        variants={desktopLineVariants}
-        className="mt-10 hidden h-px w-10 origin-left bg-border lg:block xl:w-16"
-      />
-    </motion.div>
-  );
-}
-
-/* ── StepItem ── */
-type StepItemProps = {
+/* ─────────────────────────────────────────────────────────────
+ *  Shared StepCard — используется и на mobile, и на desktop
+ *  с разной размерной раскладкой через className.
+ * ───────────────────────────────────────────────────────────── */
+type StepCardProps = {
   step: (typeof STEPS)[number];
   index: number;
   t: ReturnType<typeof useTranslations<'home.process'>>;
+  variant: 'mobile' | 'desktop';
 };
 
-function StepItem({ step, index, t }: StepItemProps) {
+function StepCard({ step, index, t, variant }: StepCardProps) {
   const { Icon } = step;
   const num = String(index + 1).padStart(2, '0');
 
-  return (
-    <motion.div
-      variants={stepVariants}
-      className="flex flex-row items-start gap-5 lg:flex-1 lg:flex-col lg:items-center lg:gap-0"
-    >
-      {/* ── Mobile indicator: icon circle + number badge ── */}
-      <div className="relative flex-shrink-0 lg:hidden">
-        <div
-          className={cn(
-            'flex h-14 w-14 items-center justify-center rounded-full',
-            'border-2 border-accent/25 bg-accent/[0.07]',
-          )}
-        >
-          <Icon className="h-5 w-5 text-accent" strokeWidth={1.6} />
+  if (variant === 'mobile') {
+    return (
+      <div className="flex flex-row items-start gap-5">
+        {/* Icon circle + numbered badge */}
+        <div className="relative flex-shrink-0">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-accent/25 bg-accent/[0.07]">
+            <Icon className="h-5 w-5 text-accent" strokeWidth={1.6} />
+          </div>
+          <span
+            aria-hidden
+            className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-white"
+          >
+            {index + 1}
+          </span>
         </div>
-        <span
-          aria-hidden
-          className={cn(
-            'absolute -right-2 -top-2',
-            'flex h-6 w-6 items-center justify-center rounded-full',
-            'bg-accent text-[11px] font-bold text-white',
-          )}
-        >
-          {index + 1}
-        </span>
-      </div>
 
-      {/* ── Desktop indicator: large decorative number + icon centred over it ── */}
-      <div className="relative hidden items-center justify-center lg:flex">
-        {/* Large muted number — purely decorative */}
+        <div className="flex-1 pb-1">
+          <h3 className="font-sans text-[17px] font-semibold leading-snug text-primary">
+            {t(`steps.${step.id}.title`)}
+          </h3>
+          <p className="mt-2 text-[14px] leading-relaxed text-muted">
+            {t(`steps.${step.id}.desc`)}
+          </p>
+          <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1">
+            <Clock className="h-3 w-3 text-warm" aria-hidden />
+            <span className="text-[12px] font-medium text-muted">
+              {t(`steps.${step.id}.time`)}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* Desktop variant — larger, vertical layout inside fixed-width slide */
+  return (
+    <div className="flex h-full flex-col justify-center px-12 xl:px-16">
+      <div className="relative max-w-md">
+        {/* Decorative big number behind */}
         <span
           aria-hidden
-          className="select-none font-serif text-[80px] font-medium leading-none text-primary/[0.06]"
+          className="pointer-events-none absolute -left-4 -top-12 select-none font-serif text-[180px] font-medium leading-none text-primary/[0.05] xl:text-[220px]"
         >
           {num}
         </span>
-        {/* Icon circle — absolutely centred on the number */}
+
+        {/* Icon circle */}
         <div
           className={cn(
-            'absolute flex h-12 w-12 items-center justify-center rounded-full',
-            'border-2 border-accent/25 bg-accent/[0.07]',
+            'relative flex h-16 w-16 items-center justify-center rounded-full',
+            'border-2 border-accent/30 bg-accent/[0.08]',
           )}
         >
-          <Icon className="h-5 w-5 text-accent" strokeWidth={1.6} />
+          <Icon className="h-6 w-6 text-accent" strokeWidth={1.6} />
         </div>
-      </div>
 
-      {/* ── Content (shared) ── */}
-      <div className="flex-1 pb-1 lg:mt-7 lg:flex-none lg:px-3 lg:text-center">
-        <h3 className="font-sans text-[17px] font-semibold leading-snug text-primary lg:text-[18px]">
+        {/* Eyebrow — step number + total */}
+        <p className="relative mt-8 text-[12px] font-semibold uppercase tracking-[0.22em] text-warm">
+          {t('step_of', { current: index + 1, total: STEP_COUNT })}
+        </p>
+
+        {/* Title */}
+        <h3 className="relative mt-3 font-serif text-[34px] font-medium leading-[1.15] text-primary xl:text-[40px]">
           {t(`steps.${step.id}.title`)}
         </h3>
-        <p className="mt-2 text-[14px] leading-relaxed text-muted lg:text-[15px]">
+
+        {/* Description */}
+        <p className="relative mt-5 text-[16px] leading-relaxed text-muted xl:text-[17px]">
           {t(`steps.${step.id}.desc`)}
         </p>
 
         {/* Duration badge */}
-        <div
-          className={cn(
-            'mt-4 inline-flex items-center gap-1.5',
-            'rounded-full border border-border bg-background px-3 py-1',
-          )}
-        >
-          <Clock className="h-3 w-3 text-warm" aria-hidden />
-          <span className="text-[12px] font-medium text-muted">
+        <div className="relative mt-7 inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3.5 py-1.5">
+          <Clock className="h-3.5 w-3.5 text-warm" aria-hidden />
+          <span className="text-[13px] font-medium text-muted">
             {t(`steps.${step.id}.time`)}
           </span>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+ *  Mobile vertical timeline (with stagger + connecting lines)
+ * ───────────────────────────────────────────────────────────── */
+const mobileContainerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.22, delayChildren: 0.1 } },
+};
+
+const mobileStepVariants: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easing.smooth } },
+};
+
+const mobileLineVariants: Variants = {
+  hidden: { scaleY: 0 },
+  visible: { scaleY: 1, transition: { duration: 0.35, ease: easing.smooth } },
+};
+
+function MobileTimeline({ t }: { t: ReturnType<typeof useTranslations<'home.process'>> }) {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.15 });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={inView || reduce ? 'visible' : 'hidden'}
+      variants={mobileContainerVariants}
+      className="flex flex-col"
+    >
+      {STEPS.map((step, i) => (
+        <div key={step.id}>
+          <motion.div variants={mobileStepVariants}>
+            <StepCard step={step} index={i} t={t} variant="mobile" />
+          </motion.div>
+          {i < STEPS.length - 1 && (
+            <motion.div
+              variants={mobileLineVariants}
+              aria-hidden
+              className="ml-7 h-12 w-px origin-top bg-border"
+            />
+          )}
+        </div>
+      ))}
     </motion.div>
   );
 }
 
-/* ── ProcessTimeline ── */
+/* ─────────────────────────────────────────────────────────────
+ *  Desktop pinned horizontal timeline
+ * ───────────────────────────────────────────────────────────── */
+type DesktopTimelineProps = {
+  t: ReturnType<typeof useTranslations<'home.process'>>;
+  scrollProgress: MotionValue<number>;
+};
+
+function DesktopTimeline({ t, scrollProgress }: DesktopTimelineProps) {
+  const reduce = useReducedMotion();
+
+  /* Каждый шаг = 25% ширины ленты. Сдвиг с 0 до -75% покрывает
+     все 4 слайда (1-й уже виден на старте, 4-й — в конце). */
+  const xRaw = useTransform(scrollProgress, [0, 1], ['0%', '-75%']);
+  /* Спринг чуть сглаживает рывки колеса мыши, не делает skid. */
+  const x = useSpring(xRaw, { stiffness: 90, damping: 22, mass: 0.4 });
+
+  /* Прогресс-бар: ширина = scrollProgress * 100% */
+  const progressWidth = useTransform(scrollProgress, [0, 1], ['0%', '100%']);
+
+  return (
+    <div className="flex h-full flex-col">
+      {/* ── Top: header + progress strip ── */}
+      <div className="container mx-auto flex flex-col items-center px-6 pt-20">
+        <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
+          {t('eyebrow')}
+        </p>
+        <h2
+          id="process-heading"
+          className="mt-3 text-center font-sans text-h2-d font-semibold text-primary"
+        >
+          {t('title')}
+        </h2>
+        <p className="mt-4 max-w-2xl text-center text-[17px] leading-relaxed text-muted">
+          {t('subtitle')}
+        </p>
+
+        {/* Progress strip with 4 dots */}
+        <div className="mt-10 flex w-full max-w-md items-center gap-3">
+          {/* Numbers row */}
+          <div className="flex flex-1 items-center">
+            {STEPS.map((s, i) => {
+              /* Каждая точка активна когда scrollProgress >= i/(N-1).
+                 На последнем шаге все 4 светятся. */
+              const threshold = STEP_COUNT > 1 ? i / (STEP_COUNT - 1) : 0;
+              return (
+                <DotIndicator
+                  key={s.id}
+                  index={i}
+                  scrollProgress={scrollProgress}
+                  threshold={threshold}
+                  isLast={i === STEPS.length - 1}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Continuous progress bar under dots */}
+        <div className="mt-3 h-px w-full max-w-md overflow-hidden bg-border">
+          <motion.div
+            aria-hidden
+            style={reduce ? { width: '100%' } : { width: progressWidth }}
+            className="h-full origin-left bg-warm"
+          />
+        </div>
+      </div>
+
+      {/* ── Horizontal sliding cards ── */}
+      <div className="relative flex flex-1 items-center overflow-hidden">
+        <motion.div
+          style={reduce ? undefined : { x }}
+          className="flex w-[400%] items-stretch"
+        >
+          {STEPS.map((step, i) => (
+            <div
+              key={step.id}
+              className="flex w-[25%] items-center justify-start"
+            >
+              <StepCard step={step} index={i} t={t} variant="desktop" />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+/* Один индикатор шага — точка + соединительная линия справа */
+type DotIndicatorProps = {
+  index: number;
+  scrollProgress: MotionValue<number>;
+  threshold: number;
+  isLast: boolean;
+};
+
+function DotIndicator({ scrollProgress, threshold, isLast }: DotIndicatorProps) {
+  /* Активность: 1 если прогресс достиг threshold-0.02, иначе 0.3 */
+  const dotScale = useTransform(scrollProgress, (v) => (v >= threshold - 0.02 ? 1.15 : 1));
+  const dotOpacity = useTransform(scrollProgress, (v) => (v >= threshold - 0.02 ? 1 : 0.35));
+
+  return (
+    <div className="flex flex-1 items-center">
+      <motion.div
+        style={{ scale: dotScale, opacity: dotOpacity }}
+        transition={{ duration: 0.2, ease: easing.snappy }}
+        className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-warm"
+      />
+      {!isLast && <div className="ml-2 h-px flex-1 bg-border" />}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+ *  ProcessTimeline (entry)
+ * ───────────────────────────────────────────────────────────── */
 export function ProcessTimeline() {
   const t = useTranslations('home.process');
   const reduce = useReducedMotion();
 
-  const headerRef = useRef<HTMLDivElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  const headerInView = useInView(headerRef, { once: true, amount: 0.5 });
-  const timelineInView = useInView(timelineRef, { once: true, amount: 0.15 });
-
-  /* Build flat items array: [step, line, step, line, step, line, step] */
-  type Item =
-    | { type: 'step'; id: string; step: (typeof STEPS)[number]; index: number }
-    | { type: 'line'; id: string };
-
-  const items: Item[] = [];
-  STEPS.forEach((step, i) => {
-    items.push({ type: 'step', id: step.id, step, index: i });
-    if (i < STEPS.length - 1) {
-      items.push({ type: 'line', id: `line-${i}` });
-    }
+  /* useScroll по всей секции:
+     scrollYProgress = 0 когда верх section касается верха viewport,
+     scrollYProgress = 1 когда низ section касается низа viewport.
+     Внутри этого окна sticky-контейнер виден. */
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
   });
 
   return (
     <section
+      ref={sectionRef}
       id="process"
       aria-labelledby="process-heading"
-      className="bg-bg-soft section-padding"
+      className={cn(
+        'bg-bg-soft relative',
+        /* Mobile/tablet: обычная высота через padding в контейнере */
+        /* Desktop: длинная section даёт runway для horizontal scroll.
+           420vh = 100vh sticky + ~3.2 viewport-высоты runway.
+           Reduced-motion → секция короче, sticky отключаем CSS-ом ниже. */
+        reduce ? 'lg:h-auto' : 'lg:h-[420vh]',
+      )}
     >
-      <div className="container mx-auto">
-
-        {/* Header */}
-        <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 24 }}
-          animate={headerInView || reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.65, ease: easing.smooth }}
-          className="mx-auto max-w-2xl text-center"
-        >
+      {/* ── Mobile / Tablet (<lg) ── */}
+      <div className="container mx-auto px-6 py-20 lg:hidden">
+        <div className="mx-auto mb-12 max-w-2xl text-center">
           <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
             {t('eyebrow')}
           </p>
-          <h2
-            id="process-heading"
-            className="mt-3 font-sans text-h2-m font-semibold text-primary lg:text-h2-d"
-          >
+          <h2 className="mt-3 font-sans text-h2-m font-semibold text-primary">
             {t('title')}
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted lg:text-[17px]">
+          <p className="mt-4 text-[16px] leading-relaxed text-muted">
             {t('subtitle')}
           </p>
-        </motion.div>
+        </div>
+        <MobileTimeline t={t} />
+      </div>
 
-        {/* Timeline — flex-col on mobile, flex-row on desktop */}
-        <motion.div
-          ref={timelineRef}
-          initial="hidden"
-          animate={timelineInView || reduce ? 'visible' : 'hidden'}
-          variants={containerVariants}
-          className="mt-14 flex flex-col lg:flex-row lg:items-start"
-        >
-          {items.map((item) =>
-            item.type === 'step' ? (
-              <StepItem key={item.id} step={item.step} index={item.index} t={t} />
-            ) : (
-              <ConnectorLine key={item.id} />
-            ),
-          )}
-        </motion.div>
+      {/* ── Desktop (lg+) pinned horizontal ──
+          Если reduced-motion — sticky отключаем, рендерим как
+          обычную полноширотную секцию с 4 карточками в ряд.
+      ── */}
+      <div
+        className={cn(
+          'hidden lg:block',
+          reduce ? '' : 'lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden',
+        )}
+      >
+        {reduce ? (
+          /* Statically rendered 4-up grid for reduced-motion users */
+          <div className="container mx-auto px-6 py-24">
+            <div className="mx-auto mb-14 max-w-2xl text-center">
+              <p className="text-warm text-[11px] font-semibold uppercase tracking-[0.28em]">
+                {t('eyebrow')}
+              </p>
+              <h2
+                id="process-heading"
+                className="mt-3 font-sans text-h2-d font-semibold text-primary"
+              >
+                {t('title')}
+              </h2>
+              <p className="mt-4 text-[17px] leading-relaxed text-muted">
+                {t('subtitle')}
+              </p>
+            </div>
+            <div className="grid grid-cols-4 gap-6">
+              {STEPS.map((step, i) => (
+                <StepCard key={step.id} step={step} index={i} t={t} variant="desktop" />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <DesktopTimeline t={t} scrollProgress={scrollYProgress} />
+        )}
       </div>
     </section>
   );
