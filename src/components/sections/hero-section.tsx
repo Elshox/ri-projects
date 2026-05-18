@@ -237,7 +237,7 @@ export function HeroSection({
       />
 
       {/* ── Контент ──────────────────────────────────────────── */}
-      <div className="container mx-auto pb-28 pt-36 sm:pb-36 sm:pt-44">
+      <div className="container mx-auto pb-20 pt-28 sm:pb-24 sm:pt-32">
 
         {/* Eyebrow */}
         <motion.p
@@ -250,13 +250,14 @@ export function HeroSection({
         </motion.p>
 
         {/* H1 — word-by-word reveal.
-            Размеры подобраны так, чтобы 9-словный заголовок умещался
-            в 4-5 строк на 320px и не выходил за высоту viewport
-            на средних tablet'ах ~700px (была проблема: на 600-768
-            px заголовок занимал почти весь экран). */}
+            Уменьшен на ступень от предыдущей шкалы (34/44/56/72/80)
+            → 30/40/52/64/72. Причина: при предыдущей шкале + большой
+            heigth viewport CTA-кнопка и badge не помещались в фолд
+            на мобилках/планшетах. Заголовок ещё читается крупно,
+            но оставляет место остальному контенту. */}
         <StaggeredHeading
           text={t('title')}
-          className="mt-5 max-w-[15ch] font-serif text-[34px] leading-[1.08] tracking-[-0.01em] text-white sm:text-[44px] md:text-[56px] lg:text-[72px] xl:text-[80px]"
+          className="mt-4 max-w-[15ch] font-serif text-[30px] leading-[1.08] tracking-[-0.01em] text-white sm:text-[40px] md:text-[52px] lg:text-[64px] xl:text-[72px]"
         />
 
         {/* Subtitle */}
@@ -264,7 +265,7 @@ export function HeroSection({
           initial="hidden"
           animate="visible"
           variants={subtitleVariants}
-          className="mt-7 max-w-xl text-[15px] leading-relaxed text-white/75 sm:text-[17px]"
+          className="mt-5 max-w-xl text-[15px] leading-relaxed text-white/75 sm:text-[16px]"
         >
           {t('subtitle')}
         </motion.p>
@@ -274,7 +275,7 @@ export function HeroSection({
           initial="hidden"
           animate="visible"
           variants={ctaVariants}
-          className="mt-10 flex flex-wrap items-center gap-3"
+          className="mt-7 flex flex-wrap items-center gap-3"
         >
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.18, ease: easing.snappy }}>
@@ -313,7 +314,7 @@ export function HeroSection({
           animate="visible"
           variants={badgeVariants}
           className={cn(
-            'mt-9 inline-flex items-center gap-2.5 rounded-full',
+            'mt-6 inline-flex items-center gap-2.5 rounded-full',
             'border border-white/[0.12] bg-white/[0.06] px-4 py-[7px]',
             'text-[12px] font-medium text-white/80 backdrop-blur-md sm:text-[13px]',
           )}
