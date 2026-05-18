@@ -249,10 +249,14 @@ export function HeroSection({
           {t('eyebrow')}
         </motion.p>
 
-        {/* H1 — word-by-word reveal */}
+        {/* H1 — word-by-word reveal.
+            Размеры подобраны так, чтобы 9-словный заголовок умещался
+            в 4-5 строк на 320px и не выходил за высоту viewport
+            на средних tablet'ах ~700px (была проблема: на 600-768
+            px заголовок занимал почти весь экран). */}
         <StaggeredHeading
           text={t('title')}
-          className="mt-5 max-w-[15ch] font-serif text-[42px] leading-[1.06] tracking-[-0.01em] text-white sm:text-[60px] lg:text-[80px]"
+          className="mt-5 max-w-[15ch] font-serif text-[34px] leading-[1.08] tracking-[-0.01em] text-white sm:text-[44px] md:text-[56px] lg:text-[72px] xl:text-[80px]"
         />
 
         {/* Subtitle */}

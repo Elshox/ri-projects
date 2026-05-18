@@ -20,8 +20,8 @@ export function Logo({ className, variant = 'dark', ariaLabel = 'RI PROJECTS' }:
       className={cn('inline-flex items-center gap-2 font-serif leading-none', className)}
     >
       <svg
-        width="28"
-        height="28"
+        width="34"
+        height="34"
         viewBox="0 0 28 28"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ export function Logo({ className, variant = 'dark', ariaLabel = 'RI PROJECTS' }:
       </svg>
       <span
         style={{ color: fill }}
-        className="text-[18px] font-medium tracking-[0.18em]"
+        className="text-[20px] font-medium tracking-[0.16em] lg:text-[21px]"
       >
         RI PROJECTS
       </span>
