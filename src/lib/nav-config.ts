@@ -61,7 +61,6 @@ export const FOOTER_COMPANY: FooterColumn = {
   id: 'company',
   links: [
     { key: 'about', href: '/about' },
-    { key: 'production', href: '/about/production' },
     { key: 'partners', href: '/about/partners' },
     { key: 'projects', href: '/projects' },
     { key: 'insights', href: '/insights' },

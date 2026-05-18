@@ -255,7 +255,6 @@
         "title": "Company",
         "links": {
           "about": "About",
-          "production": "Production",
           "partners": "Partners",
           "projects": "Projects",
           "insights": "Insights"
@@ -469,11 +468,6 @@
     },
     "timeline_eyebrow": "History",
     "timeline_title": "10 years in numbers",
-    "production": {
-      "page_title": "Production",
-      "page_subtitle": "In-house capacity for custom items and rapid replenishment.",
-      "breadcrumb": "Production"
-    },
     "partners": {
       "page_title": "Partners",
       "page_subtitle": "200+ factories across 15 countries. Direct contracts — no middlemen.",
