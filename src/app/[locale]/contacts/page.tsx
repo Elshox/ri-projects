@@ -95,9 +95,10 @@ export default async function ContactsPage({ params }: Props) {
                 ))}
               </ul>
 
-              {/* Directions link */}
+              {/* Directions link — открывает Google Maps по точным
+                  координатам офиса (Махтумкули 99, Ташкент) */}
               <a
-                href="https://maps.google.com/?q=Amir+Temur+1+Tashkent"
+                href="https://www.google.com/maps/search/?api=1&query=41.305230%2C69.328703"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-8 inline-flex items-center gap-2 rounded-md border border-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent transition-colors hover:bg-accent hover:text-white"
@@ -107,11 +108,11 @@ export default async function ContactsPage({ params }: Props) {
               </a>
             </div>
 
-            {/* Google Maps embed */}
+            {/* Google Maps embed — те же координаты, что и directions */}
             <div className="overflow-hidden rounded-xl shadow-card-hover">
               <iframe
                 title={t('map_label')}
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.0!2d69.2828!3d41.2995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b1734d74b81%3A0x6c6e8b78d2b79c4!2sAmir%20Temur%20Ave%2C%20Tashkent!5e0!3m2!1sen!2suz!4v1714567890123"
+                src="https://www.google.com/maps?q=41.305230,69.328703&z=16&output=embed"
                 width="100%"
                 height="480"
                 style={{ border: 0 }}

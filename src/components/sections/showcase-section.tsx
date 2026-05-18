@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils';
 const BG_PHOTO =
   'https://images.unsplash.com/photo-1525909002-1b05e0c869d8?w=2400&q=80&auto=format';
 
+import { PROJECTS } from '@/lib/data/projects';
+
 /* ── Types ── */
 type Project = {
   slug: string;
@@ -33,87 +35,108 @@ type Project = {
   image: string;
 };
 
-/* ── Placeholder data — will be driven by CMS ── */
+/* Slug → отображаемое имя проекта в карточке Showcase.
+   Source-of-truth для slug-ов и heroImage = src/lib/data/projects.ts —
+   так клик по карточке всегда ведёт на работающую страницу
+   /projects/[slug], без 404. */
+const PROJECT_DISPLAY: Record<
+  string,
+  {
+    title: { ru: string; en: string };
+    sector: { ru: string; en: string };
+    lead?: { ru: string; en: string };
+  }
+> = {
+  'hilton-tashkent': {
+    title: { ru: 'Hilton Tashkent', en: 'Hilton Tashkent' },
+    sector: { ru: 'Отели', en: 'Hotels' },
+    lead: {
+      ru: '5★ отель Hilton в центре Ташкента — FF&E и OS&E на 256 номеров, банкетный зал, 3 ресторана.',
+      en: '5★ Hilton in downtown Tashkent — FF&E and OS&E for 256 rooms, a ballroom and 3 restaurants.',
+    },
+  },
+  'radisson-samarkand': {
+    title: { ru: 'Radisson Samarkand', en: 'Radisson Samarkand' },
+    sector: { ru: 'Отели', en: 'Hotels' },
+    lead: {
+      ru: 'Бутик-отель Radisson в Самарканде — комплектация номерного фонда и общественных зон.',
+      en: 'Boutique Radisson in Samarkand — full FF&E for guest rooms and public areas.',
+    },
+  },
+  'hyatt-regency': {
+    title: { ru: 'Hyatt Regency Tashkent', en: 'Hyatt Regency Tashkent' },
+    sector: { ru: 'Отели', en: 'Hotels' },
+    lead: {
+      ru: 'Премиальный комплекс Hyatt — мебель, освещение и операционное оснащение по стандартам сети.',
+      en: 'Premium Hyatt property — furniture, lighting and operational kit to brand standard.',
+    },
+  },
+  'marriott-almaty': {
+    title: { ru: 'Marriott Almaty', en: 'Marriott Almaty' },
+    sector: { ru: 'Отели', en: 'Hotels' },
+  },
+  'business-center-tashkent': {
+    title: { ru: 'IT Park Tashkent', en: 'IT Park Tashkent' },
+    sector: { ru: 'Бизнес-центры', en: 'Business centres' },
+  },
+  'residential-tashkent-city': {
+    title: { ru: 'Tashkent City Residences', en: 'Tashkent City Residences' },
+    sector: { ru: 'Жилые комплексы', en: 'Residential' },
+  },
+  'clinic-tashkent': {
+    title: { ru: 'MedPlus Clinic', en: 'MedPlus Clinic' },
+    sector: { ru: 'Медицина', en: 'Healthcare' },
+  },
+  'international-school-tashkent': {
+    title: { ru: 'TIS Tashkent', en: 'TIS Tashkent' },
+    sector: { ru: 'Образование', en: 'Education' },
+  },
+};
+
+function formatArea(m2: number, locale: 'ru' | 'en') {
+  const n = m2.toLocaleString(locale === 'ru' ? 'ru-RU' : 'en-US');
+  return `${n} ${locale === 'ru' ? 'м²' : 'm²'}`;
+}
+
+function buildProject(slug: string, locale: 'ru' | 'en'): Project | null {
+  const data = PROJECTS.find((p) => p.slug === slug);
+  const display = PROJECT_DISPLAY[slug];
+  if (!data || !display) return null;
+  return {
+    slug: data.slug,
+    title: display.title[locale],
+    sector: display.sector[locale],
+    sqm: formatArea(data.area, locale),
+    year: String(data.year),
+    lead: display.lead?.[locale] ?? '',
+    image: data.heroImage ?? '',
+  };
+}
+
+/* Showcase layout: 1 main + 2 sides + 4 belt-slides.
+   Использует первые 7 slug-ов из data/projects.ts (8-й «international-
+   school-tashkent» опускаем — на главной всё равно покажется в /projects). */
 function useProjects(): { featured: Project[]; belt: Project[] } {
-  const locale = useLocale();
-  const ru = locale === 'ru';
+  const locale = useLocale() as 'ru' | 'en';
 
-  const featured: Project[] = [
-    {
-      slug: 'grand-hotel',
-      title: ru ? 'Гранд Отель Ташкент' : 'Grand Hotel Tashkent',
-      sector: ru ? 'Отели' : 'Hotels',
-      sqm: '8 500 м²',
-      year: '2024',
-      lead: ru
-        ? '5-звёздочный отель в центре Ташкента — FF&E и OS&E комплектация 320 номеров, банкетного зала и ресторанов.'
-        : '5-star hotel in downtown Tashkent — FF&E and OS&E fit-out for 320 rooms, a ballroom and restaurants.',
-      image: '/images/projects/grand-hotel.jpg',
-    },
-    {
-      slug: 'silk-road',
-      title: ru ? 'Ресторан Silk Road' : 'Silk Road Restaurant',
-      sector: ru ? 'Рестораны' : 'Restaurants',
-      sqm: '650 м²',
-      year: '2024',
-      lead: ru
-        ? 'Полная комплектация ресторана — кухонное оборудование, мебель, авторский текстиль.'
-        : 'Full restaurant fit-out — kitchen equipment, furniture and bespoke textiles.',
-      image: '/images/projects/silk-road.jpg',
-    },
-    {
-      slug: 'it-park',
-      title: ru ? 'IT Park Business Center' : 'IT Park Business Centre',
-      sector: ru ? 'Бизнес-центры' : 'Business centres',
-      sqm: '3 200 м²',
-      year: '2023',
-      lead: ru
-        ? 'Офисные этажи и коворкинг технопарка — мебель, перегородки, акустические решения.'
-        : "Office floors and co-working for Uzbekistan's largest technology park.",
-      image: '/images/projects/it-park.jpg',
-    },
-  ];
+  const order = [
+    'hilton-tashkent',           // main — флагман
+    'radisson-samarkand',        // side
+    'hyatt-regency',             // side
+    'marriott-almaty',           // belt
+    'business-center-tashkent',  // belt
+    'residential-tashkent-city', // belt
+    'clinic-tashkent',           // belt
+  ] as const;
 
-  const belt: Project[] = [
-    {
-      slug: 'samarkand-clinic',
-      title: ru ? 'Самаркандская клиника' : 'Samarkand Clinic',
-      sector: ru ? 'Медицина' : 'Healthcare',
-      sqm: '420 м²',
-      year: '2024',
-      lead: '',
-      image: '/images/projects/samarkand-clinic.jpg',
-    },
-    {
-      slug: 'capital-residences',
-      title: ru ? 'Capital Residences' : 'Capital Residences',
-      sector: ru ? 'Жилые комплексы' : 'Residential',
-      sqm: '12 000 м²',
-      year: '2023',
-      lead: '',
-      image: '/images/projects/capital-residences.jpg',
-    },
-    {
-      slug: 'anor-retail',
-      title: ru ? 'Anor Retail Gallery' : 'Anor Retail Gallery',
-      sector: ru ? 'Ритейл' : 'Retail',
-      sqm: '2 200 м²',
-      year: '2024',
-      lead: '',
-      image: '/images/projects/anor-retail.jpg',
-    },
-    {
-      slug: 'inha-university',
-      title: ru ? 'Университет Инха' : 'Inha University',
-      sector: ru ? 'Образование' : 'Education',
-      sqm: '1 800 м²',
-      year: '2023',
-      lead: '',
-      image: '/images/projects/inha-university.jpg',
-    },
-  ];
+  const all = order
+    .map((s) => buildProject(s, locale))
+    .filter((p): p is Project => p !== null);
 
-  return { featured, belt };
+  return {
+    featured: all.slice(0, 3),
+    belt: all.slice(3),
+  };
 }
 
 /* ── blurDataURL — shared dark 1×1 JPEG ── */
