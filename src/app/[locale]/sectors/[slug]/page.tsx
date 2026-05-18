@@ -52,8 +52,8 @@ export default async function SectorDetailPage({ params }: Props) {
 
   return (
     <>
+      {/* Eyebrow раньше дублировал breadcrumb — убран. */}
       <PageHero
-        eyebrow={t('breadcrumb')}
         title={name}
         subtitle={subtitle}
         bgImage={sector.heroImage}

@@ -248,12 +248,17 @@ function ProjectCard({
         className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-400 group-hover:opacity-100"
       />
 
-      {/* CTA pill — appears at centre on hover (keyboard/touch friendly alternative to cursor) */}
+      {/* CTA pill — TOUCH/keyboard ONLY fallback.
+         На устройствах с hover (мышь / трекпад) показывается
+         плавающий cursor-label «СМОТРЕТЬ» — pill там визуально
+         конфликтовал с курсором. CSS-фильтр `(hover: none)`
+         оставляет pill только на тач-устройствах. */}
       <div
         aria-hidden
         className={cn(
           'absolute inset-0 flex items-center justify-center',
           'opacity-0 transition-opacity duration-300 group-hover:opacity-100',
+          '[@media(hover:hover)]:hidden',
         )}
       >
         <span

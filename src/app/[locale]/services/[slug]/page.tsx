@@ -54,8 +54,10 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   return (
     <>
+      {/* Eyebrow раньше дублировал breadcrumb (breadcrumb «Услуги > {name}»
+          + eyebrow «УСЛУГИ» + H1 «{name}» — три раза одно и то же).
+          Убран: breadcrumb уже даёт контекст. */}
       <PageHero
-        eyebrow={t('breadcrumb')}
         title={name}
         subtitle={subtitle}
         bgImage={service.heroImage}
