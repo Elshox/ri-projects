@@ -32,13 +32,11 @@ export function Logo({ className, variant = 'dark', ariaLabel = 'RI PROJECTS' }:
         src={src}
         alt={ariaLabel}
         width={1024}
-        height={1536}
+        height={1024}
         priority
-        /* Visual height ladder: 48px → 56px → 64px (mobile → sm → lg).
-           w-auto сохраняет 2:3 пропорции lock-up'а. object-contain
-           гарантирует что ничего не обрезается при нестандартных
-           родительских контейнерах. */
-        className="h-12 w-auto object-contain sm:h-14 lg:h-16"
+        /* Квадратный 1:1 lock-up (только RI-иконка, без надписи).
+           Visual size 48 → 56 → 64 px по breakpoint'ам. */
+        className="h-12 w-12 object-contain sm:h-14 sm:w-14 lg:h-16 lg:w-16"
       />
     </span>
   );
