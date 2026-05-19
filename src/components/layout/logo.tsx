@@ -31,12 +31,15 @@ export function Logo({ className, variant = 'dark', ariaLabel = 'RI PROJECTS' }:
       <Image
         src={src}
         alt={ariaLabel}
-        width={1024}
-        height={1024}
+        width={576}
+        height={562}
         priority
-        /* Квадратный 1:1 lock-up (только RI-иконка, без надписи).
-           Visual size 48 → 56 → 64 px по breakpoint'ам. */
-        className="h-12 w-12 object-contain sm:h-14 sm:w-14 lg:h-16 lg:w-16"
+        /* Полный lock-up (иконка RI + надпись «RI PROJECTS»).
+           Aspect ~1.02:1 — практически квадрат. Размеры подняты
+           до 60 → 72 → 84 px по breakpoint'ам, чтобы лого читался
+           с расстояния, особенно надпись внизу. width: auto держит
+           натуральную пропорцию без обрезания/растягивания. */
+        className="h-[60px] w-auto object-contain sm:h-[72px] lg:h-[84px]"
       />
     </span>
   );

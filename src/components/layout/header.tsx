@@ -103,7 +103,9 @@ export function Header() {
       >
         <div
           className={cn(
-            'container mx-auto flex h-16 items-center justify-between gap-6 lg:h-20',
+            /* Header высота поднята с 64/80 до 72/96 px — даёт воздух
+               для увеличенного lock-up'а (60-84 px). */
+            'container mx-auto flex h-[72px] items-center justify-between gap-6 lg:h-24',
             headerTextClass,
           )}
         >
@@ -202,7 +204,7 @@ export function Header() {
             className="bg-bg-dark fixed inset-0 z-50 flex flex-col text-white lg:hidden"
             style={{ willChange: 'opacity' }}
           >
-            <div className="container mx-auto flex h-16 items-center justify-between">
+            <div className="container mx-auto flex h-[72px] items-center justify-between">
               <Logo variant="light" />
               <button
                 type="button"
