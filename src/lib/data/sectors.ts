@@ -46,7 +46,7 @@ export const SECTORS: readonly SectorData[] = [
       { category: 'Лобби и зоны', items: ['Декоративная мебель', 'Освещение (люстры, бра)', 'Ковровые покрытия', 'Арт и декор'] },
     ],
     standards: ['Brand standards Hilton / Marriott / IHG', 'ГОСТ 30335 (гостиничные услуги)', 'Пожарная безопасность', 'ТР ЕАЭС 025/2012 (мебель)'],
-    relatedCases: ['hilton-tashkent', 'radisson-samarkand'],
+    relatedCases: ['delta-marriott-istanbul', 'novotel-bishkek', 'zulal-wellness-qatar'],
   },
   {
     slug: 'restaurants',
@@ -63,7 +63,7 @@ export const SECTORS: readonly SectorData[] = [
       { category: 'Кухня', items: ['Профессиональное кухонное оборудование', 'Инвентарь шефа', 'Хранение и стеллажи'] },
     ],
     standards: ['СанПиН 2.3.6', 'Пожарная безопасность', 'EN 1022 (устойчивость мебели)', 'ГОСТ 30524 (общественное питание)'],
-    relatedCases: ['hyatt-regency', 'local-restaurant-tashkent'],
+    relatedCases: ['novikov-doha', 'robertos-muscat', 'emirgan-sutis-istanbul'],
   },
   {
     slug: 'residential',
@@ -80,7 +80,7 @@ export const SECTORS: readonly SectorData[] = [
       { category: 'Ванная', items: ['Сантехника', 'Аксессуары', 'Зеркала', 'Полотенцесушители'] },
     ],
     standards: ['ТР ЕАЭС 025/2012 (мебель)', 'ГОСТ Р 51768 (матрасы)', 'СНиП (строительные нормы)', 'Пожарная безопасность'],
-    relatedCases: ['residential-tashkent-city', 'high-rise-almaty'],
+    relatedCases: [],
   },
   {
     slug: 'business-centers',
@@ -97,7 +97,7 @@ export const SECTORS: readonly SectorData[] = [
       { category: 'Лобби и ресепшн', items: ['Ресепшн-стойки', 'Зона ожидания', 'Навигация и знаки', 'Декор'] },
     ],
     standards: ['LEED / BREEAM (при необходимости)', 'Пожарная безопасность', 'Эргономические нормы ЕС', 'ГОСТ 12.2.032 (рабочие места)'],
-    relatedCases: ['business-center-tashkent', 'tech-campus-almaty'],
+    relatedCases: [],
   },
   {
     slug: 'medical',
@@ -114,7 +114,7 @@ export const SECTORS: readonly SectorData[] = [
       { category: 'Операционные', items: ['Операционные столы', 'Медицинские светильники', 'Хирургическая мебель'] },
     ],
     standards: ['ISO 13485 (медицинские изделия)', 'Лицензионные требования МЗ РУз', 'СанПиН для ЛПУ', 'Пожарная безопасность'],
-    relatedCases: ['clinic-tashkent', 'dental-center'],
+    relatedCases: [],
   },
   {
     slug: 'education',
@@ -131,7 +131,7 @@ export const SECTORS: readonly SectorData[] = [
       { category: 'Лаборатории', items: ['Лабораторные столы и стеллажи', 'Вытяжные шкафы', 'IT-оборудование'] },
     ],
     standards: ['СанПиН для учебных заведений', 'ГОСТ 22046 (школьная мебель)', 'Пожарная безопасность', 'Экологические требования'],
-    relatedCases: ['international-school-tashkent'],
+    relatedCases: [],
   },
   {
     slug: 'retail',
@@ -147,7 +147,7 @@ export const SECTORS: readonly SectorData[] = [
       { category: 'Склад', items: ['Складские стеллажи', 'Мобильные тележки', 'Упаковочные столы'] },
     ],
     standards: ['Пожарная безопасность', 'Строительные нормы для ТЦ', 'Доступная среда (инвалиды)', 'ГОСТ EN 15635 (стеллажное оборудование)'],
-    relatedCases: ['fashion-retail-tashkent'],
+    relatedCases: [],
   },
   {
     slug: 'banks',
@@ -164,7 +164,7 @@ export const SECTORS: readonly SectorData[] = [
       { category: 'Офис', items: ['Рабочие места', 'Хранение и сейфы', 'Кухонные зоны', 'Серверные комнаты'] },
     ],
     standards: ['Требования ЦБ РУз', 'Стандарты физической безопасности', 'Доступная среда', 'Пожарная безопасность'],
-    relatedCases: ['kapitalbank-branches', 'national-bank-renovation'],
+    relatedCases: [],
   },
 ] as const;
 

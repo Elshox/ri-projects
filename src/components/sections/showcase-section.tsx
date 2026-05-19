@@ -47,49 +47,53 @@ const PROJECT_DISPLAY: Record<
     lead?: { ru: string; en: string };
   }
 > = {
-  'hilton-tashkent': {
-    title: { ru: 'Hilton Tashkent', en: 'Hilton Tashkent' },
+  'delta-marriott-istanbul': {
+    title: { ru: 'Delta by Marriott', en: 'Delta by Marriott' },
     sector: { ru: 'Отели', en: 'Hotels' },
     lead: {
-      ru: '5★ отель Hilton в центре Ташкента — FF&E и OS&E на 256 номеров, банкетный зал, 3 ресторана.',
-      en: '5★ Hilton in downtown Tashkent — FF&E and OS&E for 256 rooms, a ballroom and 3 restaurants.',
+      ru: 'Marriott Kağıthane в центре Стамбула — полная FF&E-комплектация номеров, лобби, ресторанов и общественных зон.',
+      en: 'Marriott Kağıthane in central Istanbul — full FF&E for rooms, lobby, restaurants and public areas.',
     },
   },
-  'radisson-samarkand': {
-    title: { ru: 'Radisson Samarkand', en: 'Radisson Samarkand' },
+  'novotel-bishkek': {
+    title: { ru: 'Novotel Bishkek', en: 'Novotel Bishkek' },
     sector: { ru: 'Отели', en: 'Hotels' },
     lead: {
-      ru: 'Бутик-отель Radisson в Самарканде — комплектация номерного фонда и общественных зон.',
-      en: 'Boutique Radisson in Samarkand — full FF&E for guest rooms and public areas.',
+      ru: 'Первый Accor-отель новой генерации в Кыргызстане — комплектация под Novotel-стандарт + сертификация ЕАЭС.',
+      en: 'First new-generation Accor hotel in Kyrgyzstan — full Novotel-grade procurement + EAEU certification.',
     },
   },
-  'hyatt-regency': {
-    title: { ru: 'Hyatt Regency Tashkent', en: 'Hyatt Regency Tashkent' },
+  'zulal-wellness-qatar': {
+    title: { ru: 'Zulal Wellness Resort', en: 'Zulal Wellness Resort' },
     sector: { ru: 'Отели', en: 'Hotels' },
     lead: {
-      ru: 'Премиальный комплекс Hyatt — мебель, освещение и операционное оснащение по стандартам сети.',
-      en: 'Premium Hyatt property — furniture, lighting and operational kit to brand standard.',
+      ru: 'Первый wellness-курорт Ближнего Востока в Катаре — два изолированных гостевых кластера, материалы под soft-touch + high-traffic.',
+      en: 'Middle East’s first wellness resort in Qatar — two isolated guest clusters, soft-touch + high-traffic materials.',
     },
   },
-  'marriott-almaty': {
-    title: { ru: 'Marriott Almaty', en: 'Marriott Almaty' },
+  'hilton-garden-inn-istanbul': {
+    title: { ru: 'Hilton Garden Inn', en: 'Hilton Garden Inn' },
     sector: { ru: 'Отели', en: 'Hotels' },
   },
-  'business-center-tashkent': {
-    title: { ru: 'IT Park Tashkent', en: 'IT Park Tashkent' },
-    sector: { ru: 'Бизнес-центры', en: 'Business centres' },
+  'hampton-hilton-atakoy': {
+    title: { ru: 'Hampton by Hilton Atakoy', en: 'Hampton by Hilton Atakoy' },
+    sector: { ru: 'Отели', en: 'Hotels' },
   },
-  'residential-tashkent-city': {
-    title: { ru: 'Tashkent City Residences', en: 'Tashkent City Residences' },
-    sector: { ru: 'Жилые комплексы', en: 'Residential' },
+  'nh-collection-doha': {
+    title: { ru: 'NH Collection Doha', en: 'NH Collection Doha' },
+    sector: { ru: 'Отели', en: 'Hotels' },
   },
-  'clinic-tashkent': {
-    title: { ru: 'MedPlus Clinic', en: 'MedPlus Clinic' },
-    sector: { ru: 'Медицина', en: 'Healthcare' },
+  'novikov-doha': {
+    title: { ru: 'Novikov Lounge', en: 'Novikov Lounge' },
+    sector: { ru: 'Рестораны', en: 'Restaurants' },
   },
-  'international-school-tashkent': {
-    title: { ru: 'TIS Tashkent', en: 'TIS Tashkent' },
-    sector: { ru: 'Образование', en: 'Education' },
+  'robertos-muscat': {
+    title: { ru: 'Roberto’s Muscat', en: 'Roberto’s Muscat' },
+    sector: { ru: 'Рестораны', en: 'Restaurants' },
+  },
+  'emirgan-sutis-istanbul': {
+    title: { ru: 'Emirgan Sütiş', en: 'Emirgan Sütiş' },
+    sector: { ru: 'Рестораны', en: 'Restaurants' },
   },
 };
 
@@ -120,13 +124,13 @@ function useProjects(): { featured: Project[]; belt: Project[] } {
   const locale = useLocale() as 'ru' | 'en';
 
   const order = [
-    'hilton-tashkent',           // main — флагман
-    'radisson-samarkand',        // side
-    'hyatt-regency',             // side
-    'marriott-almaty',           // belt
-    'business-center-tashkent',  // belt
-    'residential-tashkent-city', // belt
-    'clinic-tashkent',           // belt
+    'delta-marriott-istanbul',   // main — флагман (Marriott)
+    'novotel-bishkek',           // side  (Accor, СНГ-кейс)
+    'zulal-wellness-qatar',      // side  (wellness-нишa)
+    'hilton-garden-inn-istanbul',// belt
+    'hampton-hilton-atakoy',     // belt
+    'nh-collection-doha',        // belt
+    'novikov-doha',              // belt — ресторан-luxury
   ] as const;
 
   const all = order

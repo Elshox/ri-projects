@@ -17,6 +17,9 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'res.cloudinary.com' },
+      /* elitoffice.com — наш партнёр-поставщик, разрешил использовать
+         фото реализованных hospitality-проектов (отели, рестораны). */
+      { protocol: 'https', hostname: 'elitoffice.com' },
     ],
   },
   async headers() {

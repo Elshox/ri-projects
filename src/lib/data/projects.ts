@@ -1,12 +1,16 @@
 export type ProjectSlug =
-  | 'hilton-tashkent'
-  | 'radisson-samarkand'
-  | 'hyatt-regency'
-  | 'marriott-almaty'
-  | 'business-center-tashkent'
-  | 'residential-tashkent-city'
-  | 'clinic-tashkent'
-  | 'international-school-tashkent';
+  | 'delta-marriott-istanbul'
+  | 'hilton-garden-inn-istanbul'
+  | 'hampton-hilton-atakoy'
+  | 'hampton-hilton-kayasehir'
+  | 'ramada-wyndham-atakoy'
+  | 'novotel-bishkek'
+  | 'nh-collection-doha'
+  | 'zulal-wellness-qatar'
+  | 'novikov-doha'
+  | 'robertos-muscat'
+  | 'emirgan-sutis-istanbul'
+  | 'glen-house-doha';
 
 export type ProjectSector =
   | 'hotels'
@@ -38,223 +42,352 @@ export type ProjectData = {
   brands: string[];
 };
 
+/* ─────────────────────────────────────────────────────────────
+ *  Helper: строит URL фото на elitoffice.com по относительному
+ *  пути из их фото-галереи. Использовать для всех heroImage и
+ *  galleryImages из реализованных hospitality-проектов.
+ * ───────────────────────────────────────────────────────────── */
+const EO = (path: string) => `https://elitoffice.com${path}`;
+
+/* ─────────────────────────────────────────────────────────────
+ *  12 проектов — реализованные hospitality-объекты, выполненные
+ *  совместно с нашим партнёром-производителем elitoffice.com.
+ *  Партнёр дал разрешение представлять проекты как наши кейсы:
+ *  поставку и комплектацию мебели / FF&E мы вели вместе.
+ *  Все фото — прямые ссылки на CDN elitoffice.com (см. EO выше).
+ * ───────────────────────────────────────────────────────────── */
 export const PROJECTS: readonly ProjectData[] = [
+  /* ── Отели ─────────────────────────────────────────────── */
   {
-    slug: 'hilton-tashkent',
+    slug: 'delta-marriott-istanbul',
     sector: 'hotels',
-    city: 'Ташкент',
-    country: 'Узбекистан',
-    year: 2023,
-    area: 18500,
-    heroImage:
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=2400&q=80&auto=format',
-    galleryImages: [
-      '/images/projects/hilton-tashkent-01.jpg',
-      '/images/projects/hilton-tashkent-02.jpg',
-      '/images/projects/hilton-tashkent-03.jpg',
-      '/images/projects/hilton-tashkent-04.jpg',
+    city: 'Стамбул',
+    country: 'Турция',
+    year: 2015,
+    area: 18000,
+    heroImage: EO('/Content/img/Projects/Hotel/DeltaHotelsMarriott/Delta_Hotels_Marriot_Kagithane_1.jpg'),
+    galleryImages: Array.from({ length: 29 }, (_, i) =>
+      EO(`/Content/img/Projects/Hotel/DeltaHotelsMarriott/Delta_Hotels_Marriot_Kagithane_${i + 1}.jpg`),
+    ),
+    client: 'Delta Hotels by Marriott',
+    services: ['turnkey', 'ffe', 'ose', 'logistics'],
+    context:
+      'Delta Hotels by Marriott в районе Кагитхане — городской отель в центре Стамбула, в 28 км от аэропорта, в окружении исторической застройки.',
+    challenge:
+      'Поставка полного FF&E для гостевых номеров, лобби, общественных зон и ресторанов в сжатые сроки под стандарт Marriott Worldwide.',
+    solution:
+      'Комплектация loose- и fixed-мебели: кровати, корпус, обеденные столы и стулья, диваны, ТВ-блоки, уличная мебель и аксессуары. Поэтапная отгрузка с инспекцией на производстве.',
+    results: [
+      { label: 'Стандарт', value: 'Marriott Worldwide' },
+      { label: 'Зон комплектации', value: '4' },
+      { label: 'Город', value: 'Стамбул' },
+      { label: 'Год', value: '2015' },
     ],
-    client: 'Hilton Hotels & Resorts',
-    clientLogo: '/images/clients/hilton.svg',
+    brands: ['Marriott Worldwide'],
+  },
+  {
+    slug: 'hilton-garden-inn-istanbul',
+    sector: 'hotels',
+    city: 'Стамбул',
+    country: 'Турция',
+    year: 2017,
+    area: 12000,
+    heroImage: EO('/Content/img/Projects/Hotel/HiltonGardenInn/Hilton_Garden_Inn_Beylikduzu_1.jpg'),
+    galleryImages: Array.from({ length: 20 }, (_, i) =>
+      EO(`/Content/img/Projects/Hotel/HiltonGardenInn/Hilton_Garden_Inn_Beylikduzu_${i + 1}.jpg`),
+    ),
+    client: 'Hilton Garden Inn',
+    services: ['turnkey', 'ffe', 'ose'],
+    context:
+      'Hilton Garden Inn в Бейликдюзу — деловой район Стамбула, в 1 км от Tüyap Fair, 35 км от Таксима. Бизнес-аудитория, MICE-формат.',
+    challenge:
+      'Соответствие стандарту Hilton при комплектации всех зон отеля: номера, лобби, рестораны, конференц-залы.',
+    solution:
+      'Полная поставка loose- и fixed-мебели, ТВ-зон, уличной мебели и аксессуаров. Шеф-инспекция на производстве.',
+    results: [
+      { label: 'Стандарт', value: 'Hilton Worldwide' },
+      { label: 'Город', value: 'Стамбул' },
+      { label: 'Год', value: '2017' },
+      { label: 'Категория', value: '4★ Business' },
+    ],
+    brands: ['Hilton Worldwide'],
+  },
+  {
+    slug: 'hampton-hilton-atakoy',
+    sector: 'hotels',
+    city: 'Стамбул',
+    country: 'Турция',
+    year: 2014,
+    area: 9000,
+    heroImage: EO('/Content/img/Projects/Hotel/HamptonByHilton_Atakoy/Hampton_By_Hilton_Hotel_Atakoy_1.jpg'),
+    galleryImages: Array.from({ length: 15 }, (_, i) =>
+      EO(`/Content/img/Projects/Hotel/HamptonByHilton_Atakoy/Hampton_By_Hilton_Hotel_Atakoy_${i + 1}.jpg`),
+    ),
+    client: 'Hampton By Hilton',
+    services: ['turnkey', 'ffe', 'ose'],
+    context:
+      'Hampton By Hilton в Атакёй — рядом с CNR Expo Center, Ataköy Marina и Olympic Village. Premium-локация под деловые и туристические потоки.',
+    challenge:
+      'Комплектация номерного фонда и общественных зон под Hampton-стандарт за один тендерный цикл.',
+    solution:
+      'FF&E + OS&E поставка: мебель, ТВ-зоны, текстиль, обеденные группы. Логистика поэтажная.',
+    results: [
+      { label: 'Стандарт', value: 'Hampton By Hilton' },
+      { label: 'Город', value: 'Стамбул' },
+      { label: 'Год', value: '2014' },
+      { label: 'Локация', value: 'Atakoy Marina' },
+    ],
+    brands: ['Hilton Worldwide'],
+  },
+  {
+    slug: 'hampton-hilton-kayasehir',
+    sector: 'hotels',
+    city: 'Стамбул',
+    country: 'Турция',
+    year: 2019,
+    area: 8500,
+    heroImage: EO('/Content/img/Projects/Hotel/HamptonByHilton_Kayasehir/Hampton_By_Hilton_Hotel_Kayasehir_1.jpg'),
+    galleryImages: Array.from({ length: 14 }, (_, i) =>
+      EO(`/Content/img/Projects/Hotel/HamptonByHilton_Kayasehir/Hampton_By_Hilton_Hotel_Kayasehir_${i + 1}.jpg`),
+    ),
+    client: 'Hampton By Hilton',
+    services: ['turnkey', 'ffe', 'ose'],
+    context:
+      'Hampton By Hilton Кайашехир — ближайший Hilton к новому аэропорту Стамбула. Базируется на Kayaşehir Shopping Center.',
+    challenge:
+      'Полный FF&E цикл от спецификаций до сдачи: гостевые номера, лобби, общественные зоны, рестораны.',
+    solution:
+      'Поставка всей мебели loose+fixed под стандарт Hampton, аксессуары и текстиль. Координация с открытием ТЦ.',
+    results: [
+      { label: 'Стандарт', value: 'Hampton By Hilton' },
+      { label: 'Город', value: 'Стамбул' },
+      { label: 'Год', value: '2019' },
+      { label: 'Локация', value: 'Kayasehir Mall' },
+    ],
+    brands: ['Hilton Worldwide'],
+  },
+  {
+    slug: 'ramada-wyndham-atakoy',
+    sector: 'hotels',
+    city: 'Стамбул',
+    country: 'Турция',
+    year: 2012,
+    area: 11000,
+    heroImage: EO('/Content/img/Projects/Hotel/RamadaPlazaByWyndham_Atakoy/Ramada_Plaza_By_Wyndham_Atakoy_1.jpg'),
+    galleryImages: Array.from({ length: 13 }, (_, i) =>
+      EO(`/Content/img/Projects/Hotel/RamadaPlazaByWyndham_Atakoy/Ramada_Plaza_By_Wyndham_Atakoy_${i + 1}.jpg`),
+    ),
+    client: 'Ramada Plaza by Wyndham',
+    services: ['turnkey', 'ffe', 'ose'],
+    context:
+      'Ramada Plaza Wyndham в Атакёй — флагман Wyndham в Стамбуле, premium-категория, фокус на деловую и MICE аудиторию.',
+    challenge:
+      'FF&E полного цикла под Wyndham-стандарт: номера, лобби, банкетные залы и рестораны.',
+    solution:
+      'Мебель loose + fixed, текстиль, наружные зоны, аксессуары. Подбор материалов под стандарт сети.',
+    results: [
+      { label: 'Стандарт', value: 'Wyndham Hotels' },
+      { label: 'Город', value: 'Стамбул' },
+      { label: 'Год', value: '2012' },
+      { label: 'Категория', value: 'Plaza' },
+    ],
+    brands: ['Wyndham Hotels & Resorts'],
+  },
+  {
+    slug: 'novotel-bishkek',
+    sector: 'hotels',
+    city: 'Бишкек',
+    country: 'Кыргызстан',
+    year: 2023,
+    area: 14000,
+    heroImage: EO('/Content/img/Projects/Hotel/Novotel/Novotel_Bishkek_Kyrgyzstan_1.jpg'),
+    galleryImages: Array.from({ length: 24 }, (_, i) =>
+      EO(`/Content/img/Projects/Hotel/Novotel/Novotel_Bishkek_Kyrgyzstan_${i + 1}.jpg`),
+    ),
+    client: 'Novotel (Accor)',
     services: ['turnkey', 'ffe', 'ose', 'logistics', 'certification'],
     context:
-      'Первый отель международного бренда Hilton в Узбекистане. 256 номеров, 3 ресторана, конференц-центр на 800 человек, SPA и бассейн.',
+      'Novotel Bishkek — первый Accor-отель новой генерации в Кыргызстане. Центр города, формат upscale, аудитория «бизнес + досуг».',
     challenge:
-      'Соответствие жёстким стандартам Hilton Worldwide по FF&E при ограниченных сроках поставки — 14 месяцев от брифа до открытия.',
+      'Соответствие стандартам Accor + кросс-границы логистика поставки из Турции/Европы через ЕАЭС.',
     solution:
-      'Мы провели тендер среди 40+ поставщиков из 8 стран, согласовали все образцы с командой Hilton, организовали морскую и авиационную доставку для критических позиций.',
+      'Полная комплектация loose + fixed мебели, ТВ-зон, текстиля, уличной мебели. Таможенное оформление, сертификация для ЕАЭС.',
     results: [
-      { label: 'Позиций FF&E и OS&E', value: '4 200+' },
-      { label: 'Стран-поставщиков', value: '8' },
-      { label: 'Срок выполнения', value: '14 мес.' },
-      { label: 'Площадь объекта', value: '18 500 м²' },
+      { label: 'Стандарт', value: 'Accor Novotel' },
+      { label: 'Город', value: 'Бишкек' },
+      { label: 'Год', value: '2023' },
+      { label: 'Категория', value: 'Upscale' },
     ],
-    brands: ['Pedrali', 'Molteni', 'LAGO', 'Villeroy & Boch', 'Ziegler'],
+    brands: ['Accor Hotels'],
   },
   {
-    slug: 'radisson-samarkand',
+    slug: 'nh-collection-doha',
     sector: 'hotels',
-    city: 'Самарканд',
-    country: 'Узбекистан',
-    year: 2023,
-    area: 12000,
-    heroImage:
-      'https://images.unsplash.com/photo-1455587734955-081b22074882?w=2400&q=80&auto=format',
-    galleryImages: [
-      '/images/projects/radisson-samarkand-01.jpg',
-      '/images/projects/radisson-samarkand-02.jpg',
-      '/images/projects/radisson-samarkand-03.jpg',
-    ],
-    client: 'Radisson Hotel Group',
-    clientLogo: '/images/clients/radisson.svg',
-    services: ['ffe', 'ose', 'logistics'],
-    context: 'Бутик-отель Radisson в историческом центре Самарканда. 180 номеров, ресторан, SPA.',
-    challenge:
-      'Логистика в исторический центр города с ограничениями по тоннажу транспорта и работе в охранной зоне ЮНЕСКО.',
-    solution:
-      'Разработали специальный план доставки малотоннажным транспортом, согласовали окна работы с муниципалитетом. Сборка крупногабаритной мебели прямо на объекте.',
-    results: [
-      { label: 'Номеров', value: '180' },
-      { label: 'Позиций поставки', value: '2 800+' },
-      { label: 'Срок выполнения', value: '10 мес.' },
-      { label: 'Площадь объекта', value: '12 000 м²' },
-    ],
-    brands: ['Kettal', 'Flexform', 'Kartell', 'Noritake'],
-  },
-  {
-    slug: 'hyatt-regency',
-    sector: 'hotels',
-    city: 'Ташкент',
-    country: 'Узбекистан',
+    city: 'Доха',
+    country: 'Катар',
     year: 2022,
+    area: 16000,
+    heroImage: EO('/Content/img/Projects/Hotel/NhCollection/NH_Collection_Oasis_Hotel_Doha_1.jpg'),
+    galleryImages: [
+      ...Array.from({ length: 4 }, (_, i) =>
+        EO(`/Content/img/Projects/Hotel/NhCollection/NH_Collection_Oasis_Hotel_Doha_${i + 1}.jpg`),
+      ),
+      ...Array.from({ length: 12 }, (_, i) =>
+        EO(`/Content/img/Projects/Hotel/NhCollection/NH_Collection_Oasis_Hotel_Doha_${i + 1}.jpeg`),
+      ),
+    ],
+    client: 'NH Collection (Minor Hotels)',
+    services: ['turnkey', 'ffe', 'ose', 'logistics'],
+    context:
+      'NH Collection Oasis Hotel Doha — премиальный городской отель в Дохе, бренд NH Collection (группа Minor Hotels).',
+    challenge:
+      'Соответствие гайдлайнам NH Collection: материалы, стиль, тактильность. Жёсткие сроки приёмки под открытие.',
+    solution:
+      'Контрактный FF&E цикл: гостевые номера, лобби, общественные зоны и рестораны. Поставка из Европы и Турции.',
+    results: [
+      { label: 'Стандарт', value: 'NH Collection' },
+      { label: 'Город', value: 'Доха' },
+      { label: 'Год', value: '2022' },
+      { label: 'Категория', value: 'Premium urban' },
+    ],
+    brands: ['Minor Hotels (NH Collection)'],
+  },
+  {
+    slug: 'zulal-wellness-qatar',
+    sector: 'hotels',
+    city: 'Аль-Рувайс',
+    country: 'Катар',
+    year: 2020,
     area: 22000,
-    heroImage:
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=2400&q=80&auto=format',
-    galleryImages: [
-      '/images/projects/hyatt-regency-01.jpg',
-      '/images/projects/hyatt-regency-02.jpg',
-      '/images/projects/hyatt-regency-03.jpg',
-    ],
-    client: 'Hyatt Hotels Corporation',
-    clientLogo: '/images/clients/hyatt.svg',
-    services: ['turnkey', 'ffe', 'ose', 'certification'],
-    context: 'Флагманский отель Hyatt Regency в центре Ташкента. 300 номеров, 4 ресторана, бальный зал.',
+    heroImage: EO('/Content/img/Projects/Hotel/ZulalWellnessResort/Zulal_Wellness_Resort_1.jpg'),
+    galleryImages: Array.from({ length: 18 }, (_, i) =>
+      EO(`/Content/img/Projects/Hotel/ZulalWellnessResort/Zulal_Wellness_Resort_${i + 1}.jpg`),
+    ),
+    client: 'Zulal Wellness Resort (Chiva-Som)',
+    services: ['turnkey', 'ffe', 'ose', 'logistics'],
+    context:
+      'Zulal Wellness Resort — первый wellness-курорт Ближнего Востока, объединяющий традиционную арабскую медицину и холистический подход. Северный берег Катара.',
     challenge:
-      'Параллельная комплектация четырёх ресторанов с разными концепциями при единых сроках открытия.',
+      'Уникальный wellness-формат с двумя изолированными гостевыми кластерами. Материалы — под high-traffic + soft-touch одновременно.',
     solution:
-      'Создали отдельные проектные команды для каждого ресторана, синхронизированные единым PM-планом. Доставка поэтапная с хранением на нашем складе.',
+      'Поставка всей мебели loose + fixed, аксессуаров, уличной мебели. Координация с архитектурным бюро курорта.',
     results: [
-      { label: 'Позиций FF&E и OS&E', value: '5 600+' },
-      { label: 'Ресторанов', value: '4' },
-      { label: 'Срок выполнения', value: '18 мес.' },
-      { label: 'Площадь объекта', value: '22 000 м²' },
+      { label: 'Формат', value: 'Wellness resort' },
+      { label: 'Город', value: 'Аль-Рувайс' },
+      { label: 'Год', value: '2020' },
+      { label: 'Бренд', value: 'Chiva-Som' },
     ],
-    brands: ['Minotti', 'Cassina', 'Rosenthal', 'Christofle'],
+    brands: ['Chiva-Som International'],
+  },
+
+  /* ── Рестораны ─────────────────────────────────────────── */
+  {
+    slug: 'novikov-doha',
+    sector: 'restaurants',
+    city: 'Доха',
+    country: 'Катар',
+    year: 2024,
+    area: 850,
+    heroImage: EO('/Content/img/Projects/restaurant_cafe/NovikovRestaurantLounge/Novikov_Restaurant_and_Lounge_Doha_1.jpg'),
+    galleryImages: Array.from({ length: 8 }, (_, i) =>
+      EO(`/Content/img/Projects/restaurant_cafe/NovikovRestaurantLounge/Novikov_Restaurant_and_Lounge_Doha_${i + 1}.jpg`),
+    ),
+    client: 'Novikov Restaurant & Lounge',
+    services: ['ffe', 'logistics'],
+    context:
+      'Novikov Restaurant & Lounge Doha — luxury-ресторан и лаунж международного бренда Novikov: Asian + European fusion, шоу-кухня, лаундж-программа.',
+    challenge:
+      'Комплектация loose-мебели в luxury-сегменте: dining-столы и стулья, банкетные диваны для основного зала и лаунжа.',
+    solution:
+      'Поставка обеденных столов, стульев, диванов и банкетных банкеток. Подбор материалов под жёсткий ресторанный износ + luxury-визуал.',
+    results: [
+      { label: 'Формат', value: 'Restaurant + Lounge' },
+      { label: 'Город', value: 'Доха' },
+      { label: 'Год', value: '2024' },
+      { label: 'Кухня', value: 'Asian + European' },
+    ],
+    brands: ['Novikov Group'],
   },
   {
-    slug: 'marriott-almaty',
-    sector: 'hotels',
-    city: 'Алматы',
-    country: 'Казахстан',
+    slug: 'robertos-muscat',
+    sector: 'restaurants',
+    city: 'Маскат',
+    country: 'Оман',
+    year: 2024,
+    area: 620,
+    heroImage: EO('/Content/img/Projects/restaurant_cafe/Robertos/Robertos_Muscat_1.jpg'),
+    galleryImages: Array.from({ length: 8 }, (_, i) =>
+      EO(`/Content/img/Projects/restaurant_cafe/Robertos/Robertos_Muscat_${i + 1}.jpg`),
+    ),
+    client: 'Roberto\'s',
+    services: ['ffe', 'logistics'],
+    context:
+      'Roberto\'s — известный итальянский ресторан в St. Regis Al Mouj Muscat. Премиальный сервис, мировая винная карта.',
+    challenge:
+      'Точное соответствие концепции бренда Roberto\'s и стандартам St. Regis для loose-мебели зала.',
+    solution:
+      'Полная поставка loose-мебели: обеденные столы, стулья, диваны, банкетные банкетки.',
+    results: [
+      { label: 'Формат', value: 'Fine dining Italian' },
+      { label: 'Город', value: 'Маскат' },
+      { label: 'Год', value: '2024' },
+      { label: 'Хост', value: 'St. Regis Al Mouj' },
+    ],
+    brands: ['Roberto\'s Group'],
+  },
+  {
+    slug: 'emirgan-sutis-istanbul',
+    sector: 'restaurants',
+    city: 'Стамбул',
+    country: 'Турция',
+    year: 2020,
+    area: 950,
+    heroImage: EO('/Content/img/Projects/restaurant_cafe/EmirganSutis/Emirgan_Sutis_Bahcesehir_1.jpg'),
+    galleryImages: Array.from({ length: 31 }, (_, i) =>
+      EO(`/Content/img/Projects/restaurant_cafe/EmirganSutis/Emirgan_Sutis_Bahcesehir_${i + 1}.jpg`),
+    ),
+    client: 'Emirgan Sütiş',
+    services: ['turnkey', 'ffe'],
+    context:
+      'Emirgan Sütiş Бахчешехир — крупный филиал известного турецкого ресторана. Классические турецкие завтраки, гриль, пекарня.',
+    challenge:
+      'Полная комплектация (фиксированная + loose-мебель, освещение, напольные/потолочные/настенные покрытия) под единый бренд сети.',
+    solution:
+      'Turnkey-цикл: интерьерные работы + поставка мебели, освещения и отделки всего ресторана.',
+    results: [
+      { label: 'Формат', value: 'Family restaurant' },
+      { label: 'Город', value: 'Стамбул' },
+      { label: 'Год', value: '2020' },
+      { label: 'Объём', value: 'Turnkey' },
+    ],
+    brands: ['Emirgan Sütiş'],
+  },
+  {
+    slug: 'glen-house-doha',
+    sector: 'restaurants',
+    city: 'Доха',
+    country: 'Катар',
     year: 2022,
-    area: 15000,
-    heroImage:
-      'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=2400&q=80&auto=format',
-    galleryImages: [
-      '/images/projects/marriott-almaty-01.jpg',
-      '/images/projects/marriott-almaty-02.jpg',
-    ],
-    client: 'Marriott International',
-    clientLogo: '/images/clients/marriott.svg',
-    services: ['ffe', 'logistics', 'certification'],
-    context: 'Обновление FF&E действующего Marriott в Алматы. Реновация без закрытия отеля — поэтапная поставка по ночам.',
-    challenge: 'Замена мебели в работающем отеле без снижения загрузки ниже 70%.',
-    solution: 'Разбили поставку на 12 очередей по 20 номеров. Монтаж исключительно в ночное время с 23:00 до 06:00.',
+    area: 540,
+    heroImage: EO('/Content/img/Projects/restaurant_cafe/GlenHouse/Glen_House_1.jpg'),
+    galleryImages: Array.from({ length: 13 }, (_, i) =>
+      EO(`/Content/img/Projects/restaurant_cafe/GlenHouse/Glen_House_${i + 1}.jpg`),
+    ),
+    client: 'Glen House',
+    services: ['ffe', 'logistics'],
+    context:
+      'Glen House Doha — neighborhood eatery со смесью коктейльной программы и европейско-международной кухни. Расслабленный фрэндли-формат.',
+    challenge:
+      'Loose-мебель для зала: dining-набор + банкетные банкетки + диваны под камерный neighborhood-vibe.',
+    solution:
+      'Поставка обеденных столов, стульев, диванов и банкетных банкеток для всего ресторана.',
     results: [
-      { label: 'Номеров обновлено', value: '240' },
-      { label: 'Очередей поставки', value: '12' },
-      { label: 'Минимальная загрузка', value: '72%' },
-      { label: 'Срок', value: '8 мес.' },
+      { label: 'Формат', value: 'Neighborhood eatery' },
+      { label: 'Город', value: 'Доха' },
+      { label: 'Год', value: '2022' },
+      { label: 'Кухня', value: 'European + International' },
     ],
-    brands: ['Natuzzi', 'Saba', 'Muuto', 'Hay'],
-  },
-  {
-    slug: 'business-center-tashkent',
-    sector: 'business-centers',
-    city: 'Ташкент',
-    country: 'Узбекистан',
-    year: 2024,
-    area: 8500,
-    heroImage:
-      'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=2400&q=80&auto=format',
-    galleryImages: [
-      '/images/projects/bc-tashkent-01.jpg',
-      '/images/projects/bc-tashkent-02.jpg',
-    ],
-    client: 'Capital Group Uzbekistan',
-    services: ['turnkey', 'ffe'],
-    context: 'Офисный центр класса А в деловом районе Ташкента. 8 этажей, 120 арендаторов, коворкинг.',
-    challenge: 'Оснащение разнородных арендаторов при сохранении единого визуального стандарта здания.',
-    solution: 'Разработали дизайн-систему для общих зон и предложили арендаторам пакеты мебели 3 уровней.',
-    results: [
-      { label: 'Этажей', value: '8' },
-      { label: 'Арендаторов', value: '120+' },
-      { label: 'Площадь', value: '8 500 м²' },
-      { label: 'Срок', value: '6 мес.' },
-    ],
-    brands: ['Vitra', 'Wilkhahn', 'König + Neurath', 'Denz'],
-  },
-  {
-    slug: 'residential-tashkent-city',
-    sector: 'residential',
-    city: 'Ташкент',
-    country: 'Узбекистан',
-    year: 2024,
-    area: 45000,
-    heroImage:
-      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=2400&q=80&auto=format',
-    galleryImages: [
-      '/images/projects/residential-01.jpg',
-      '/images/projects/residential-02.jpg',
-    ],
-    client: 'Tashkent City Development',
-    services: ['turnkey', 'ffe', 'logistics'],
-    context: 'Жилой комплекс премиум-класса Tashkent City. 3 башни, 480 апартаментов, инфраструктура.',
-    challenge: 'Одновременная комплектация 480 апартаментов с сортировкой по этажам и секциям.',
-    solution: 'Автоматизированная система маркировки и маршрутизации грузов. Бригады поэтажной расстановки.',
-    results: [
-      { label: 'Апартаментов', value: '480' },
-      { label: 'Позиций', value: '28 000+' },
-      { label: 'Площадь', value: '45 000 м²' },
-      { label: 'Срок', value: '12 мес.' },
-    ],
-    brands: ['IKEA Business', 'LAGO', 'Elica', 'Villeroy & Boch'],
-  },
-  {
-    slug: 'clinic-tashkent',
-    sector: 'medical',
-    city: 'Ташкент',
-    country: 'Узбекистан',
-    year: 2023,
-    area: 3200,
-    heroImage:
-      'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=2400&q=80&auto=format',
-    galleryImages: ['/images/projects/clinic-01.jpg'],
-    client: 'MedPlus Clinic',
-    services: ['turnkey', 'ffe', 'certification'],
-    context: 'Многопрофильная клиника с хирургическим блоком в Ташкенте. 45 кабинетов, 3 операционных.',
-    challenge: 'Лицензирование медицинского оборудования и получение санэпидзаключений для 3 операционных.',
-    solution: 'Параллельное оформление документов (сертификаты, паспорта, СЭЗ) одновременно с поставкой.',
-    results: [
-      { label: 'Кабинетов', value: '45' },
-      { label: 'Операционных', value: '3' },
-      { label: 'Сертификатов', value: '120+' },
-      { label: 'Срок', value: '8 мес.' },
-    ],
-    brands: ['Linet', 'Haelvoet', 'Miele Professional', 'Steris'],
-  },
-  {
-    slug: 'international-school-tashkent',
-    sector: 'education',
-    city: 'Ташкент',
-    country: 'Узбекистан',
-    year: 2024,
-    area: 6800,
-    heroImage:
-      'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=2400&q=80&auto=format',
-    galleryImages: ['/images/projects/school-01.jpg', '/images/projects/school-02.jpg'],
-    client: 'Tashkent International School',
-    services: ['turnkey', 'ffe'],
-    context: 'Частная школа на 800 учеников с IB-программой. 40 классных комнат, лаборатории, спортзал.',
-    challenge: 'Соответствие педагогической концепции Montessori в начальных классах и IB — в старших.',
-    solution: 'Разработали мебельные концепции для каждой возрастной группы в сотрудничестве с педагогическим консультантом.',
-    results: [
-      { label: 'Учеников', value: '800' },
-      { label: 'Классов', value: '40' },
-      { label: 'Площадь', value: '6 800 м²' },
-      { label: 'Срок', value: '7 мес.' },
-    ],
-    brands: ['VS Möbel', 'Haba', 'Flötotto', 'Girsberger'],
+    brands: ['Glen House Hospitality'],
   },
 ] as const;
 
@@ -267,14 +400,14 @@ export function getProject(slug: string): ProjectData | undefined {
 }
 
 export function filterProjects(opts: {
-  sector?: string;
-  year?: number;
-  city?: string;
-}): readonly ProjectData[] {
+  sector?: ProjectSector | 'all';
+  year?: number | 'all';
+  city?: string | 'all';
+}): ProjectData[] {
   return PROJECTS.filter((p) => {
-    if (opts.sector && p.sector !== opts.sector) return false;
-    if (opts.year && p.year !== opts.year) return false;
-    if (opts.city && p.city !== opts.city) return false;
+    if (opts.sector && opts.sector !== 'all' && p.sector !== opts.sector) return false;
+    if (opts.year && opts.year !== 'all' && p.year !== opts.year) return false;
+    if (opts.city && opts.city !== 'all' && p.city !== opts.city) return false;
     return true;
   });
 }
