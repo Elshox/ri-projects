@@ -185,19 +185,19 @@
       "subtitle": "We close the bottlenecks where projects usually lose time and budget.",
       "points": {
         "delivery_slip": {
-          "title": "Schedule slips from multiple suppliers",
+          "title": "One weak contractor brings the whole timeline down",
           "desc": "One partner delays furniture and the whole opening stalls. We keep the timeline of every factory and surface risks early."
         },
         "budget_overrun": {
-          "title": "Budget creeps past the plan",
+          "title": "Hidden costs surface during delivery, not before",
           "desc": "Specs shift, freight gets pricier, customs cost 2× — hello, overrun. We lock the price in the proposal before purchase."
         },
         "customs_chaos": {
-          "title": "Customs and paperwork chaos",
+          "title": "Customs mistakes cost more than the logistics itself",
           "desc": "Wrong HS codes, missing certificates, cargo stuck at port. We declare, certify and run the paperwork end to end."
         },
         "quality_mismatch": {
-          "title": "Quality doesn't match the sample",
+          "title": "A beautiful sample doesn't guarantee delivery quality",
           "desc": "Sample says one thing, the shipment says another. We inspect the batch at the factory and send photo/video reports before dispatch."
         },
         "negotiation_drain": {
