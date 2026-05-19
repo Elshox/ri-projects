@@ -35,11 +35,10 @@ export function Logo({ className, variant = 'dark', ariaLabel = 'RI PROJECTS' }:
         height={562}
         priority
         /* Полный lock-up (иконка RI + надпись «RI PROJECTS»).
-           Aspect ~1.02:1 — практически квадрат. Размеры подняты
-           до 60 → 72 → 84 px по breakpoint'ам, чтобы лого читался
-           с расстояния, особенно надпись внизу. width: auto держит
-           натуральную пропорцию без обрезания/растягивания. */
-        className="h-[60px] w-auto object-contain sm:h-[72px] lg:h-[84px]"
+           Размеры: 52 / 60 / 68 px по breakpoint'ам. В header'е
+           высотой 72/96 px это даёт по 10-14 px воздуха сверху
+           и снизу — лого «дышит», не упирается в края. */
+        className="h-[52px] w-auto object-contain sm:h-[60px] lg:h-[68px]"
       />
     </span>
   );

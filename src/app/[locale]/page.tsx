@@ -13,6 +13,9 @@ const SectorsGrid = dynamic(() =>
 const StatsSection = dynamic(() =>
   import('@/components/sections/stats-section').then((m) => m.StatsSection),
 );
+const MidContactCTA = dynamic(() =>
+  import('@/components/sections/mid-contact-cta').then((m) => m.MidContactCTA),
+);
 const StoryTeaserSection = dynamic(() =>
   import('@/components/sections/story-teaser-section').then((m) => m.StoryTeaserSection),
 );
@@ -45,6 +48,9 @@ export default async function HomePage({ params }: HomePageProps) {
       <HeroSection />
       <PainPointsSection />
       <ServicesSection />
+      {/* CTA в середине страницы — даёт сконвертироваться сразу после
+          блока услуг, не докручивая до финального ContactSection. */}
+      <MidContactCTA />
       <SectorsGrid />
       <StatsSection />
       <StoryTeaserSection />

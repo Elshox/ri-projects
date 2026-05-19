@@ -35,13 +35,11 @@ export function BitrixForm({ loaderUrl, formPath, className }: BitrixFormProps) 
     const bust = Math.floor(Date.now() / 180000);
     const src = `${loaderUrl}?${bust}`;
 
-    /* Если уже на странице есть тот же loader для этого formPath —
-       не дублируем (на soft-navigation между route'ами форма уже
-       могла загрузиться). */
-    const dup = document.querySelector<HTMLScriptElement>(
-      `script[data-b24-form="${formPath}"]`,
-    );
-    if (dup) return;
+    /* Защита только per-mount: не вставляем script дважды в один
+       и тот же node (на повторных рендерах одного компонента).
+       Разрешаем несколько форм с одинаковым formPath на странице —
+       Bitrix loader рендерит каждый script в своём parent-node. */
+    if (mount.querySelector('script[data-b24-form]')) return;
 
     const s = document.createElement('script');
     s.async = true;
