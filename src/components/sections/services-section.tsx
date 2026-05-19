@@ -90,7 +90,8 @@ function ServiceCard({ slug, Icon, hasAlias, className }: ServiceCardProps) {
       variants={cardVariants}
       whileHover={reduce ? undefined : { y: -4, transition: { duration: 0.22, ease: easing.snappy } }}
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-md border border-border bg-card p-7',
+        /* h-full → высота по самой высокой карточке в ряду / гриде. */
+        'group relative flex h-full flex-col overflow-hidden rounded-md border border-border bg-card p-7',
         'shadow-card transition-shadow duration-300 hover:shadow-card-hover',
         className,
       )}
@@ -229,26 +230,35 @@ export function ServicesSection() {
           Раскладка tablet (sm):
             2-колонка. Карточка 5 занимает весь ряд и ограничена по ширине.
         */}
+        {/* Mobile: горизонтальный snap-scroll. sm+: 2 кол. lg+: 3+2 grid. */}
         <motion.div
           ref={gridRef}
           initial="hidden"
           animate={gridInView || reduce ? 'visible' : 'hidden'}
           variants={gridVariants}
-          className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:gap-7"
+          className={cn(
+            'mt-12 flex gap-5 overflow-x-auto pb-4 -mx-6 px-6 snap-x snap-mandatory',
+            '[&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]',
+            'sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:gap-6 sm:px-0 sm:pb-0 sm:snap-none',
+            'lg:grid-cols-6 lg:gap-7',
+          )}
         >
           {SERVICES.map((service, i) => (
-            <ServiceCard
+            <div
               key={service.slug}
-              {...service}
               className={cn(
-                // Desktop: каждая карточка = 2 из 6 колонок
+                /* Mobile: фикс. ширина для горизонтального scroll. */
+                'w-[300px] shrink-0 snap-start sm:w-auto',
+                /* Desktop grid-positioning: каждая карточка = 2 из 6 колонок. */
                 'lg:col-span-2',
-                // Карточка 4 (index 3): сдвиг на 2-ю колонку → центрирование нижнего ряда
+                /* Карточка 4 (idx 3): сдвиг на 2-ю колонку → центрирование. */
                 i === 3 && 'lg:col-start-2',
-                // Карточка 5 (index 4): на sm — полная ширина, но max 50% и по центру
-                i === 4 && 'sm:col-span-2 sm:mx-auto sm:w-full sm:max-w-[calc(50%-12px)] lg:col-span-2 lg:mx-0 lg:max-w-none',
+                /* Карточка 5 (idx 4): на sm — половина по центру. */
+                i === 4 && 'sm:col-span-2 sm:mx-auto sm:max-w-[calc(50%-12px)] lg:col-span-2 lg:mx-0 lg:max-w-none',
               )}
-            />
+            >
+              <ServiceCard {...service} />
+            </div>
           ))}
         </motion.div>
       </div>

@@ -207,16 +207,26 @@ export function ProcessTimeline() {
           </p>
         </motion.div>
 
-        {/* Grid: 1 col mobile / 2 cols tablet / 4 cols desktop */}
+        {/* Mobile: горизонтальный snap-scroll. sm+: 2 кол. lg+: 4 в ряд. */}
         <motion.div
           ref={gridRef}
           initial="hidden"
           animate={gridInView || reduce ? 'visible' : 'hidden'}
           variants={gridVariants}
-          className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5"
+          className={cn(
+            'mt-12 flex gap-5 overflow-x-auto pb-4 -mx-6 px-6 snap-x snap-mandatory',
+            '[&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]',
+            'sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:gap-6 sm:px-0 sm:pb-0 sm:snap-none',
+            'lg:grid-cols-4 lg:gap-5',
+          )}
         >
           {STEPS.map((step, i) => (
-            <StepCard key={step.id} step={step} index={i} t={t} />
+            <div
+              key={step.id}
+              className="w-[300px] shrink-0 snap-start sm:w-auto"
+            >
+              <StepCard step={step} index={i} t={t} />
+            </div>
           ))}
         </motion.div>
       </div>

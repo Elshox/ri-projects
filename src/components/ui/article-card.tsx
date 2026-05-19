@@ -32,7 +32,7 @@ export function ArticleCard({
   );
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-lg bg-card shadow-card transition-shadow duration-300 hover:shadow-card-hover">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-lg bg-card shadow-card transition-shadow duration-300 hover:shadow-card-hover">
       <Link
         href={`/${locale}/insights/${insight.slug}`}
         className="absolute inset-0 z-10"

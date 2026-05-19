@@ -101,16 +101,25 @@ export function InsightsPreview() {
           </Link>
         </motion.div>
 
-        {/* Cards grid */}
+        {/* Mobile: горизонтальный snap-scroll. sm+: 2 кол. lg+: 3 кол. */}
         <motion.div
           ref={gridRef}
           initial="hidden"
           animate={gridInView || reduce ? 'visible' : 'hidden'}
           variants={containerVariants}
-          className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className={cn(
+            'mt-10 flex gap-5 overflow-x-auto pb-4 -mx-6 px-6 snap-x snap-mandatory',
+            '[&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]',
+            'sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:gap-6 sm:px-0 sm:pb-0 sm:snap-none',
+            'lg:grid-cols-3',
+          )}
         >
           {previews.map((insight, i) => (
-            <motion.div key={insight.slug} variants={itemVariants}>
+            <motion.div
+              key={insight.slug}
+              variants={itemVariants}
+              className="w-[300px] shrink-0 snap-start sm:w-auto"
+            >
               <ArticleCard
                 insight={insight}
                 locale={locale}

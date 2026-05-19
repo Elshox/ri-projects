@@ -84,8 +84,10 @@ function PainCard({ pain }: PainCardProps) {
       variants={cardVariants}
       className={cn(
         /* Тёмная стеклянная карточка поверх dark bg + фото:
-           полупрозрачный белый фон, тонкий белый бордер, blur. */
-        'group relative flex flex-col gap-4 rounded-md border border-white/[0.12] bg-white/[0.04] p-6',
+           полупрозрачный белый фон, тонкий белый бордер, blur.
+           h-full → выравнивание по самой высокой карточке в ряду
+           (для горизонтальной карусели на мобиле и грида на desktop). */
+        'group relative flex h-full flex-col gap-4 rounded-md border border-white/[0.12] bg-white/[0.04] p-6',
         'backdrop-blur-md transition-colors duration-300 hover:border-warm/50 hover:bg-white/[0.07]',
       )}
       style={{ WebkitBackdropFilter: 'blur(12px)' }}
@@ -175,17 +177,28 @@ export function PainPointsSection() {
           </p>
         </motion.div>
 
-        {/* Grid 1 → 2 → 4 columns. Восемь карточек идеально ложатся
-            в 4×2 на desktop, 2×4 на tablet и 1×8 на mobile. */}
+        {/* Mobile: горизонтальный snap-scroll (страница короче,
+            свайп удобнее чем длинная колонка). Tablet sm+: грид 2 кол.
+            Desktop lg+: грид 4×2. */}
         <motion.div
           ref={gridRef}
           initial="hidden"
           animate={gridInView || reduce ? 'visible' : 'hidden'}
           variants={gridVariants}
-          className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5"
+          className={cn(
+            'mt-12 flex gap-4 overflow-x-auto pb-4 -mx-6 px-6 snap-x snap-mandatory',
+            '[&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]',
+            'sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 sm:snap-none',
+            'lg:grid-cols-4 lg:gap-5',
+          )}
         >
           {PAINS.map((pain) => (
-            <PainCard key={pain.key} pain={pain} />
+            <div
+              key={pain.key}
+              className="w-[280px] shrink-0 snap-start sm:w-auto"
+            >
+              <PainCard pain={pain} />
+            </div>
           ))}
         </motion.div>
       </div>

@@ -219,16 +219,26 @@ export function SectorsGrid() {
           </p>
         </motion.div>
 
-        {/* 4×2 grid: 1-col → 2-col → 4-col */}
+        {/* Mobile: горизонтальный snap-scroll. sm+: 2-кол. lg+: 4×2. */}
         <motion.div
           ref={gridRef}
           initial="hidden"
           animate={gridInView || reduce ? 'visible' : 'hidden'}
           variants={gridVariants}
-          className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5"
+          className={cn(
+            'mt-12 flex gap-4 overflow-x-auto pb-4 -mx-6 px-6 snap-x snap-mandatory',
+            '[&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]',
+            'sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 sm:snap-none',
+            'lg:grid-cols-4 lg:gap-5',
+          )}
         >
           {SECTORS.map((slug) => (
-            <SectorCard key={slug} slug={slug} />
+            <div
+              key={slug}
+              className="w-[280px] shrink-0 snap-start sm:w-auto"
+            >
+              <SectorCard slug={slug} />
+            </div>
           ))}
         </motion.div>
 
