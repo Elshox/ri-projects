@@ -128,3 +128,51 @@
     text-wrap: pretty;
   }
 }
+
+/* ──────────────────────────────────────────────────────────
+ *  Bitrix24 chat widget — defensive overrides
+ *
+ *  Без них на мобильном Safari:
+ *  • контейнеры виджета попадают в обычный поток документа
+ *    и оставляют гигантский белый пробел между секциями
+ *    (даже после закрытия чата);
+ *  • при открытии чата страница «прыгает» наверх потому что
+ *    Bitrix меняет body.overflow и теряет scroll-position.
+ *
+ *  Стратегия: ВСЁ, что инжектит Bitrix, форсим в position:fixed
+ *  с правильным z-index. Виджет должен жить «над» страницей,
+ *  не влияя на её layout.
+ * ──────────────────────────────────────────────────────────*/
+
+/* Корневые контейнеры виджета (кнопка + панель + чат-окно) */
+.b24-widget-button-wrapper,
+.b24-widget-button-position-bottom-right,
+.b24-widget-button-position-bottom-left,
+.b24-widget-button-block,
+.b24-widget-button-shadow,
+.b24-window,
+.b24-window-panel,
+.b24-window-wrap,
+.b24-window-scrollable,
+.b24-window-side,
+.b24-window-side-right,
+.b24-window-side-left,
+.bx-livechat-wrapper,
+.bx-livechat-side-panel {
+  position: fixed !important;
+  z-index: 999990 !important;
+}
+
+/* На всякий случай — любые элементы, которые Bitrix кладёт прямо
+   в body и которые могут «протечь» в layout без явного position. */
+body > div[class*="b24-"]:not([class*="b24-widget-button-block-line-buttons"]),
+body > div[id^="bx-livechat"],
+body > div[id^="b24-"] {
+  position: fixed !important;
+}
+
+/* Иконка-кнопка чата (плавающий FAB) */
+.b24-widget-button-block {
+  bottom: 16px !important;
+  right: 16px !important;
+}
