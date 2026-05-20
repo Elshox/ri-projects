@@ -17,6 +17,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+import { ScrollDots } from '@/components/ui/scroll-dots';
 
 /* Релевантный фон секции (Unsplash) — фотография стройки/ремонта
    объекта в процессе. Подкрепляет нарратив «вот что бывает, когда
@@ -201,6 +202,9 @@ export function PainPointsSection() {
             </div>
           ))}
         </motion.div>
+
+        {/* Индикатор горизонтального скролла — только мобиль */}
+        <ScrollDots scrollRef={gridRef} count={PAINS.length} tone="dark" />
       </div>
     </section>
   );

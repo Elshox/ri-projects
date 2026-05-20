@@ -10,6 +10,7 @@ import { INSIGHTS } from '@/lib/data/insights';
 import { ArticleCard } from '@/components/ui/article-card';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+import { ScrollDots } from '@/components/ui/scroll-dots';
 
 /* Релевантный фон — редакторский рабочий стол с журналами/книгами. */
 const BG_PHOTO =
@@ -130,6 +131,9 @@ export function InsightsPreview() {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Индикатор горизонтального скролла — только мобиль */}
+        <ScrollDots scrollRef={gridRef} count={previews.length} tone="light" />
 
         {/* Mobile CTA */}
         <motion.div

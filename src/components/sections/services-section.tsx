@@ -16,6 +16,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+import { ScrollDots } from '@/components/ui/scroll-dots';
 
 /* Релевантный фон секции — мебельный шоурум.
    Тёплый, премиальный, читаемый при светлой теме. */
@@ -261,6 +262,9 @@ export function ServicesSection() {
             </div>
           ))}
         </motion.div>
+
+        {/* Индикатор горизонтального скролла — только мобиль */}
+        <ScrollDots scrollRef={gridRef} count={SERVICES.length} tone="light" />
       </div>
     </section>
   );

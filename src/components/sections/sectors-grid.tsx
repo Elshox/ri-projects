@@ -15,6 +15,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+import { ScrollDots } from '@/components/ui/scroll-dots';
 
 type SectorSlug =
   | 'hotels'
@@ -241,6 +242,9 @@ export function SectorsGrid() {
             </div>
           ))}
         </motion.div>
+
+        {/* Индикатор горизонтального скролла — только мобиль */}
+        <ScrollDots scrollRef={gridRef} count={SECTORS.length} tone="light" />
 
         {/* View all CTA */}
         <motion.div

@@ -19,6 +19,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { easing } from '@/lib/motion-presets';
 import { cn } from '@/lib/utils';
+import { ScrollDots } from '@/components/ui/scroll-dots';
 
 /* ─────────────────────────────────────────────────────────────
  *  ProcessTimeline — 4 этапа работы, обычная сетка.
@@ -229,6 +230,9 @@ export function ProcessTimeline() {
             </div>
           ))}
         </motion.div>
+
+        {/* Индикатор горизонтального скролла — только мобиль */}
+        <ScrollDots scrollRef={gridRef} count={STEPS.length} tone="light" />
       </div>
     </section>
   );
