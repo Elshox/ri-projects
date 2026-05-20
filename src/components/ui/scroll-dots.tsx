@@ -45,11 +45,14 @@ export function ScrollDots({ scrollRef, count, tone = 'dark', className }: Scrol
 
   if (count <= 1) return null;
 
-  /* Цвета точек: активная — тёплый акцент; неактивные — приглушённые
-     под тон секции, но достаточно контрастные чтобы быть видимыми
-     (на светлом фоне primary/20 был почти невидим). */
+  /* Цвета точек: активная — тёплый акцент; неактивные — приглушённые.
+     ВАЖНО: на кастомном `primary` (он = var(--color-primary), hex)
+     opacity-модификатор `/NN` генерирует невалидный CSS → фон пустой
+     и точки невидимы. Поэтому для светлого тона используем встроенный
+     stone-400 (сплошной тёплый-серый, без opacity). Для тёмного тона
+     bg-white/40 работает — white имеет настоящие rgb-каналы. */
   const activeCls = 'bg-warm';
-  const idleCls = tone === 'dark' ? 'bg-white/40' : 'bg-primary/35';
+  const idleCls = tone === 'dark' ? 'bg-white/40' : 'bg-stone-400';
 
   return (
     <div
