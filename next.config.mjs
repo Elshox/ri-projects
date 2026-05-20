@@ -9,6 +9,10 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  /* Standalone-бандл только когда явно просим (BUILD_STANDALONE=true) —
+     для деплоя на Node-хостинг (cPanel). Netlify собирает без этого env
+     и пользуется своим @netlify/plugin-nextjs, поэтому конфликта нет. */
+  output: process.env.BUILD_STANDALONE === 'true' ? 'standalone' : undefined,
   experimental: {
     optimizePackageImports: ['lucide-react', 'motion'],
   },
