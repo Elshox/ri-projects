@@ -6,10 +6,16 @@ export const runtime = 'edge';
 const W = 1200;
 const H = 630;
 
+/* Жёсткий лимит длины параметров — без него можно подсунуть
+   гигантскую строку и нагружать рендер OG-картинки (DoS) или
+   генерировать произвольные превью под фишинг. */
+const clamp = (s: string | null, fallback: string, max: number) =>
+  (s ?? fallback).slice(0, max);
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const title = searchParams.get('title') ?? 'Комплектация объектов под ключ';
-  const subtitle = searchParams.get('subtitle') ?? 'FF&E · OS&E · Логистика · Сертификация';
+  const title = clamp(searchParams.get('title'), 'Комплектация объектов под ключ', 120);
+  const subtitle = clamp(searchParams.get('subtitle'), 'FF&E · OS&E · Логистика · Сертификация', 160);
 
   return new ImageResponse(
     (

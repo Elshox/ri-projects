@@ -27,6 +27,28 @@ const nextConfig = {
     ],
   },
   async headers() {
+    /* Content-Security-Policy — разрешаем только наши известные
+       внешние источники. Bitrix24 (форма + чат), Google Maps/Fonts,
+       Unsplash/Cloudinary/elitoffice (картинки), idcomplect (видео).
+       'unsafe-inline' в script/style неизбежен: Next.js и styled-jsx
+       инжектят инлайн-стили, Bitrix — инлайн-скрипты. img-src https:
+       широкий т.к. CDN несколько и Bitrix тянет картинки отовсюду. */
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn-ru.bitrix24.kz https://*.bitrix24.kz https://*.bitrix24.com https://www.google.com https://maps.google.com https://www.gstatic.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn-ru.bitrix24.kz https://*.bitrix24.kz",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' data: https://fonts.gstatic.com https://cdn-ru.bitrix24.kz https://*.bitrix24.kz",
+      "media-src 'self' https://idcomplect.ru",
+      "connect-src 'self' https://cdn-ru.bitrix24.kz https://*.bitrix24.kz https://*.bitrix24.com wss://*.bitrix24.kz wss://*.bitrix24.com",
+      "frame-src 'self' https://cdn-ru.bitrix24.kz https://*.bitrix24.kz https://*.bitrix24.com https://www.google.com https://maps.google.com",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self' https://*.bitrix24.kz https://*.bitrix24.com",
+      "object-src 'none'",
+      'upgrade-insecure-requests',
+    ].join('; ');
+
     return [
       {
         source: '/:path*',
@@ -38,6 +60,12 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
+          /* HSTS — форсим HTTPS у браузера на 1 год + поддомены. */
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains',
+          },
+          { key: 'Content-Security-Policy', value: csp },
         ],
       },
     ];
