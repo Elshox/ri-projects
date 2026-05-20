@@ -7,6 +7,11 @@ node_modules/
 .pnp
 .pnp.js
 
+# Проект на pnpm (pnpm-lock.yaml). package-lock.json появляется только
+# при локальной сборке cPanel-бандла через npm — в репо не нужен,
+# иначе Netlify может переключиться на npm.
+package-lock.json
+
 # Next.js
 .next/
 out/
