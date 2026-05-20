@@ -46,9 +46,10 @@ export function ScrollDots({ scrollRef, count, tone = 'dark', className }: Scrol
   if (count <= 1) return null;
 
   /* Цвета точек: активная — тёплый акцент; неактивные — приглушённые
-     под тон секции. */
+     под тон секции, но достаточно контрастные чтобы быть видимыми
+     (на светлом фоне primary/20 был почти невидим). */
   const activeCls = 'bg-warm';
-  const idleCls = tone === 'dark' ? 'bg-white/30' : 'bg-primary/20';
+  const idleCls = tone === 'dark' ? 'bg-white/40' : 'bg-primary/35';
 
   return (
     <div
