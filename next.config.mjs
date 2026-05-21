@@ -17,6 +17,13 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', 'motion'],
   },
   images: {
+    /* В standalone-сборке (cPanel) отключаем встроенный оптимизатор:
+       он требует нативный sharp под Linux, которого нет в бандле
+       (собираем на macOS). Картинки отдаются как есть — большинство
+       с внешних CDN (Unsplash/elitoffice), они уже оптимизированы.
+       На Netlify (без BUILD_STANDALONE) оптимизация остаётся —
+       ею занимается @netlify/plugin-nextjs. */
+    unoptimized: process.env.BUILD_STANDALONE === 'true',
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
