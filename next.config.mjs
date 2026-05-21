@@ -46,7 +46,6 @@ const nextConfig = {
       "base-uri 'self'",
       "form-action 'self' https://*.bitrix24.kz https://*.bitrix24.com",
       "object-src 'none'",
-      'upgrade-insecure-requests',
     ].join('; ');
 
     return [
@@ -60,11 +59,12 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
-          /* HSTS — форсим HTTPS у браузера на 1 год + поддомены. */
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains',
-          },
+          /* HSTS ВРЕМЕННО ОТКЛЮЧЁН: на cPanel пока невалидный SSL
+             (ERR_CERT_COMMON_NAME_INVALID). HSTS форсит HTTPS без
+             права обхода и блокирует сайт при плохом сертификате.
+             Включить обратно ТОЛЬКО после установки валидного SSL:
+             { key: 'Strict-Transport-Security',
+               value: 'max-age=31536000; includeSubDomains' }, */
           { key: 'Content-Security-Policy', value: csp },
         ],
       },
